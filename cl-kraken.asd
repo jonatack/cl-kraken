@@ -1,6 +1,8 @@
-;;; Copyright (C) 2018 Jon Atack (jon@atack.com)
-;;;
-;;; See LICENSE for details.
+;;;; cl-kraken.asd
+;;;;
+;;;; CL-Kraken is an API wrapper for the Kraken exchange written in Common Lisp
+;;;; Copyright (C) 2018 by Jon Atack
+;;;; See LICENSE for details.
 
 (asdf:defsystem #:cl-kraken
   :description "A Common Lisp wrapper for the Kraken Bitcoin Exchange API"
