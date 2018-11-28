@@ -6,4 +6,8 @@
 
 (defpackage cl-kraken
   (:use #:cl)
-  (:shadow #:dexador))
+  (:shadow #:dexador)
+  (:export
+   ;; API
+   #:assets
+   #:server-time))
