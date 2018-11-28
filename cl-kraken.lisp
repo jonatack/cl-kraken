@@ -20,6 +20,9 @@
 ;;; API
 
 (defun get-public (method)
+  "HTTP GET request for public API queries.
+  The `method' argument must be a non-NIL string."
+  (check-type method (and string (not null)) "a non-NIL string")
   (let ((url (concatenate 'string *api-public-url* method)))
   (yason:parse (dex:get url) :object-as :plist)))
 
