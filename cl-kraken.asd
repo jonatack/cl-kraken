@@ -15,4 +15,5 @@
                #:dexador
                #:secure-random)
   :components ((:file "package")
-               (:file "cl-kraken")))
+               (:file "cl-kraken")
+               (:file "nonce")))
