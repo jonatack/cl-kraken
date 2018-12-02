@@ -20,11 +20,10 @@
 (defun unix-time-in-microseconds ()
   "Return Unix Epoch Time in microseconds (usec) with 51-bit precision."
   (let ((microseconds-in-one-second 1000000))
-  (multiple-value-bind (_ seconds microseconds) (sb-unix:unix-gettimeofday)
-    (declare (ignore _))
-    (+ (* microseconds-in-one-second seconds) microseconds))))
+    (multiple-value-bind (_ seconds microseconds) (sb-unix:unix-gettimeofday)
+      (declare (ignore _))
+      (+ (* microseconds-in-one-second seconds) microseconds))))
 
 (defun lower-16-bits ()
   "Generate a 16-bit random number."
-  (let ((16-bits #b1111111111111111))
-    (secure-random:number 16-bits)))
+  (let ((16-bits #b1111111111111111)) (secure-random:number 16-bits)))
