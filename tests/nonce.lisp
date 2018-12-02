@@ -27,16 +27,21 @@
       (ok (= 64 (integer-length higher-48-bits))))))
 
 (deftest first-48-of-51-bits
-  (let* ((51-bit-num #b111111111111111111111111111111111111111111111111111)
-         (first-48-of-51-bits (cl-kraken::first-48-of-51-bits 51-bit-num)))
+  (let* ((48-bit-number #b111000111111111111111111111111111111111111111000)
+         (51-bit-number #b111000111111111111111111111111111111111111111000111)
+         (first-48-of-51-bits (cl-kraken::first-48-of-51-bits 51-bit-number)))
 
-    (assert (= 51 (integer-length 51-bit-num)))
+    (assert (= 48 (integer-length 48-bit-number)))
+    (assert (= 51 (integer-length 51-bit-number)))
 
     (testing "is an integer"
       (ok (integerp first-48-of-51-bits)))
 
     (testing "is 48 bits in length"
-      (ok (= 48 (integer-length first-48-of-51-bits))))))
+      (ok (= 48 (integer-length first-48-of-51-bits))))
+
+    (testing "returns the correct number"
+      (ok (= 48-bit-number first-48-of-51-bits)))))
 
 (deftest unix-time-in-microseconds
   (let ((unix-time-in-microseconds (cl-kraken::unix-time-in-microseconds)))
