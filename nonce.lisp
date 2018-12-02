@@ -26,4 +26,6 @@
 
 (defun lower-16-bits ()
   "Generate a 16-bit random number."
-  (let ((16-bits #b1111111111111111)) (secure-random:number 16-bits)))
+  (let ((16-bits #b1111111111111111))
+    (assert (= 16 (integer-length 16-bits)))
+    (secure-random:number 16-bits)))
