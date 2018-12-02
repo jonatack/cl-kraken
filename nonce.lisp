@@ -10,21 +10,19 @@
   (logior (higher-48-bits) (lower-16-bits)))
 
 (defun higher-48-bits ()
-  "Arithmetic shift left the rounded timestamp to make room for the lower 16 bits."
-  (ash (mask-lower-3-binary-places(unix-time-in-microseconds)) 13))
+  "Arithmetic shift left 48-bit timestamp to make room for the lower 16 bits."
+  (ash (first-48-of-51-bits(unix-time-in-microseconds)) 16))
+
+(defun first-48-of-51-bits (timestamp)
+  "Drop lower 3 bits to convert integer timestamp from 51 to 48 bit resolution."
+  (ldb (byte 48 3) timestamp))
 
 (defun unix-time-in-microseconds ()
-  "Calculate and return Unix Epoch Time in microseconds."
+  "Return Unix Epoch Time in microseconds (usec) with 51-bit precision."
   (let ((microseconds-in-one-second 1000000))
   (multiple-value-bind (_ seconds microseconds) (sb-unix:unix-gettimeofday)
     (declare (ignore _))
     (+ (* microseconds-in-one-second seconds) microseconds))))
-
-(defun mask-lower-3-binary-places (time)
-  "Convert the timestamp from 51 to 48 bit resolution
-  using logical AND with a bit mask of 48 ones and 3 zeroes."
-  (let ((mask #b111111111111111111111111111111111111111111111111000))
-    (logand time mask)))
 
 (defun lower-16-bits ()
   "Generate a 16-bit random number."
