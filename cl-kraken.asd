@@ -16,4 +16,17 @@
                #:secure-random)
   :components ((:file "package")
                (:file "cl-kraken")
-               (:file "nonce")))
+               (:file "nonce"))
+  :in-order-to ((test-op (test-op "cl-kraken/tests"))))
+
+
+(defsystem "cl-kraken/tests"
+  :author "Jon Atack <jon@atack.com>"
+  :description "Unit tests for cl-kraken"
+  :license "MIT"
+  :depends-on ("cl-kraken"
+               "rove")
+  :components ((:module "tests"
+                :components
+                ((:file "nonce"))))
+  :perform (test-op (op c) (symbol-call :rove '#:run c)))
