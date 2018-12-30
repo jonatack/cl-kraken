@@ -50,7 +50,14 @@
       (ok (integerp unix-time-in-microseconds)))
 
     (testing "is 51 bits in length"
-      (ok (= 51 (integer-length unix-time-in-microseconds))))))
+      (ok (= 51 (integer-length unix-time-in-microseconds))))
+
+    (testing "is always increasing"
+      (let ((new-time (cl-kraken::unix-time-in-microseconds)))
+        (ok (> new-time unix-time-in-microseconds)))))
+
+    (testing "is 16 decimal characters in length"
+      (ok (= 16 (length (write-to-string(cl-kraken::unix-time-in-microseconds)))))))
 
 (deftest lower-16-bits
   (let ((lower-16-bits (cl-kraken::lower-16-bits)))
