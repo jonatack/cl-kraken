@@ -10,8 +10,8 @@
     (testing "is an integer"
       (ok (integerp nonce)))
 
-    (testing "is 64 bits in length"
-      (ok (= 64 (integer-length nonce))))
+    (testing "is 63 bits in length"
+      (ok (= 63 (integer-length nonce))))
 
     (testing "is always increasing"
       (let ((new-nonce (cl-kraken::nonce)))
@@ -23,8 +23,8 @@
     (testing "is an integer"
       (ok (integerp higher-48-bits)))
 
-    (testing "is 64 bits in length"
-      (ok (= 64 (integer-length higher-48-bits))))))
+    (testing "is 63 bits in length"
+      (ok (= 63 (integer-length higher-48-bits))))))
 
 (deftest first-48-of-51-bits
   (let* ((48-bit-number #b111000111111111111111111111111111111111111111000)

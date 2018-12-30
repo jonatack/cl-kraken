@@ -11,7 +11,7 @@
 
 (defun higher-48-bits ()
   "Arithmetic shift left 48-bit timestamp to make room for the lower 16 bits."
-  (ash (first-48-of-51-bits(unix-time-in-microseconds)) 16))
+  (ash (first-48-of-51-bits(unix-time-in-microseconds)) 15))
 
 (defun first-48-of-51-bits (timestamp)
   "Drop lower 3 bits to convert integer timestamp from 51 to 48 bit resolution."
