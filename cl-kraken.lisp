@@ -26,6 +26,19 @@
   (let ((url (concatenate 'string  (quri::render-uri *api-public-url*) method)))
   (yason:parse (dex:get url) :object-as :plist)))
 
+(defun post-private (method)
+  "HTTP POST request for private authenticated API queries.
+  The `method' argument must be a non-NIL string.
+  POST data:
+    nonce = always increasing unsigned 64 bit integer
+    otp   = two-factor password (if two-factor enabled, otherwise not required)"
+  (check-type method (and string (not null)) "a non-NIL string")
+  (let* ((url (concatenate 'string (quri::render-uri *api-private-url*) method))
+         (nonce (write-to-string (nonce)))
+         (headers (post-http-headers method nonce))
+         (data (list (cons "nonce" nonce))))
+    (yason:parse (dex:post url :headers headers :content data :verbose t) :object-as :plist)))
+
 (defun post-http-headers (method nonce)
   "Kraken POST HTTP headers require API-Key and API-Sign"
   (list (cons "api-key" *api-key*)
