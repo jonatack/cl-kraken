@@ -13,6 +13,7 @@
   :depends-on (#:alexandria
                #:yason
                #:dexador
+               #:quri
                #:secure-random)
   :components ((:file "package")
                (:file "cl-kraken")

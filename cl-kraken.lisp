@@ -8,14 +8,12 @@
 
 ;;; Globals
 
-(defparameter *kraken-api-url* "https://api.kraken.com")
+(defparameter *kraken-api-url* "https://api.kraken.com/")
 (defparameter *kraken-api-version* "0")
-(defparameter *http-success* "200")
-
-(defparameter *api-version-path* (concatenate 'string "/" *kraken-api-version*))
-(defparameter *api-public-url* (concatenate 'string *kraken-api-url* *api-version-path* "/public/"))
-(defparameter *api-private-path* (concatenate 'string  *api-version-path* "/private/"))
-(defparameter *api-private-url* (concatenate 'string *kraken-api-url* *api-private-path*))
+(defparameter *api-public-url*
+  (quri::uri (concatenate 'string *kraken-api-url* *kraken-api-version* "/public/")))
+(defparameter *api-private-url*
+  (quri::uri (concatenate 'string *kraken-api-url* *kraken-api-version* "/private/")))
 
 ;;; API
 
@@ -23,7 +21,7 @@
   "HTTP GET request for public API queries.
   The `method' argument must be a non-NIL string."
   (check-type method (and string (not null)) "a non-NIL string")
-  (let ((url (concatenate 'string *api-public-url* method)))
+  (let ((url (concatenate 'string  (quri::render-uri *api-public-url*) method)))
   (yason:parse (dex:get url) :object-as :plist)))
 
 (defun server-time ()
