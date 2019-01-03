@@ -31,5 +31,6 @@
                "rove")
   :components ((:module "tests"
                 :components
-                ((:file "nonce"))))
+                ((:file "nonce")
+                 (:file "request"))))
   :perform (test-op (op c) (symbol-call :rove '#:run c)))

@@ -1,7 +1,5 @@
 (defpackage #:cl-kraken/tests/nonce
-  (:use #:cl
-        #:cl-kraken
-        #:rove))
+  (:use #:cl #:rove))
 (in-package #:cl-kraken/tests/nonce)
 
 (deftest nonce
