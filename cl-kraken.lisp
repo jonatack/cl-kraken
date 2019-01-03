@@ -14,6 +14,8 @@
   (quri::uri (concatenate 'string *kraken-api-url* *kraken-api-version* "/public/")))
 (defparameter *api-private-url*
   (quri::uri (concatenate 'string *kraken-api-url* *kraken-api-version* "/private/")))
+(defparameter *api-key* "abcdef")
+(defparameter *api-secret* "123456")
 
 ;;; API
 
@@ -23,6 +25,11 @@
   (check-type method (and string (not null)) "a non-NIL string")
   (let ((url (concatenate 'string  (quri::render-uri *api-public-url*) method)))
   (yason:parse (dex:get url) :object-as :plist)))
+
+(defun post-http-headers (method nonce)
+  "Kraken POST HTTP headers require API-Key and API-Sign"
+  (list (cons "api-key" *api-key*)
+        (cons "api-sign" (generate-signature method nonce *api-secret*))))
 
 (defun generate-signature (method nonce secret)
   "HMAC SHA512 of (URI path + SHA256(nonce + POST data)) and base64-decoded API secret"
