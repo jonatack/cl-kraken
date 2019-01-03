@@ -15,7 +15,8 @@
                #:yason
                #:dexador
                #:quri
-               #:secure-random)
+               #:secure-random
+               #:crypto-shortcuts)
   :components ((:file "package")
                (:file "cl-kraken")
                (:file "nonce"))
