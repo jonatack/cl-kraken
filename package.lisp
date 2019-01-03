@@ -1,7 +1,7 @@
 ;;;; package.lisp
 ;;;;
 ;;;; CL-Kraken is an API wrapper for the Kraken exchange written in Common Lisp
-;;;; Copyright (C) 2018 by Jon Atack
+;;;; Copyright (C) 2019 by Jon Atack
 ;;;; See LICENSE for details.
 
 (defpackage cl-kraken
