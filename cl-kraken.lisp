@@ -24,6 +24,27 @@
   (let ((url (concatenate 'string  (quri::render-uri *api-public-url*) method)))
   (yason:parse (dex:get url) :object-as :plist)))
 
+(defun auth-url (method nonce)
+  (concatenate 'string (post-path method) (sha256-encoded-digest (nonce-and-params nonce))))
+
+(defun post-path (method)
+  (concatenate 'string (quri::uri-path *api-private-url*) method))
+
+(defun sha256-encoded-digest (chars)
+  (quri::url-encode (cryptos:sha256 chars :to :octets)))
+
+(defun sha256-hexdigest (chars)
+  (cryptos:sha256 chars))
+
+(defun sha256-octets-digest (chars)
+  (cryptos:sha256 chars :to :octets))
+
+(defun base64-in-octets (chars)
+  (cryptos:code :base64 :octets chars))
+
+(defun nonce-and-params (nonce)
+  (concatenate 'string nonce "nonce=" nonce))
+
 (defun server-time ()
   "Get server time
     URL: https://api.kraken.com/0/public/Time
