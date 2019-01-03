@@ -11,9 +11,20 @@ To use, git clone the repo into your `~/quicklisp/local-projects` directory, the
 (assets)
 ```
 
-To run the test suite:
+To run the test suite, the Rove unit test library needs to be loaded.
 
 ```lisp
 (ql:quickload :rove)
+```
+
+Then run the tests with either
+
+```lisp
+(asdf:test-system :cl-kraken)
+```
+
+or
+
+```lisp
 (rove:run :cl-kraken/tests)
 ```
