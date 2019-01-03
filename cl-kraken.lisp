@@ -24,6 +24,13 @@
   (let ((url (concatenate 'string  (quri::render-uri *api-public-url*) method)))
   (yason:parse (dex:get url) :object-as :plist)))
 
+(defun generate-signature (method nonce secret)
+  "HMAC SHA512 of (URI path + SHA256(nonce + POST data)) and base64-decoded API secret"
+  (check-type method (and string (not null)) "a non-NIL string")
+  (check-type nonce (and string (not null)) "a non-NIL string")
+  (check-type secret (and string (not null)) "a non-NIL string")
+  (car (multiple-value-list (cryptos:hmac (auth-url method nonce) (base64-in-octets secret)))))
+
 (defun auth-url (method nonce)
   (concatenate 'string (post-path method) (sha256-encoded-digest (nonce-and-params nonce))))
 
