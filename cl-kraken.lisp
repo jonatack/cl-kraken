@@ -100,3 +100,9 @@
 
 (defun current-time ()
   (get-universal-time))
+
+(defun trade-balance ()
+  (post-private "TradeBalance"))
+
+(defun balance ()
+  (post-private "Balance"))
