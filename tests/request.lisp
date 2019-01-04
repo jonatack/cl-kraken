@@ -37,3 +37,34 @@
 
     (testing "returns the correct value as an array of byte octets"
       (ok (equalp expected real-key)))))
+
+(deftest post-path
+  (let ((path (cl-kraken::post-path "Balance")))
+
+    (testing "returns the correct path as a string"
+      (ok (string= "/0/private/Balance" path)))))
+
+(deftest nonce-and-params
+  (let ((params (cl-kraken::nonce-and-params "01234567890123456")))
+
+    (testing "returns the correct params as a string"
+      (ok (string= "01234567890123456nonce=01234567890123456" params)))))
+
+(deftest auth-url
+  (let* ((method "Balance")
+         (nonce "1013436812807146227")
+         (auth-url (cl-kraken::auth-url method nonce))
+         (expected "/0/private/BalanceE%20w%EB%88K%DBO6%A5G%28%84%25L%9EY%EE%CB%29%F4%A7%CB%C1%C6%95z%FED%02%95%22"))
+
+    (testing "returns the correct auth url as a string"
+      (ok (string= expected auth-url)))))
+
+(deftest generate-signature
+  (let* ((method "Balance")
+         (nonce "1013436812807146227")
+         (secret "The quick brown fox jumped over the lazy dog's back")
+         (real-sig (cl-kraken::generate-signature method nonce secret))
+         (expected "RLMFs/D14B2REdFsikIm7+j4cpRv8ufnqu/RDU2LcGQW93CDWXryltOQpzpfJXlugxpJmYww62GJIPcoqgCmRw=="))
+
+    (testing "returns the correct signature as a string"
+      (ok (string= expected real-sig)))))
