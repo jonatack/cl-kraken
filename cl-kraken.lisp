@@ -10,10 +10,14 @@
 
 (defparameter *kraken-api-url* "https://api.kraken.com/")
 (defparameter *kraken-api-version* "0")
-(defparameter *api-public-url*
-  (quri::uri (concatenate 'string *kraken-api-url* *kraken-api-version* "/public/")))
-(defparameter *api-private-url*
-  (quri::uri (concatenate 'string *kraken-api-url* *kraken-api-version* "/private/")))
+(defparameter *api-public-url*  (quri::uri (concatenate 'string
+                                                        *kraken-api-url*
+                                                        *kraken-api-version*
+                                                        "/public/")))
+(defparameter *api-private-url* (quri::uri (concatenate 'string
+                                                        *kraken-api-url*
+                                                        *kraken-api-version*
+                                                        "/private/")))
 (defparameter *api-key* "abcdef")
 (defparameter *api-secret* "123456")
 
@@ -36,28 +40,34 @@
   (let* ((url (concatenate 'string (quri::render-uri *api-private-url*) method))
          (nonce (write-to-string (nonce)))
          (headers (post-http-headers method nonce))
-         (data (list (cons "nonce" nonce))))
-    (yason:parse (dex:post url :headers headers :content data :verbose t) :object-as :plist)))
+         (data (list (cons "nonce" nonce)))
+         (response (dex:post url :headers headers :content data :verbose t)))
+    (yason:parse response :object-as :plist)))
 
 (defun post-http-headers (method nonce)
-  "Kraken POST HTTP headers require API-Key and API-Sign"
+  "Kraken POST HTTP headers require API key and signature"
   (list (cons "api-key" *api-key*)
         (cons "api-sign" (generate-signature method nonce *api-secret*))))
 
 (defun generate-signature (method nonce secret)
-  "HMAC SHA512 of (URI path + SHA256(nonce + POST data)) and base64-decoded API secret"
+  "HMAC SHA512 of auth URL message and base64-decoded API secret key"
   (check-type method (and string (not null)) "a non-NIL string")
   (check-type nonce (and string (not null)) "a non-NIL string")
   (check-type secret (and string (not null)) "a non-NIL string")
-  (car (multiple-value-list (cryptos:hmac (auth-url method nonce) (base64-in-octets secret)))))
+  (car (multiple-value-list
+        (cryptos:hmac (auth-url method nonce) (base64-in-octets secret)))))
 
 (defun auth-url (method nonce)
-  (concatenate 'string (post-path method) (sha256-encoded-digest (nonce-and-params nonce))))
+  "URI path + SHA256(nonce + POST data)"
+  (concatenate 'string (post-path method) (sha256-digest (post-params nonce))))
 
 (defun post-path (method)
   (concatenate 'string (quri::uri-path *api-private-url*) method))
 
-(defun sha256-encoded-digest (chars)
+(defun post-params (nonce)
+  (concatenate 'string nonce "nonce=" nonce))
+
+(defun sha256-digest (chars)
   (quri::url-encode (cryptos:sha256 chars :to :octets)))
 
 (defun sha256-hexdigest (chars)
@@ -68,9 +78,6 @@
 
 (defun base64-in-octets (chars)
   (cryptos:code :base64 :octets chars))
-
-(defun nonce-and-params (nonce)
-  (concatenate 'string nonce "nonce=" nonce))
 
 (defun server-time ()
   "Get server time

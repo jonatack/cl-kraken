@@ -3,37 +3,38 @@
 (in-package #:cl-kraken/tests/request)
 
 (deftest sha256-hexdigest
-  (let* ((params "1013436812807146227nonce=1013436812807146227")
+  (let* ((params "1234567890123456789nonce=1234567890123456789")
          (sha256-hexdigest (cl-kraken::sha256-hexdigest params))
-         (expected "452077eb884bdb4f36a5472884254c9e59eecb29f4a7cbc1c6957afe44029522"))
+         (expected (concatenate 'string
+                                "428f3d607d2445bb8d1166b1a7190a62"
+                                "c412db199877391d052f46c1ba4ba4b1")))
 
     (testing "returns the correct hexdigest as a string"
       (ok (string= expected sha256-hexdigest)))))
 
 (deftest sha256-octets-digest
-  (let* ((params "1013436812807146227nonce=1013436812807146227")
+  (let* ((params "1234567890123456789nonce=1234567890123456789")
          (sha256-octets-digest (cl-kraken::sha256-octets-digest params))
-         (expected #(69 32 119 235 136 75 219 79 54 165 71 40 132 37 76 158 89
-                     238 203 41 244 167 203 193 198 149 122 254 68 2 149 34)))
+         (expected #(66 143 61 96 125 36 69 187 141 17 102 177 167 25 10 98 196
+                     18 219 25 152 119 57 29 5 47 70 193 186 75 164 177)))
 
     (testing "returns the correct value as an array of byte octets"
       (ok (equalp expected sha256-octets-digest)))))
 
-(deftest sha256-encoded-digest
-  (let* ((params "1013436812807146227nonce=1013436812807146227")
-         (sha256-encoded-digest (cl-kraken::sha256-encoded-digest params))
-         (expected "E%20w%EB%88K%DBO6%A5G%28%84%25L%9EY%EE%CB%29%F4%A7%CB%C1%C6%95z%FED%02%95%22"))
-
+(deftest sha256-digest
+  (let* ((params "1234567890123456789nonce=1234567890123456789")
+         (sha256-digest (cl-kraken::sha256-digest params))
+         (expected (concatenate 'string
+                                "B%8F%3D%60%7D%24E%BB%8D%11f%B1%A7%19%0Ab%C4%12"
+                                "%DB%19%98w9%1D%05%2FF%C1%BAK%A4%B1")))
     (testing "returns the correct digest as a string"
-      (ok (string= expected sha256-encoded-digest)))))
+      (ok (string= expected sha256-digest)))))
 
 (deftest base64-in-octets
-  (let* ((secret "The quick brown fox jumped over the lazy dog's back")
+  (let* ((secret "The quick brown fox jumped over the lazy dog")
          (real-key (cl-kraken::base64-in-octets secret))
-         (bytes #(78 23 170 186 39 36 110 186 48 157 250 49 142 233 169 121 218
-                  47 122 187 97 122 86 179 201 218 32 177 182 156))
-         (expected (make-array 30 :element-type '(unsigned-byte 8)
-                                  :initial-contents bytes)))
+         (expected  #(78 23 170 186 39 36 110 186 48 157 250 49 142 233 169
+                      121 218 47 122 187 97 122 86 179 201 218 32)))
 
     (testing "returns the correct value as an array of byte octets"
       (ok (equalp expected real-key)))))
@@ -44,27 +45,32 @@
     (testing "returns the correct path as a string"
       (ok (string= "/0/private/Balance" path)))))
 
-(deftest nonce-and-params
-  (let ((params (cl-kraken::nonce-and-params "01234567890123456")))
+(deftest post-params
+  (let ((params (cl-kraken::post-params "1234567890123456789")))
 
     (testing "returns the correct params as a string"
-      (ok (string= "01234567890123456nonce=01234567890123456" params)))))
+      (ok (string= "1234567890123456789nonce=1234567890123456789" params)))))
 
 (deftest auth-url
   (let* ((method "Balance")
-         (nonce "1013436812807146227")
+         (nonce "1234567890123456789")
          (auth-url (cl-kraken::auth-url method nonce))
-         (expected "/0/private/BalanceE%20w%EB%88K%DBO6%A5G%28%84%25L%9EY%EE%CB%29%F4%A7%CB%C1%C6%95z%FED%02%95%22"))
+         (expected (concatenate 'string
+                                "/0/private/BalanceB%8F%3D%60%7D%24E%BB%8D%11f"
+                                "%B1%A7%19%0Ab%C4%12%DB%19%98w9%1D%05%2FF%C1%B"
+                                "AK%A4%B1")))
 
     (testing "returns the correct auth url as a string"
       (ok (string= expected auth-url)))))
 
 (deftest generate-signature
   (let* ((method "Balance")
-         (nonce "1013436812807146227")
-         (secret "The quick brown fox jumped over the lazy dog's back")
+         (nonce "1234567890123456789")
+         (secret "The quick brown fox jumped over the lazy dog")
          (real-sig (cl-kraken::generate-signature method nonce secret))
-         (expected "RLMFs/D14B2REdFsikIm7+j4cpRv8ufnqu/RDU2LcGQW93CDWXryltOQpzpfJXlugxpJmYww62GJIPcoqgCmRw=="))
+         (expected (concatenate 'string
+                                "oA37vNYDtfesU9sGNNS/Pv7e+B8edcXflVBYiTOev5BqU0"
+                                "oaBQOW+c478OrNOkb2HdhDuRUDkJy+YsSZrYkA1g==")))
 
     (testing "returns the correct signature as a string"
       (ok (string= expected real-sig)))))
