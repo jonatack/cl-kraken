@@ -55,8 +55,9 @@
   (check-type method (and string (not null)) "a non-NIL string")
   (check-type nonce (and string (not null)) "a non-NIL string")
   (check-type secret (and string (not null)) "a non-NIL string")
-  (multiple-value-list
-   (cryptos:hmac (auth-url method nonce) (base64-in-octets secret)))))
+  (let ((text (auth-url method nonce))
+        (key (base64-in-octets secret)))
+    (multiple-value-list (cryptos:hmac text key :digest :sha512 :to :base64))))
 
 (defun auth-url (method nonce)
   "URI path + SHA256(NONCE + POST data)."
