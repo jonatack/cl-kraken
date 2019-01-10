@@ -70,7 +70,42 @@
   (concatenate 'string nonce "nonce=" nonce))
 
 (defun sha256-digest (chars)
-  (quri::url-encode (cryptos:sha256 chars :to :octets)))
+  (cleanup (quri::url-encode (cryptos:sha256 chars :to :octets))))
+
+(defun replace-all (string part replacement &key (test #'char=))
+  "Returns a new string with all occurences of PART replaced with REPLACEMENT."
+  (with-output-to-string (out)
+    (loop with part-length = (length part)
+          for old-pos = 0 then (+ pos part-length)
+          for pos = (search part string
+                            :start2 old-pos
+                            :test test)
+          do (write-string string out
+                           :start old-pos
+                           :end (or pos (length string)))
+          when pos do (write-string replacement out)
+            while pos)))
+
+(defun cleanup (chars)
+  (replace-all
+   (replace-all
+    (replace-all
+     (replace-all
+      (replace-all
+       (replace-all
+        (replace-all
+         (replace-all
+          (replace-all
+           (replace-all chars "%24" "$")
+           "%3D" "=")
+          "%0A" "\n")
+         "%7D" "}")
+        "%60" "`")
+       "%20" " ")
+      "%2F" "/")
+     "%27" "'")
+    "%24" "$")
+   "%" "\x"))
 
 (defun sha256-hexdigest (chars)
   (cryptos:sha256 chars))
