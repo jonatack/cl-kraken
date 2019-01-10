@@ -116,6 +116,9 @@
 (defun base64-in-octets (chars)
   (cryptos:code :base64 :octets chars))
 
+(defun base64 (chars)
+  (cleanup (quri::url-encode (cryptos:code :base64 :octets chars))))
+
 (defun server-time ()
   "Get server time.
     URL: https://api.kraken.com/0/public/Time
