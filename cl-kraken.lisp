@@ -25,14 +25,14 @@
 
 (defun get-public (method)
   "HTTP GET request for public API queries.
-  The `method' argument must be a non-NIL string."
+  The METHOD argument must be a non-NIL string."
   (check-type method (and string (not null)) "a non-NIL string")
   (let ((url (concatenate 'string  (quri::render-uri *api-public-url*) method)))
   (yason:parse (dex:get url) :object-as :plist)))
 
 (defun post-private (method)
   "HTTP POST request for private authenticated API queries.
-  The `method' argument must be a non-NIL string.
+  The METHOD argument must be a non-NIL string.
   POST data:
     nonce = always increasing unsigned 64 bit integer
     otp   = two-factor password (if two-factor enabled, otherwise not required)"
@@ -45,12 +45,12 @@
     (yason:parse response :object-as :plist)))
 
 (defun post-http-headers (method nonce)
-  "Kraken POST HTTP headers require API key and signature"
+  "Kraken POST HTTP headers require API key and signature."
   (list (cons "api-key" *api-key*)
         (cons "api-sign" (generate-signature method nonce *api-secret*))))
 
 (defun generate-signature (method nonce secret)
-  "HMAC SHA512 of auth URL message and base64-decoded API secret key"
+  "HMAC SHA512 of auth url text and base64-decoded SECRET key."
   (check-type method (and string (not null)) "a non-NIL string")
   (check-type nonce (and string (not null)) "a non-NIL string")
   (check-type secret (and string (not null)) "a non-NIL string")
@@ -58,7 +58,7 @@
         (cryptos:hmac (auth-url method nonce) (base64-in-octets secret)))))
 
 (defun auth-url (method nonce)
-  "URI path + SHA256(nonce + POST data)"
+  "URI path + SHA256(NONCE + POST data)."
   (concatenate 'string (post-path method) (sha256-digest (post-params nonce))))
 
 (defun post-path (method)
@@ -80,7 +80,7 @@
   (cryptos:code :base64 :octets chars))
 
 (defun server-time ()
-  "Get server time
+  "Get server time.
     URL: https://api.kraken.com/0/public/Time
     Returns a hash with keys `error' and `result'.
     `result' is an array of hashes with keys:
@@ -89,7 +89,7 @@
   (get-public "Time"))
 
 (defun assets ()
-  "Get asset info
+  "Get asset info.
     URL: https://api.kraken.com/0/public/Assets
     Input:
     `asset'  = a comma-delimited, case-insensitive asset list string
