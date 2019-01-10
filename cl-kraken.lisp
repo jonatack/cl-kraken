@@ -5,6 +5,7 @@
 ;;;; See LICENSE for details.
 
 (in-package #:cl-kraken)
+(declaim (optimize (speed 0) (safety 3) (debug 3)))
 
 ;;; Globals
 
