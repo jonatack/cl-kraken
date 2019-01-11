@@ -8,6 +8,7 @@
 |#
 
 (defpackage #:cl-kraken
+  (:nicknames :kraken)
   (:use #:cl)
   (:shadow #:dexador)
   (:export
