@@ -7,11 +7,11 @@
 
 |#
 
-(asdf:defsystem cl-kraken
-  :description "A Common Lisp wrapper for the Kraken Bitcoin Exchange API"
-  :author "Jon Atack <jon@atack.com>"
-  :license "MIT"
+(defsystem "cl-kraken"
   :version "0.0.1"
+  :author "Jon Atack <jon@atack.com>"
+  :description "Common Lisp wrapper for the Kraken cryptocurrency exchange API"
+  :license "MIT"
   :serial t
   :depends-on (#:alexandria
                #:yason
@@ -20,19 +20,16 @@
                #:secure-random
                #:crypto-shortcuts)
   :components ((:file "package")
-               (:file "cl-kraken")
+               (:file "cl-kraken" :depends-on ("package"))
                (:file "nonce"))
   :in-order-to ((test-op (test-op "cl-kraken/tests"))))
-
 
 (defsystem "cl-kraken/tests"
   :author "Jon Atack <jon@atack.com>"
   :description "Unit tests for cl-kraken"
-  :license "MIT"
   :depends-on ("cl-kraken"
                "rove")
   :components ((:module "tests"
-                :components
-                ((:file "nonce")
-                 (:file "request"))))
+                :components ((:file "nonce")
+                             (:file "request"))))
   :perform (test-op (op c) (symbol-call :rove '#:run c)))
