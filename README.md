@@ -3,6 +3,8 @@ An API wrapper for the Kraken exchange in Common Lisp
 
 Currently a side project for learning Common Lisp: Language, packages system, unit testing, interfacing with outside libraries and the real world, and so on. Suggestions and pull requests welcome!
 
+## Usage
+
 To use, git clone the repo into your `~/quicklisp/local-projects` directory, then:
 
 ```lisp
@@ -10,6 +12,8 @@ To use, git clone the repo into your `~/quicklisp/local-projects` directory, the
 (in-package :cl-kraken)
 (assets)
 ```
+
+# Tests
 
 To run the test suite, the Rove unit test library needs to be loaded.
 
@@ -28,3 +32,11 @@ or
 ```lisp
 (rove:run :cl-kraken/tests)
 ```
+
+## Author
+
+* Jon Atack (jon@atack.com)
+
+## Copyright
+
+Copyright (c) 2019 Jon Atack (jon@atack.com)
