@@ -1,8 +1,11 @@
-;;;; cl-kraken.lisp
-;;;;
-;;;; CL-Kraken is an API wrapper for the Kraken exchange written in Common Lisp
-;;;; Copyright (C) 2019 by Jon Atack
-;;;; See LICENSE for details.
+#| cl-kraken.lisp
+
+ This file is part of CL-Kraken
+ CL-Kraken is an API wrapper for the Kraken exchange written in Common Lisp
+ Copyright (c) 2019 Jon Atack <jon@atack.com>
+ See LICENSE for details.
+
+|#
 
 (in-package #:cl-kraken)
 (declaim (optimize (speed 0) (safety 3) (debug 3)))
