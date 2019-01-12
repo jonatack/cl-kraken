@@ -14,6 +14,7 @@
   :license "MIT"
   :serial t
   :depends-on (#:alexandria
+               #:local-time
                #:yason
                #:dexador
                #:quri

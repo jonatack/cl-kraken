@@ -10,7 +10,7 @@
 (defpackage #:cl-kraken
   (:nicknames :kraken)
   (:use #:cl)
-  (:shadow #:dexador)
+  (:shadow #:dexador #:local-time)
   (:export
    ;; Public API
    #:assets
