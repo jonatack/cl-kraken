@@ -2,6 +2,11 @@
 
 (in-package #:cl-kraken)
 
+(defun new-nonce (&aux (now (local-time:now)))
+  "Same result as UNIX-TIME-IN-MICROSECONDS below"
+  (+ (floor (local-time:nsec-of now) 1000)
+     (* 1000000 (local-time:timestamp-to-unix now))))
+
 (defun nonce ()
   "Generate a random 64-bit nonce. Kraken requires an always-increasing unsigned
   64-bit integer nonce using a persistent counter or the current time.
