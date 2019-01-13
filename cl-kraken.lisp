@@ -14,11 +14,11 @@
 
 (defparameter *kraken-api-url* "https://api.kraken.com/")
 (defparameter *kraken-api-version* "0")
-(defparameter *api-public-url*  (quri::uri (concatenate 'string
+(defparameter *api-public-url*  (quri:uri (concatenate 'string
                                                         *kraken-api-url*
                                                         *kraken-api-version*
                                                         "/public/")))
-(defparameter *api-private-url* (quri::uri (concatenate 'string
+(defparameter *api-private-url* (quri:uri (concatenate 'string
                                                         *kraken-api-url*
                                                         *kraken-api-version*
                                                         "/private/")))
@@ -31,7 +31,7 @@
   "HTTP GET request for public API queries.
   The METHOD argument must be a non-NIL string."
   (check-type method (and string (not null)) "a non-NIL string")
-  (let ((url (concatenate 'string  (quri::render-uri *api-public-url*) method)))
+  (let ((url (concatenate 'string  (quri:render-uri *api-public-url*) method)))
   (yason:parse (dex:get url) :object-as :plist)))
 
 (defun post-private (method)
@@ -41,7 +41,7 @@
     nonce = always increasing unsigned 64 bit integer
     otp   = two-factor password (if two-factor enabled, otherwise not required)"
   (check-type method (and string (not null)) "a non-NIL string")
-  (let* ((url (concatenate 'string (quri::render-uri *api-private-url*) method))
+  (let* ((url (concatenate 'string (quri:render-uri *api-private-url*) method))
          (nonce (write-to-string (nonce)))
          (headers (post-http-headers method nonce))
          (data (list (cons "nonce" nonce)))
@@ -67,13 +67,13 @@
   (concatenate 'string (post-path method) (sha256-digest (post-params nonce))))
 
 (defun post-path (method)
-  (concatenate 'string (quri::uri-path *api-private-url*) method))
+  (concatenate 'string (quri:uri-path *api-private-url*) method))
 
 (defun post-params (nonce)
   (concatenate 'string nonce "nonce=" nonce))
 
 (defun sha256-digest (chars)
-  (cleanup (quri::url-encode (cryptos:sha256 chars :to :octets))))
+  (cleanup (quri:url-encode (cryptos:sha256 chars :to :octets))))
 
 (defun replace-all (string part replacement &key (test #'char=))
   "Returns a new string with all occurences of PART replaced with REPLACEMENT."
@@ -120,7 +120,7 @@
   (cryptos:code :base64 :octets chars))
 
 (defun base64 (chars)
-  (cleanup (quri::url-encode (cryptos:code :base64 :octets chars))))
+  (cleanup (quri:url-encode (cryptos:code :base64 :octets chars))))
 
 (defun server-time ()
   "Get server time.
