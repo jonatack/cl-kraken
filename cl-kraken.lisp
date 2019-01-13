@@ -43,15 +43,16 @@
   (check-type method (and string (not null)) "a non-NIL string")
   (let* ((url (concatenate 'string (quri:render-uri *api-private-url*) method))
          (nonce (write-to-string (nonce)))
-         (headers (post-http-headers method nonce))
+         (headers (post-http-headers method nonce *api-key* *api-secret*))
          (data (list (cons "nonce" nonce)))
          (response (dex:post url :headers headers :content data :verbose t)))
     (yason:parse response :object-as :plist)))
 
-(defun post-http-headers (method nonce)
+(defun post-http-headers (method nonce key secret)
   "Kraken POST HTTP headers require API key and signature."
-  (list (cons "api-key" *api-key*)
-        (cons "api-sign" (car (generate-signature method nonce *api-secret*)))))
+  `(("api-key" . ,key)
+    ("api-sign" . ,(car (generate-signature method nonce secret)))
+    ("Content-Type" . "application/x-www-form-urlencoded")))
 
 (defun generate-signature (method nonce secret)
   "HMAC SHA512 of auth url text and base64-decoded SECRET key."

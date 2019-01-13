@@ -71,6 +71,16 @@
       (cl-kraken::auth-url "Balance" "1234567890123456789")
       "/0/private/BalanceB\x8F=`}$E\xBB\x8D\x11f\xB1\xA7\x19\nb\xC4\x12\xDB\x19\x98w9\x1D\x05/F\xC1\xBAK\xA4\xB1"))))
 
+(deftest post-http-headers
+  (testing "returns the auth url as a string"
+    (ok
+     (equalp
+      (cl-kraken::post-http-headers "Balance" "1234567890123456789" "abc" "123")
+      '(("api-key" . "abc")
+        ("api-sign"
+         . "ShPGMnm6pZseIOcz9ATGyrQalJDwx+gZ5FRFQgGxeD/BcYt51fbCdB9IQv3Kh1h3y1ZniZZMvrsATI3MYAK9IA==")
+        ("Content-Type" . "application/x-www-form-urlencoded"))))))
+
 (deftest generate-signature
   (let* ((method "Balance")
          (nonce "1234567890123456789")
