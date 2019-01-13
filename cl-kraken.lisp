@@ -111,7 +111,16 @@
     "%24" "$")
    "%" "\x"))
 
+(defun sha256-faster-hexdigest (sequence/string)
+  "Return a sha256 string hexdigest of the given string/byte sequence."
+  (let ((bytes (if (stringp sequence/string)
+                   (babel:string-to-octets sequence/string)
+                   sequence/string)))
+    (ironclad:byte-array-to-hex-string
+     (ironclad:digest-sequence (ironclad:make-digest 'ironclad:sha256) bytes))))
+
 (defun sha256-hexdigest (chars)
+  "Return a sha256 string hexdigest of the given string."
   (cryptos:sha256 chars))
 
 (defun sha256-octets-digest (chars)

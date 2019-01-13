@@ -18,6 +18,17 @@
       (cl-kraken::sha256-hexdigest "1234567890123456789nonce=1234567890123456789")
       "428f3d607d2445bb8d1166b1a7190a62c412db199877391d052f46c1ba4ba4b1"))))
 
+(deftest sha256-faster-hexdigest
+  (let ((message "1234567890123456789nonce=1234567890123456789"))
+    (testing "with string input returns the SHA256 hexdigest as a string"
+      (ok (string=
+           (cl-kraken::sha256-faster-hexdigest message)
+           "428f3d607d2445bb8d1166b1a7190a62c412db199877391d052f46c1ba4ba4b1")))
+    (testing "with sequence input returns the SHA256 hexdigest as a string"
+      (ok (string=
+           (cl-kraken::sha256-faster-hexdigest (babel:string-to-octets message))
+           "428f3d607d2445bb8d1166b1a7190a62c412db199877391d052f46c1ba4ba4b1")))))
+
 (deftest sha256-octets-digest
   (testing "returns the SHA256 digest as an array of byte octets"
     (ok
