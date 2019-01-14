@@ -9,7 +9,7 @@
 
 (defpackage #:cl-kraken
   (:nicknames :kraken)
-  (:use #:cl)
+  (:use #:cl #:ironclad #:base64 #:quri)
   (:shadow #:dexador #:local-time)
   (:export
    ;; Public API

@@ -12,14 +12,10 @@
 
 (defparameter *kraken-api-url* "https://api.kraken.com/")
 (defparameter *kraken-api-version* "0")
-(defparameter *api-public-url*  (quri:uri (concatenate 'string
-                                                        *kraken-api-url*
-                                                        *kraken-api-version*
-                                                        "/public/")))
-(defparameter *api-private-url* (quri:uri (concatenate 'string
-                                                        *kraken-api-url*
-                                                        *kraken-api-version*
-                                                        "/private/")))
+(defparameter *api-public-url*
+  (uri (concatenate 'string *kraken-api-url* *kraken-api-version* "/public/")))
+(defparameter *api-private-url*
+  (uri (concatenate 'string *kraken-api-url* *kraken-api-version* "/private/")))
 (defparameter *api-key* "abcdef")
 (defparameter *api-secret* "123456")
 
@@ -29,7 +25,7 @@
   "HTTP GET request for public API queries.
   The METHOD argument must be a non-NIL string."
   (check-type method (and string (not null)) "a non-NIL string")
-  (let ((url (concatenate 'string  (quri:render-uri *api-public-url*) method)))
+  (let ((url (concatenate 'string (render-uri *api-public-url*) method)))
   (yason:parse (dex:get url) :object-as :plist)))
 
 (defun post-private (method)
@@ -62,10 +58,10 @@
   (check-type method (and string (not null)) "a non-NIL string")
   (check-type nonce  (and string (not null)) "a non-NIL string")
   (check-type secret (and string (not null)) "a non-NIL string")
-  (let ((path (concatenate 'string (quri:uri-path *api-private-url*) method))
+  (let ((path (concatenate 'string (uri-path *api-private-url*) method))
         (data (concatenate 'string nonce "nonce=" nonce))
-        (key  (base64:base64-string-to-usb8-array secret)))
-    (base64:usb8-array-to-base64-string
+        (key  (base64-string-to-usb8-array secret)))
+    (usb8-array-to-base64-string
      (hmac-sha512
       (concatenate '(simple-array (unsigned-byte 8) (*))
                    (map '(simple-array (unsigned-byte 8) (*)) 'char-code path)
@@ -77,14 +73,14 @@
   "Evaluates to an HMAC SHA512 signature. Inputs and output in octets."
   (check-type message (vector (unsigned-byte 8)))
   (check-type secret  (vector (unsigned-byte 8)))
-  (let ((hmac (crypto:make-hmac secret 'crypto:sha512)))
-    (crypto:update-hmac hmac message)
-    (crypto:hmac-digest hmac)))
+  (let ((hmac (make-hmac secret 'sha512)))
+    (update-hmac hmac message)
+    (hmac-digest hmac)))
 
 (defun hash-sha256 (message)
   "Evaluates to an SHA256 digest of the message. Input and output in octets."
   (check-type message (vector (unsigned-byte 8)))
-  (crypto:digest-sequence :sha256 message))
+  (digest-sequence 'sha256 message))
 
 (defun server-time ()
   "Get server time.
