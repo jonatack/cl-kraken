@@ -1,7 +1,14 @@
+#| tests/nonce.lisp
+
+ This file is part of CL-Kraken
+ CL-Kraken is an API wrapper for the Kraken exchange written in Common Lisp
+ Copyright (c) 2019 Jon Atack <jon@atack.com>
+ See LICENSE for details.
+
+|#
+
 (defpackage #:cl-kraken/tests/nonce
-  (:use #:cl
-        #:cl-kraken
-        #:rove))
+  (:use #:cl #:rove))
 (in-package #:cl-kraken/tests/nonce)
 
 (deftest nonce
@@ -10,8 +17,8 @@
     (testing "is an integer"
       (ok (integerp nonce)))
 
-    (testing "is 64 bits in length"
-      (ok (= 64 (integer-length nonce))))
+    (testing "is 63 bits in length"
+      (ok (= 63 (integer-length nonce))))
 
     (testing "is always increasing"
       (let ((new-nonce (cl-kraken::nonce)))
@@ -23,8 +30,8 @@
     (testing "is an integer"
       (ok (integerp higher-48-bits)))
 
-    (testing "is 64 bits in length"
-      (ok (= 64 (integer-length higher-48-bits))))))
+    (testing "is 63 bits in length"
+      (ok (= 63 (integer-length higher-48-bits))))))
 
 (deftest first-48-of-51-bits
   (let* ((48-bit-number #b111000111111111111111111111111111111111111111000)
@@ -50,7 +57,14 @@
       (ok (integerp unix-time-in-microseconds)))
 
     (testing "is 51 bits in length"
-      (ok (= 51 (integer-length unix-time-in-microseconds))))))
+      (ok (= 51 (integer-length unix-time-in-microseconds))))
+
+    (testing "is always increasing"
+      (let ((new-time (cl-kraken::unix-time-in-microseconds)))
+        (ok (> new-time unix-time-in-microseconds)))))
+
+    (testing "is 16 decimal characters in length"
+      (ok (= 16 (length (write-to-string(cl-kraken::unix-time-in-microseconds)))))))
 
 (deftest lower-16-bits
   (let ((lower-16-bits (cl-kraken::lower-16-bits)))

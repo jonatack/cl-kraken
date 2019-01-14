@@ -16,4 +16,7 @@
 *.wx64fsl
 *.wx32fsl
 
+*~
+.#*
+
 .emacs*

@@ -1,33 +1,36 @@
-;;;; cl-kraken.asd
-;;;;
-;;;; CL-Kraken is an API wrapper for the Kraken exchange written in Common Lisp
-;;;; Copyright (C) 2019 by Jon Atack
-;;;; See LICENSE for details.
+#| cl-kraken.asd
 
-(asdf:defsystem #:cl-kraken
-  :description "A Common Lisp wrapper for the Kraken Bitcoin Exchange API"
-  :author "Jon Atack <jon@atack.com>"
-  :license "MIT"
+ This file is part of CL-Kraken
+ CL-Kraken is an API wrapper for the Kraken exchange written in Common Lisp
+ Copyright (c) 2019 Jon Atack <jon@atack.com>
+ See LICENSE for details.
+
+|#
+
+(defsystem "cl-kraken"
   :version "0.0.1"
+  :author "Jon Atack <jon@atack.com>"
+  :description "Common Lisp wrapper for the Kraken cryptocurrency exchange API"
+  :license "MIT"
   :serial t
   :depends-on (#:alexandria
+               #:local-time
                #:yason
                #:dexador
                #:quri
-               #:secure-random)
+               #:secure-random
+               #:ironclad)
   :components ((:file "package")
-               (:file "cl-kraken")
+               (:file "cl-kraken" :depends-on ("package"))
                (:file "nonce"))
   :in-order-to ((test-op (test-op "cl-kraken/tests"))))
-
 
 (defsystem "cl-kraken/tests"
   :author "Jon Atack <jon@atack.com>"
   :description "Unit tests for cl-kraken"
-  :license "MIT"
   :depends-on ("cl-kraken"
                "rove")
   :components ((:module "tests"
-                :components
-                ((:file "nonce"))))
+                :components ((:file "nonce")
+                             (:file "request"))))
   :perform (test-op (op c) (symbol-call :rove '#:run c)))
