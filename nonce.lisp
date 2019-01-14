@@ -23,7 +23,7 @@
   (ldb (byte 48 3) timestamp))
 
 (defun unix-time-in-microseconds ()
-  "Return Unix Epoch Time in microseconds (usec) with 51-bit precision."
+  "Unix Epoch Time in microseconds (usec) with 51-bit precision."
   (let ((microseconds-in-one-second 1000000))
     (multiple-value-bind (_ seconds microseconds) (sb-unix:unix-gettimeofday)
       (declare (ignore _))

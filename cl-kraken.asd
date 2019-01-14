@@ -19,7 +19,7 @@
                #:dexador
                #:quri
                #:secure-random
-               #:crypto-shortcuts)
+               #:ironclad)
   :components ((:file "package")
                (:file "cl-kraken" :depends-on ("package"))
                (:file "nonce"))
