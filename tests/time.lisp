@@ -1,4 +1,4 @@
-#| tests/nonce.lisp
+#| tests/time.lisp
 
  This file is part of CL-Kraken
  CL-Kraken is an API wrapper for the Kraken exchange written in Common Lisp
@@ -7,9 +7,9 @@
 
 |#
 
-(defpackage #:cl-kraken/tests/nonce
+(defpackage #:cl-kraken/tests/time
   (:use #:cl #:rove))
-(in-package #:cl-kraken/tests/nonce)
+(in-package #:cl-kraken/tests/time)
 
 (deftest sbcl-unix-time-in-usec
   (let ((sbcl-unix-time (cl-kraken::sbcl-unix-time-in-usec)))
