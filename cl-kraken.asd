@@ -18,7 +18,6 @@
                #:yason
                #:dexador
                #:quri
-               #:secure-random
                #:ironclad)
   :components ((:file "package")
                (:file "cl-kraken" :depends-on ("package"))

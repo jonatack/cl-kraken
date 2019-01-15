@@ -38,7 +38,7 @@
     otp   = two-factor password (if two-factor enabled, otherwise not required)"
   (check-type method (and string (not null)) "a non-NIL string")
   (let* ((url     (concatenate 'string (render-uri *api-private-url*) method))
-         (nonce   (write-to-string (nonce)))
+         (nonce   (write-to-string (sbcl-unix-time-in-usec)))
          (headers (post-http-headers method nonce *api-key* *api-secret*))
          (data    `(("nonce" . ,nonce))))
     (yason:parse
