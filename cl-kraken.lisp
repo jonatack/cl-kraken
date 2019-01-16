@@ -1,8 +1,10 @@
 #| cl-kraken.lisp
+
  This file is part of CL-Kraken
  CL-Kraken is an API wrapper for the Kraken exchange written in Common Lisp
  Copyright (c) 2019 Jon Atack <jon@atack.com>
  See LICENSE for details.
+
 |#
 
 (in-package #:cl-kraken)
@@ -36,9 +38,9 @@
     otp   = two-factor password (if two-factor enabled, otherwise not required)"
   (check-type method (and string (not null)) "a non-NIL string")
   (let* ((url     (concatenate 'string (render-uri *api-private-url*) method))
-         (nonce   (write-to-string (nonce)))
+         (nonce   (nonce-from-unix-time))
          (headers (post-http-headers method nonce *api-key* *api-secret*))
-         (data    (list (cons "nonce" nonce))))
+         (data    `(("nonce" . ,nonce))))
     (yason:parse
      (dex:post url :headers headers :content data) :object-as :plist)))
 
@@ -51,9 +53,9 @@
   `(("api-key" . ,key) ("api-sign" . ,(signature method nonce secret))))
 
 (defun signature (method nonce secret)
-  "Signature generated from the HMAC SHA512 of a `message' and the SECRET `key':
-    `message' = (URI path + SHA256(NONCE + POST data)) in octets
-    `key' = base64-decoded API secret key in octets
+  "Signature generated from the HMAC SHA512 of a message and the SECRET key:
+    message = (URI path + SHA256(NONCE + POST data)) in octets
+    key     = base64-decoded API secret key in octets
   Before returning, the signature is converted from octets to a base64 string."
   (check-type method (and string (not null)) "a non-NIL string")
   (check-type nonce  (and string (not null)) "a non-NIL string")

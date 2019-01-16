@@ -18,11 +18,10 @@
                #:yason
                #:dexador
                #:quri
-               #:secure-random
                #:ironclad)
   :components ((:file "package")
                (:file "cl-kraken" :depends-on ("package"))
-               (:file "nonce"))
+               (:file "time"))
   :in-order-to ((test-op (test-op "cl-kraken/tests"))))
 
 (defsystem "cl-kraken/tests"
@@ -31,6 +30,6 @@
   :depends-on ("cl-kraken"
                "rove")
   :components ((:module "tests"
-                :components ((:file "nonce")
+                :components ((:file "time")
                              (:file "request"))))
   :perform (test-op (op c) (symbol-call :rove '#:run c)))
