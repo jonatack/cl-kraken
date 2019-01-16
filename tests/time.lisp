@@ -11,22 +11,6 @@
   (:use #:cl #:rove))
 (in-package #:cl-kraken/tests/time)
 
-(deftest sbcl-unix-time-in-usec
-  (let ((sbcl-unix-time (cl-kraken::sbcl-unix-time-in-usec)))
-
-    (testing "is an integer"
-      (ok (integerp sbcl-unix-time)))
-
-    (testing "is 51 bits in length"
-      (ok (= 51 (integer-length sbcl-unix-time))))
-
-    (testing "is always increasing"
-      (let ((new-time (cl-kraken::sbcl-unix-time-in-usec)))
-        (ok (> new-time sbcl-unix-time)))))
-
-    (testing "is 16 decimal characters in length"
-      (ok (= 16 (length (write-to-string(cl-kraken::sbcl-unix-time-in-usec)))))))
-
 (deftest unix-time-in-usec
   (let ((time (cl-kraken::unix-time-in-usec)))
 
@@ -36,9 +20,9 @@
     (testing "is 51 bits in length"
       (ok (= 51 (integer-length time))))
 
-    (testing "is always increasing"
+    (testing "is continually increasing"
       (let ((new-time (cl-kraken::unix-time-in-usec)))
-        (ok (> new-time time)))))
+        (ok (> new-time time))))
 
-    (testing "is 16 decimal characters in length"
-      (ok (= 16 (length (write-to-string(cl-kraken::unix-time-in-usec)))))))
+    (testing "is 16 characters in length"
+      (ok (= 16 (length (write-to-string time)))))))
