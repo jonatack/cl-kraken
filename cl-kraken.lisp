@@ -10,7 +10,16 @@
 (in-package #:cl-kraken)
 (declaim (optimize (speed 0) (safety 3) (debug 3)))
 
-;;; Globals
+;;; User API key and secret
+
+(defparameter *api-key* "abcdef")
+(defparameter *api-secret* "123456")
+
+;;; User Configuration
+
+(defparameter *request-pause* 5 "Value in seconds")
+
+;;; Global Parameters
 
 (defparameter *kraken-api-url* "https://api.kraken.com/")
 (defparameter *kraken-api-version* "0")
@@ -18,8 +27,6 @@
   (uri (concatenate 'string *kraken-api-url* *kraken-api-version* "/public/")))
 (defparameter *api-private-url*
   (uri (concatenate 'string *kraken-api-url* *kraken-api-version* "/private/")))
-(defparameter *api-key* "abcdef")
-(defparameter *api-secret* "123456")
 
 ;;; API
 
