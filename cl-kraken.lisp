@@ -110,9 +110,6 @@
       `display_decimals' = decimal places for display (usually fewer)."
   (get-public "Assets"))
 
-(defun current-time ()
-  (get-universal-time))
-
 (defun trade-balance ()
   (post-private "TradeBalance"))
 
