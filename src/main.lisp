@@ -1,11 +1,11 @@
-;;;; cl-kraken/main.lisp
+;;;; cl-kraken/src/main.lisp
 
 (in-package #:cl-user)
 (defpackage #:cl-kraken
-  (:nicknames #:cl-kraken/main)
+  (:nicknames #:cl-kraken/src/main)
   (:use #:cl)
   (:shadow #:dexador)
-  (:shadowing-import-from #:cl-kraken/http
+  (:shadowing-import-from #:cl-kraken/src/http
                           #:get-public
                           #:post-private)
   (:export

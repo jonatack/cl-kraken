@@ -1,7 +1,7 @@
-;;;; cl-kraken/time.lisp
+;;;; cl-kraken/src/time.lisp
 
 (in-package #:cl-user)
-(defpackage #:cl-kraken/time
+(defpackage #:cl-kraken/src/time
   (:use #:cl)
   (:import-from #:local-time
                 #:now
@@ -9,7 +9,7 @@
                 #:timestamp-to-unix)
   (:export #:unix-time-in-microseconds
            #:nonce-from-unix-time))
-(in-package #:cl-kraken/time)
+(in-package #:cl-kraken/src/time)
 
 (defun unix-time-in-microseconds (&aux (current-time (now)))
   "Unix Epoch Time in microseconds."

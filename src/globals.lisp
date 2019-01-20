@@ -1,11 +1,10 @@
-;;;; cl-kraken/globals.lisp
+;;;; cl-kraken/src/globals.lisp
 
 (in-package #:cl-user)
-(defpackage #:cl-kraken/globals
+(defpackage #:cl-kraken/src/globals
   (:use #:cl)
-  (:import-from #:quri
-                #:uri))
-(in-package :cl-kraken/globals)
+  (:import-from #:quri #:uri))
+(in-package #:cl-kraken/src/globals)
 
 ;;; User API key and secret
 
