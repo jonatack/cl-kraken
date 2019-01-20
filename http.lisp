@@ -2,8 +2,15 @@
 
 (in-package #:cl-user)
 (defpackage #:cl-kraken/http
-  (:shadow #:dexador)
-  (:use #:cl #:yason #:quri)
+  (:use #:cl)
+  (:shadowing-import-from #:dexador
+                          #:get
+                          #:post)
+  (:import-from #:yason
+                #:parse)
+  (:import-from #:quri
+                #:render-uri
+                #:uri-path)
   (:import-from #:cl-kraken/globals
                 *api-public-url*
                 *api-private-url*
@@ -13,7 +20,8 @@
                 #:signature)
   (:import-from #:cl-kraken/time
                 #:nonce-from-unix-time)
-  (:export #:get-public #:post-private))
+  (:export #:get-public
+           #:post-private))
 (in-package :cl-kraken/http)
 
 (defun get-public (method)

@@ -2,7 +2,15 @@
 
 (in-package :cl-user)
 (defpackage #:cl-kraken/cryptography
-  (:use #:cl #:ironclad #:cl-base64)
+  (:use #:cl)
+  (:import-from #:ironclad
+                #:digest-sequence
+                #:make-hmac
+                #:update-hmac
+                #:hmac-digest)
+  (:import-from #:cl-base64
+                #:base64-string-to-usb8-array
+                #:usb8-array-to-base64-string)
   (:export #:signature))
 (in-package :cl-kraken/cryptography)
 
@@ -28,11 +36,11 @@
   "Evaluates to an HMAC SHA512 signature. Inputs and output in octets."
   (check-type message (vector (unsigned-byte 8)))
   (check-type secret  (vector (unsigned-byte 8)))
-  (let ((hmac (make-hmac secret 'sha512)))
+  (let ((hmac (make-hmac secret :sha512)))
     (update-hmac hmac message)
     (hmac-digest hmac)))
 
 (defun hash-sha256 (message)
   "Evaluates to an SHA256 digest of the message. Input and output in octets."
   (check-type message (vector (unsigned-byte 8)))
-  (digest-sequence 'sha256 message))
+  (digest-sequence :sha256 message))

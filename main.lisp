@@ -4,7 +4,10 @@
 (defpackage #:cl-kraken
   (:nicknames #:cl-kraken/main)
   (:use #:cl)
-  (:shadowing-import-from #:cl-kraken/http #:get-public #:post-private)
+  (:shadow #:dexador)
+  (:shadowing-import-from #:cl-kraken/http
+                          #:get-public
+                          #:post-private)
   (:export
    ;; Public API
    #:assets
