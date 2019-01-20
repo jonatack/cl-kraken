@@ -17,6 +17,8 @@
      (* 1000000 (timestamp-to-unix current-time))))
 
 (defun nonce-from-unix-time ()
-  "Kraken requires the nonce to be an always-increasing unsigned 64-bit integer.
-   UNIX-TIME-NONCE evaluates to Unix Epoch Time in usec, expressed as a string."
+  "Kraken requires the nonce to be an always-increasing unsigned integer
+  between 51 and 64 bits in length. For this, we use UNIX-TIME-IN-MICROSECONDS
+  above, expressed as a string. This is analogous to the nonce implementations
+  in the various other Kraken API libraries in C, C++, Go, Python, and Ruby."
   (write-to-string (unix-time-in-microseconds)))
