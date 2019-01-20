@@ -29,7 +29,7 @@
   The METHOD argument must be a non-NIL string."
   (check-type method (and string (not null)) "a non-NIL string")
   (let ((url (concatenate 'string (render-uri *api-public-url*) method)))
-  (yason:parse (dexador:get url) :object-as :plist)))
+  (yason:parse (get url) :object-as :plist)))
 
 (defun post-private (method)
   "HTTP POST request for private authenticated API queries.
@@ -43,8 +43,7 @@
          (nonce   (nonce-from-unix-time))
          (headers (post-http-headers path nonce *api-key* *api-secret*))
          (data    `(("nonce" . ,nonce))))
-    (yason:parse
-     (dexador:post url :headers headers :content data) :object-as :plist)))
+    (yason:parse (post url :headers headers :content data) :object-as :plist)))
 
 (defun post-http-headers (path nonce key secret)
   "Kraken POST HTTP headers must contain the API key and signature."
