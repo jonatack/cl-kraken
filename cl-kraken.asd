@@ -8,13 +8,7 @@
   :license "MIT"
   :version "0.0.2"
   :class :package-inferred-system
-  :depends-on (#:local-time
-               #:yason
-               #:dexador
-               #:quri
-               #:ironclad
-               #:cl-base64
-               #:cl-kraken/main)
+  :depends-on (#:cl-kraken/main)
   :in-order-to ((test-op (test-op "cl-kraken/tests"))))
 
 (defsystem "cl-kraken/tests"
