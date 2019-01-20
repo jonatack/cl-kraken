@@ -1,11 +1,20 @@
-;;;; time.lisp
+;;;; cl-kraken/time.lisp
 
-(in-package #:cl-kraken)
+(in-package #:cl-user)
+(defpackage #:cl-kraken/time
+  (:use #:cl)
+  (:import-from #:local-time
+                #:now
+                #:nsec-of
+                #:timestamp-to-unix)
+  (:export #:unix-time-in-microseconds
+           #:nonce-from-unix-time))
+(in-package #:cl-kraken/time)
 
-(defun unix-time-in-microseconds (&aux (now (local-time:now)))
+(defun unix-time-in-microseconds (&aux (current-time (now)))
   "Unix Epoch Time in microseconds."
-  (+ (floor (local-time:nsec-of now) 1000)
-     (* 1000000 (local-time:timestamp-to-unix now))))
+  (+ (floor (nsec-of current-time) 1000)
+     (* 1000000 (timestamp-to-unix current-time))))
 
 (defun nonce-from-unix-time ()
   "Kraken requires the nonce to be an always-increasing unsigned 64-bit integer.
