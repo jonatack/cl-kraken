@@ -22,15 +22,19 @@
   (check-type path   (and string (not null)) "a non-NIL string")
   (check-type nonce  (and string (not null)) "a non-NIL string")
   (check-type secret (and string (not null)) "a non-NIL string")
-  (let ((data (concatenate 'string nonce "nonce=" nonce))
-        (key  (base64-string-to-usb8-array secret)))
-    (usb8-array-to-base64-string
-     (hmac-sha512
-      (concatenate '(simple-array (unsigned-byte 8) (*))
-                   (map '(simple-array (unsigned-byte 8) (*)) 'char-code path)
-                   (hash-sha256 (map '(simple-array (unsigned-byte 8) (*))
-                                     'char-code data)))
-      key))))
+  (let ((message (message path nonce))
+        (key     (base64-string-to-usb8-array secret)))
+    (usb8-array-to-base64-string (hmac-sha512 message key))))
+
+(defun message (path nonce)
+  "Message composed of (PATH + SHA256(NONCE + POST data)) all in octets."
+  (check-type path  (and string (not null)) "a non-NIL string")
+  (check-type nonce (and string (not null)) "a non-NIL string")
+  (let ((post-params-data (concatenate 'string nonce "nonce=" nonce)))
+    (concatenate '(simple-array (unsigned-byte 8) (*))
+                 (map '(simple-array (unsigned-byte 8) (*)) 'char-code path)
+                 (hash-sha256 (map '(simple-array (unsigned-byte 8) (*))
+                                   'char-code post-params-data)))))
 
 (defun hmac-sha512 (message secret)
   "Evaluates to an HMAC SHA512 signature. Inputs and output in octets."

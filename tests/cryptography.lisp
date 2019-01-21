@@ -15,6 +15,15 @@
       (ok (string= (cl-kraken/src/cryptography:signature path nonce secret)
                    expected)))))
 
+(deftest message
+  (let ((path  "/0/private/Balance")
+        (nonce "1234567890123456789"))
+    (testing "evaluates to the expected message in octets"
+      (ok (equalp (cl-kraken/src/cryptography::message path nonce)
+                  #(47 48 47 112 114 105 118 97 116 101 47 66 97 108 97 110 99
+                    101 66 143 61 96 125 36 69 187 141 17 102 177 167 25 10 98
+                    196 18 219 25 152 119 57 29 5 47 70 193 186 75 164 177))))))
+
 (deftest hmac-sha512
   (let ((key (crypto:ascii-string-to-byte-array "abc"))
         (secret (crypto:ascii-string-to-byte-array "123")))
