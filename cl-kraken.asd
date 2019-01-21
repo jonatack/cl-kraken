@@ -3,7 +3,7 @@
 (defsystem "cl-kraken"
   :name "CL-Kraken"
   :author "Jon Atack <jon@atack.com>"
-  :description "Common Lisp wrapper for the Kraken cryptocurrency exchange API"
+  :description "A Common Lisp API client for the Kraken exchange"
   :homepage "https://github.com/jonatack/cl-kraken"
   :license "MIT"
   :version "0.0.2"

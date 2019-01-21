@@ -16,7 +16,7 @@
 
 (defun signature (path nonce secret)
   "Signature generated from the HMAC SHA512 of a message and the SECRET key:
-    message = (URI path + SHA256(NONCE + POST data)) in octets
+    message = (PATH + SHA256(NONCE + POST data)) in octets
     key     = base64-decoded API secret key in octets
   Before returning, the signature is converted from octets to a base64 string."
   (check-type path   (and string (not null)) "a non-NIL string")
@@ -27,7 +27,7 @@
     (usb8-array-to-base64-string (hmac-sha512 message key))))
 
 (defun message (path nonce)
-  "Message composed of (PATH + SHA256(NONCE + POST data)) all in octets."
+  "Message composed of (PATH + SHA256(NONCE + POST data)) in octets."
   (check-type path  (and string (not null)) "a non-NIL string")
   (check-type nonce (and string (not null)) "a non-NIL string")
   (let ((post-params-data (concatenate 'string nonce "nonce=" nonce)))
