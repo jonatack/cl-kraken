@@ -19,5 +19,6 @@
   :depends-on (#:rove
                #:cl-kraken/tests/time
                #:cl-kraken/tests/cryptography
-               #:cl-kraken/tests/http)
+               #:cl-kraken/tests/http
+               #:cl-kraken/tests/main)
   :perform (test-op (op c) (symbol-call :rove '#:run c)))
