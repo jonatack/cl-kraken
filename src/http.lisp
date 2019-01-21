@@ -1,7 +1,7 @@
-;;;; cl-kraken/http.lisp
+;;;; cl-kraken/src/http.lisp
 
 (in-package #:cl-user)
-(defpackage #:cl-kraken/http
+(defpackage #:cl-kraken/src/http
   (:use #:cl)
   (:shadowing-import-from #:dexador
                           #:get
@@ -11,18 +11,18 @@
   (:import-from #:quri
                 #:render-uri
                 #:uri-path)
-  (:import-from #:cl-kraken/globals
+  (:import-from #:cl-kraken/src/globals
                 *api-public-url*
                 *api-private-url*
                 *api-key*
                 *api-secret*)
-  (:import-from #:cl-kraken/cryptography
+  (:import-from #:cl-kraken/src/cryptography
                 #:signature)
-  (:import-from #:cl-kraken/time
+  (:import-from #:cl-kraken/src/time
                 #:nonce-from-unix-time)
   (:export #:get-public
            #:post-private))
-(in-package :cl-kraken/http)
+(in-package #:cl-kraken/src/http)
 
 (defun get-public (method)
   "HTTP GET request for public API queries.

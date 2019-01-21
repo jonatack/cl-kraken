@@ -8,7 +8,7 @@
   :license "MIT"
   :version "0.0.2"
   :class :package-inferred-system
-  :depends-on (#:cl-kraken/main)
+  :depends-on (#:cl-kraken/src/main)
   :in-order-to ((test-op (test-op "cl-kraken/tests"))))
 
 (defsystem "cl-kraken/tests"

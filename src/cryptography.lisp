@@ -1,7 +1,7 @@
-;;;; cl-kraken/cryptography.lisp
+;;;; cl-kraken/src/cryptography.lisp
 
 (in-package :cl-user)
-(defpackage #:cl-kraken/cryptography
+(defpackage #:cl-kraken/src/cryptography
   (:use #:cl)
   (:import-from #:ironclad
                 #:digest-sequence
@@ -12,7 +12,7 @@
                 #:base64-string-to-usb8-array
                 #:usb8-array-to-base64-string)
   (:export #:signature))
-(in-package :cl-kraken/cryptography)
+(in-package #:cl-kraken/src/cryptography)
 
 (defun signature (path nonce secret)
   "Signature generated from the HMAC SHA512 of a message and the SECRET key:

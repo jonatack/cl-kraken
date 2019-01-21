@@ -15,5 +15,5 @@
                                "kc0yOGvxuk+LzgTXuvPp3Cs6BvkVhGaGZUNkatqtX2iCb30"
                                "znwbuVX8JJYdwCisyG/7mScSYl7nZ7ihzvMXrXA==")))
     (testing "evaluates to the correct POST HTTP headers as an alist"
-      (ok (equalp (cl-kraken/http::post-http-headers path nonce key secret)
+      (ok (equalp (cl-kraken/src/http::post-http-headers path nonce key secret)
                   `(("api-key" . ,key) ("api-sign" . ,api-sign)))))))
