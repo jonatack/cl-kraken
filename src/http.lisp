@@ -2,6 +2,7 @@
 
 (in-package #:cl-user)
 (defpackage #:cl-kraken/src/http
+  (:documentation "HTTP GET and POST functions for the Kraken API requests.")
   (:use #:cl)
   (:shadowing-import-from #:dexador
                           #:get
