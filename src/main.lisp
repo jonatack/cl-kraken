@@ -2,6 +2,10 @@
 
 (in-package #:cl-user)
 (defpackage #:cl-kraken
+  (:documentation
+   "CL-Kraken is Common Lisp client for the Kraken cryptocurrency exchange.
+    Copyright (c) 2019 Jon Atack <jon@atack.com>. See LICENSE for details.
+    The Kraken API is documented here: https://www.kraken.com/help/api.")
   (:nicknames #:cl-kraken/src/main)
   (:use #:cl)
   (:shadow #:dexador)
@@ -14,11 +18,7 @@
    #:server-time
    ;; Private API
    #:balance
-   #:trade-balance)
-  (:documentation
-   "CL-Kraken is an API wrapper for the Kraken exchange written in Common Lisp.
-    Copyright (c) 2019 Jon Atack <jon@atack.com>. See LICENSE for details.
-    The Kraken API is documented here: https://www.kraken.com/help/api."))
+   #:trade-balance))
 (in-package #:cl-kraken)
 (declaim (optimize (speed 0) (safety 3) (debug 3)))
 
@@ -26,11 +26,14 @@
 
 (defun server-time ()
   "Get server time.
-    URL: https://api.kraken.com/0/public/Time
-    Kraken returns a hash with keys `error' and `result'.
+  URL: https://api.kraken.com/0/public/Time
+  Kraken returns a hash with keys `error' and `result'.
     `result' is an array of hashes with keys:
       `unixtime' = unix timestamp
-      `rfc1123'  = RFC 1123 time format"
+      `rfc1123'  = RFC 1123 time format
+  Example response:
+    (\"error\" NIL \"result\"
+      (\"unixtime\" 1548076030 \"rfc1123\" \"Mon, 21 Jan 19 13:07:10 +0000\"))"
   (get-public "Time"))
 
 (defun assets ()

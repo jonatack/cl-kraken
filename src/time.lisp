@@ -2,6 +2,7 @@
 
 (in-package #:cl-user)
 (defpackage #:cl-kraken/src/time
+  (:documentation "CL-Kraken time utilities.")
   (:use #:cl)
   (:import-from #:local-time
                 #:now

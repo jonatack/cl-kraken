@@ -2,6 +2,7 @@
 
 (in-package #:cl-user)
 (defpackage #:cl-kraken/src/globals
+  (:documentation "CL-Kraken global parameters, variables and constants.")
   (:use #:cl)
   (:import-from #:quri #:uri))
 (in-package #:cl-kraken/src/globals)

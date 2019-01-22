@@ -2,6 +2,8 @@
 
 (in-package :cl-user)
 (defpackage #:cl-kraken/src/cryptography
+  (:documentation
+   "Cryptographic functions for authenticating private POST requests.")
   (:use #:cl)
   (:import-from #:ironclad
                 #:digest-sequence
