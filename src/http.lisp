@@ -10,11 +10,12 @@
   (:import-from #:yason
                 #:parse)
   (:import-from #:quri
-                #:render-uri
-                #:uri-path)
+                #:make-uri)
   (:import-from #:cl-kraken/src/globals
-                *api-public-url*
-                *api-private-url*
+                +api-scheme+
+                +api-host+
+                +api-public-path+
+                +api-private-path+
                 *api-key*
                 *api-secret*)
   (:import-from #:cl-kraken/src/cryptography
@@ -25,26 +26,28 @@
            #:post-private))
 (in-package #:cl-kraken/src/http)
 
-(defun get-public (method)
-  "HTTP GET request for public API queries.
-  The METHOD argument must be a non-NIL string."
+(defun get-public (method &key params (scheme +api-scheme+) (host +api-host+))
+  "HTTP GET request for public API queries."
   (check-type method (and string (not null)) "a non-NIL string")
-  (let ((url (concatenate 'string (render-uri *api-public-url*) method)))
-  (yason:parse (get url) :object-as :plist)))
+  (check-type params list)
+  (check-type scheme (and string (not null)) "a non-NIL string")
+  (check-type host   (and string (not null)) "a non-NIL string")
+  (let* ((path (concatenate 'string +api-public-path+ method))
+         (uri  (make-uri :scheme scheme :host host :path path :query params)))
+    (parse (get uri) :object-as :plist)))
 
-(defun post-private (method)
-  "HTTP POST request for private authenticated API queries.
-  The METHOD argument must be a non-NIL string.
-  POST data:
-    nonce = always increasing unsigned 64-bit integer
-    otp   = two-factor password (if two-factor enabled, otherwise not required)"
+(defun post-private (method &key params (scheme +api-scheme+) (host +api-host+))
+  "HTTP POST request for private authenticated API queries."
   (check-type method (and string (not null)) "a non-NIL string")
-  (let* ((url     (concatenate 'string (render-uri *api-private-url*) method))
-         (path    (concatenate 'string (uri-path   *api-private-url*) method))
+  (check-type params list)
+  (check-type scheme (and string (not null)) "a non-NIL string")
+  (check-type host   (and string (not null)) "a non-NIL string")
+  (let* ((path    (concatenate 'string +api-private-path+ method))
+         (uri     (make-uri :scheme scheme :host host :path path :query params))
          (nonce   (nonce-from-unix-time))
          (headers (post-http-headers path nonce *api-key* *api-secret*))
          (data    `(("nonce" . ,nonce))))
-    (yason:parse (post url :headers headers :content data) :object-as :plist)))
+    (parse (post uri :headers headers :content data) :object-as :plist)))
 
 (defun post-http-headers (path nonce key secret)
   "Kraken POST HTTP headers must contain the API key and signature."
