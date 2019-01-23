@@ -3,8 +3,7 @@
 (in-package #:cl-user)
 (defpackage #:cl-kraken/src/globals
   (:documentation "CL-Kraken global parameters, variables and constants.")
-  (:use #:cl)
-  (:import-from #:quri #:uri))
+  (:use #:cl))
 (in-package #:cl-kraken/src/globals)
 
 ;;; User API key and secret
@@ -14,9 +13,9 @@
 
 ;;; Global Parameters
 
-(defparameter *kraken-api-url* "https://api.kraken.com/")
-(defparameter *kraken-api-version* "0")
-(defparameter *api-public-url*
-  (uri (concatenate 'string *kraken-api-url* *kraken-api-version* "/public/")))
-(defparameter *api-private-url*
-  (uri (concatenate 'string *kraken-api-url* *kraken-api-version* "/private/")))
+(defparameter +api-scheme+       "https")
+(defparameter +api-host+         "api.kraken.com")
+(defparameter +api-version+      "0")
+(defparameter +version+          (concatenate 'string "/" +api-version+ "/"))
+(defparameter +api-public-path+  (concatenate 'string +version+ "public/"  ))
+(defparameter +api-private-path+ (concatenate 'string +version+ "private/" ))
