@@ -22,7 +22,7 @@
     (\"error\" NIL \"result\"
       (\"unixtime\" 1548076030 \"rfc1123\" \"Mon, 21 Jan 19 13:07:10 +0000\"))"
   (let* ((now      (timestamp-to-unix (now)))
-         (response (cl-kraken/src/http:get-public "Time"))
+         (response (cl-kraken/src/main:server-time))
          (unix     (second (fourth response)))
          (rfc1123  (format-timestring nil
                                       (unix-to-timestamp unix)
@@ -34,4 +34,4 @@
     (testing "returns Unix Time as an integer"
       (ok (integerp unix)))
     (testing "returns Unix Time within ±20 seconds of the current time"
-      (ok (< (- unix now) 20)))))
+      (ok (< (abs (- unix now)) 20)))))
