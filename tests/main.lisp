@@ -7,7 +7,9 @@
                 #:timestamp-to-unix
                 #:unix-to-timestamp
                 #:format-timestring
-                #:+utc-zone+))
+                #:+utc-zone+)
+  (:import-from #:jsown
+                #:filter))
 (in-package #:cl-kraken/tests/main)
 
 (defparameter *kraken-rfc1123*
@@ -18,19 +20,15 @@
   instead of 4 digits and a day padded with #\SPACE rather than #\0.")
 
 (deftest server-time
-  "Get server time.
-  URL: https://api.kraken.com/0/public/Time
-  Example response:
-    (\"error\" NIL \"result\"
-      (\"unixtime\" 1548076030 \"rfc1123\" \"Mon, 21 Jan 19 13:07:10 +0000\"))"
   (let* ((now      (timestamp-to-unix (now)))
          (response (cl-kraken/src/main:server-time))
-         (unix     (second (fourth response)))
-         (rfc1123  (format-timestring nil (unix-to-timestamp unix)
+         (unix     (filter response "result" "unixtime"))
+         (rfc      (format-timestring nil (unix-to-timestamp unix)
                                       :format *kraken-rfc1123*
                                       :timezone +utc-zone+)))
-    (testing "returns the expected JSON response"
-      (ok (equal `("error" nil "result" ("unixtime" ,unix "rfc1123" ,rfc1123))
+    (testing "evaluates to the expected Jsown object"
+      (ok (equal `(:obj ("error")
+                        ("result" :obj ("unixtime" . ,unix) ("rfc1123" . ,rfc)))
                  response)))
     (testing "returns Unix Time as an integer"
       (ok (integerp unix)))

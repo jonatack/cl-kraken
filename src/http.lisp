@@ -7,7 +7,7 @@
   (:shadowing-import-from #:dexador
                           #:get
                           #:post)
-  (:import-from #:yason
+  (:import-from #:jsown
                 #:parse)
   (:import-from #:quri
                 #:make-uri)
@@ -34,7 +34,7 @@
   (check-type host   (and string (not null)) "a non-NIL string")
   (let* ((path (concatenate 'string +api-public-path+ method))
          (uri  (make-uri :scheme scheme :host host :path path :query params)))
-    (parse (get uri) :object-as :plist)))
+    (parse (get uri))))
 
 (defun post-private (method &key params (scheme +api-scheme+) (host +api-host+)
                               (key *api-key*) (secret *api-secret*))
@@ -50,7 +50,7 @@
          (nonce   (nonce-from-unix-time))
          (headers (post-http-headers path nonce key secret))
          (data    `(("nonce" . ,nonce))))
-    (parse (post uri :headers headers :content data) :object-as :plist)))
+    (parse (post uri :headers headers :content data))))
 
 (defun post-http-headers (path nonce key secret)
   "Kraken POST HTTP headers must contain the API key and signature."

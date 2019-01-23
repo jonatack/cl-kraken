@@ -5,7 +5,7 @@ Currently a side project for learning Common Lisp: Language, packages system, un
 
 ## Dependencies
 
-CL-KRAKEN imports a small number of functions from the following Common Lisp libraries: DEXADOR, YASON, QURI, LOCAL-TIME, IRONCLAD, and CL-BASE64.
+CL-KRAKEN imports a small number of functions from the following Common Lisp libraries: DEXADOR, JSOWN, QURI, LOCAL-TIME, IRONCLAD, and CL-BASE64.
 
 ## Portability
 

@@ -30,10 +30,7 @@
   Kraken returns a hash with keys `error' and `result'.
     `result' is an array of hashes with keys:
       `unixtime' = unix timestamp
-      `rfc1123'  = RFC 1123 time format
-  Example response:
-    (\"error\" NIL \"result\"
-      (\"unixtime\" 1548076030 \"rfc1123\" \"Mon, 21 Jan 19 13:07:10 +0000\"))"
+      `rfc1123'  = RFC 1123 time format"
   (get-public "Time"))
 
 (defun assets ()
