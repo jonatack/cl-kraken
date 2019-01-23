@@ -33,22 +33,20 @@
       `rfc1123'  = RFC 1123 time format"
   (get-public "Time"))
 
-(defun assets ()
+(defun assets (&optional asset)
   "Get asset info.
-    URL: https://api.kraken.com/0/public/Assets
-    Input:
-    `asset'  = a comma-delimited, case-insensitive asset list string
-               (optional, defaults to all assets).
-    `aclass' = asset class (optional, defaults to `currency').
-               Not useful for now; all assets have same value `currency'.
-    Kraken returns a hash with keys `error' and `result'.
-   `result' is a hash of assets with keys like ZEUR, ZUSD, XXBT, etc.
-    Each asset is an array of the asset name and an info hash containing:
-      `altname'          = alternate name, like EUR, USD, XBT, etc.
-      `aclass'           = asset class (for now are all set to 'currency').
-      `decimals'         = decimal places for record keeping.
-      `display_decimals' = decimal places for display (usually fewer)."
-  (get-public "Assets"))
+  URL: https://api.kraken.com/0/public/Assets
+  Input:
+    `asset' = optional, comma-delimited, case-insensitive asset list string;
+              if not provided, default is all assets.
+  Kraken returns a hash with keys `error' and `result'.
+    `result' is a hash of asset name keys, each with a values hash containing:
+      `altname'          = alternate name, like EUR, USD, XBT
+      `aclass'           = asset class, currently always set to 'currency'
+      `decimals'         = decimal places for record keeping
+      `display_decimals' = decimal places for display (usually fewer)"
+  (check-type asset (or string null))
+  (get-public "Assets" :params (when (stringp asset) `(("asset" . ,asset)))))
 
 ;;; Kraken Private API requiring authentication
 
