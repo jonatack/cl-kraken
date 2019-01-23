@@ -36,16 +36,19 @@
          (uri  (make-uri :scheme scheme :host host :path path :query params)))
     (parse (get uri) :object-as :plist)))
 
-(defun post-private (method &key params (scheme +api-scheme+) (host +api-host+))
+(defun post-private (method &key params (scheme +api-scheme+) (host +api-host+)
+                              (key *api-key*) (secret *api-secret*))
   "HTTP POST request for private authenticated API queries."
   (check-type method (and string (not null)) "a non-NIL string")
   (check-type params list)
   (check-type scheme (and string (not null)) "a non-NIL string")
   (check-type host   (and string (not null)) "a non-NIL string")
+  (check-type key    (and string (not null)) "a non-NIL string")
+  (check-type secret (and string (not null)) "a non-NIL string")
   (let* ((path    (concatenate 'string +api-private-path+ method))
          (uri     (make-uri :scheme scheme :host host :path path :query params))
          (nonce   (nonce-from-unix-time))
-         (headers (post-http-headers path nonce *api-key* *api-secret*))
+         (headers (post-http-headers path nonce key secret))
          (data    `(("nonce" . ,nonce))))
     (parse (post uri :headers headers :content data) :object-as :plist)))
 
