@@ -15,6 +15,7 @@
   (:export
    ;; Public API
    #:assets
+   #:asset-pairs
    #:server-time
    ;; Private API
    #:balance
@@ -25,7 +26,7 @@
 ;;; Kraken Public API
 
 (defun server-time ()
-  "Get server time.
+  "Get server time. Useful to approximate skew time between server and client.
   URL: https://api.kraken.com/0/public/Time
   Kraken returns a hash with keys `error' and `result'.
     `result' is an array of hashes with keys:
@@ -37,8 +38,8 @@
   "Get asset info.
   URL: https://api.kraken.com/0/public/Assets
   Input:
-    `asset' = optional, comma-delimited, case-insensitive asset list string;
-              if not provided, default is all assets.
+    `asset' = optional, comma-delimited, case-insensitive asset list string; if
+              not provided, defaults to all assets.
   Kraken returns a hash with keys `error' and `result'.
     `result' is a hash of asset name keys, each with a values hash containing:
       `altname'          = alternate name, like EUR, USD, XBT
@@ -47,6 +48,37 @@
       `display_decimals' = decimal places for display (usually fewer)"
   (check-type asset (or string null))
   (get-public "Assets" :params (when (stringp asset) `(("asset" . ,asset)))))
+
+(defun asset-pairs (&optional pair)
+  "Get tradeable asset pairs.
+  URL: https://api.kraken.com/0/public/AssetPairs
+  Input:
+    `pair' = optional, comma-delimited, case-insensitive asset pair string; if
+             not provided, defaults to all pairs.
+  Kraken returns a hash with keys `error' and `result'.
+    `result' is a hash of pair keys, each with a values hash containing:
+      `altname'             = alternate pair name
+      `aclass_base'         = asset class of base component
+      `base'                = asset id of base component
+      `aclass_quote'        = asset class of quote component
+      `quote'               = asset id of quote component
+      `lot'                 = volume lot size
+      `pair_decimals'       = scaling decimal places for pair
+      `lot_decimals'        = scaling decimal places for volume
+      `lot_multiplier'      = multiply lot volume by this to get currency volume
+      `leverage_buy'        = array of leverage amounts available when buying
+      `leverage_sell'       = array of leverage amounts available when selling
+      `fees'                = fee schedule array in [volume, percent fee] tuples
+      `fees_maker'          = maker fee schedule array in [volume, percent fee]
+                              tuples (if on maker/taker)
+      `fee_volume_currency' = volume discount currency
+      `margin_call'         = margin call level
+      `margin_stop'         = stop-out/liquidation margin level
+  If an asset pair is on a maker/taker fee schedule, the taker side is given in
+    `fees' and maker side in `fees_maker'.
+  For asset pairs not on maker/taker, the rates will only be given in `fees'."
+  (check-type pair (or string null))
+  (get-public "AssetPairs" :params (when (stringp pair) `(("pair" . ,pair)))))
 
 ;;; Kraken Private API requiring authentication
 
