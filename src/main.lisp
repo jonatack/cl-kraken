@@ -17,6 +17,7 @@
    #:assets
    #:asset-pairs
    #:server-time
+   #:ticker
    ;; Private API
    #:balance
    #:trade-balance))
@@ -79,6 +80,25 @@
   For asset pairs not on maker/taker, the rates will only be given in `fees'."
   (check-type pair (or string null))
   (get-public "AssetPairs" :params (when (stringp pair) `(("pair" . ,pair)))))
+
+(defun ticker (pair)
+  "Get ticker data for asset pairs.
+  URL: https://api.kraken.com/0/public/Ticker
+  Input:
+    `pair' = required comma-delimited list of one or more asset pairs.
+  Kraken returns a hash with keys `error' and `result'.
+    `result' is a hash of pair keys, each with a values hash of ticker data:
+      a = ask array                       (price, whole lot volume, lot volume)
+      b = bid array                       (price, whole lot volume, lot volume)
+      c = last trade closed array         (price, lot volume)
+      v = volume array                    (today, last 24 hours)
+      p = volume weighted avg price array (today, last 24 hours)
+      t = number of trades array          (today, last 24 hours)
+      l = low array                       (today, last 24 hours)
+      h = high array                      (today, last 24 hours)
+      o = opening price                   (today, at 00:00:00 UTC)"
+  (check-type pair (and string (not null)))
+  (get-public "Ticker" :params `(("pair" . ,pair))))
 
 ;;; Kraken Private API requiring authentication
 
