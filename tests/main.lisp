@@ -10,10 +10,12 @@
                 #:+utc-zone+))
 (in-package #:cl-kraken/tests/main)
 
-(defparameter *kraken-rfc1123-with-2-digit-year*
-  '(:short-weekday ", " (:day 2) #\space :short-month #\space :short-year
-    #\space (:hour 2) #\: (:min 2) #\: (:sec 2) #\space :gmt-offset-hhmm)
-  "Define a custom RFC1123 time format because Kraken returns a 2-digit year.")
+(defparameter *kraken-rfc1123*
+  '(:short-weekday ", " (:day 2 #\space) #\space :short-month #\space
+    :short-year #\space (:hour 2) #\: (:min 2) #\: (:sec 2) #\space
+    :gmt-offset-hhmm)
+  "Define a custom RFC1123 time format because Kraken sends a 2-digit year
+  instead of 4 digits and a day padded with #\SPACE rather than #\0.")
 
 (deftest server-time
   "Get server time.
@@ -24,9 +26,8 @@
   (let* ((now      (timestamp-to-unix (now)))
          (response (cl-kraken/src/main:server-time))
          (unix     (second (fourth response)))
-         (rfc1123  (format-timestring nil
-                                      (unix-to-timestamp unix)
-                                      :format *kraken-rfc1123-with-2-digit-year*
+         (rfc1123  (format-timestring nil (unix-to-timestamp unix)
+                                      :format *kraken-rfc1123*
                                       :timezone +utc-zone+)))
     (testing "returns the expected JSON response"
       (ok (equal `("error" nil "result" ("unixtime" ,unix "rfc1123" ,rfc1123))
