@@ -7,9 +7,11 @@ Currently a side project for learning Common Lisp: Language, packages system, un
 
 CL-KRAKEN imports a small number of functions from the following Common Lisp libraries: DEXADOR, YASON, QURI, LOCAL-TIME, IRONCLAD, and CL-BASE64.
 
-## Compatibility
+## Portability
 
-Currently developed using SBCL 1.4.15. Not tested with other Common Lisps yet, but for now I am not aware of any compatibility limitations with current versions of other implementations. No SBCL-specific system calls are used.
+Developed with SBCL 1.4.15 and tested with ClozureCL 1.11.5 and CLISP 2.49, all on Linux x86/64.
+
+Not tested with other Common Lisps yet. For now I am not aware of portability limitations with other implementations.
 
 ## Usage
 
