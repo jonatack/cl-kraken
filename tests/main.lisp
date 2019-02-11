@@ -21,16 +21,17 @@
 
 (deftest server-time
   (let* ((now      (timestamp-to-unix (now)))
-         (response (cl-kraken/src/main:server-time))
+         (response (cl-kraken:server-time))
          (unix     (filter response "result" "unixtime"))
          (rfc      (format-timestring nil (unix-to-timestamp unix)
                                       :format *kraken-rfc1123*
-                                      :timezone +utc-zone+)))
-    (testing "evaluates to the expected Jsown object"
-      (ok (equal `(:obj ("error")
-                        ("result" :obj ("unixtime" . ,unix) ("rfc1123" . ,rfc)))
-                 response)))
-    (testing "returns Unix Time as an integer"
+                                      :timezone +utc-zone+))
+         (expected `(:OBJ ("error")
+                          ("result" :OBJ
+                                    ("unixtime" . ,unix) ("rfc1123" . ,rfc)))))
+    (testing "evaluates to the expected JSOWN server time object"
+      (ok (equal response expected)))
+    (testing "returns a Unix Time component as an integer"
       (ok (integerp unix)))
-    (testing "returns Unix Time within ±20 seconds of the current time"
+    (testing "returns Unix Time within ±20 seconds of current time (given skew)"
       (ok (< (abs (- unix now)) 20)))))
