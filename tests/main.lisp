@@ -3,6 +3,7 @@
 (defpackage #:cl-kraken/tests/main
   (:use #:cl #:rove)
   (:import-from #:cl-kraken/tests/kraken-public-data
+                #:*kraken-rfc1123*
                 #:*all-assets*
                 #:*bitcoin-asset*
                 #:*usd-and-euro-assets*
@@ -18,13 +19,6 @@
   (:import-from #:jsown
                 #:filter))
 (in-package #:cl-kraken/tests/main)
-
-(defparameter *kraken-rfc1123*
-  '(:short-weekday ", " (:day 2 #\space) #\space :short-month #\space
-    :short-year #\space (:hour 2) #\: (:min 2) #\: (:sec 2) #\space
-    :gmt-offset-hhmm)
-  "Define a custom RFC1123 time format because Kraken sends a 2-digit year
-  instead of 4 digits and a day padded with #\SPACE rather than #\0.")
 
 (deftest server-time
   (let* ((now      (timestamp-to-unix (now)))
