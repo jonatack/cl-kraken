@@ -48,11 +48,18 @@
     (ok (equal (cl-kraken:assets "usd,EUR") *usd-and-euro-assets*)))
   (testing "when passed \"UsD, euR\" evals to a JSOWN object for USD+EUR assets"
     (ok (equal (cl-kraken:assets "UsD, euR") *usd-and-euro-assets*)))
-  (testing "when passed a symbol, a type error is signaled"
+  (testing "when passed an invalid ASSET, evaluates to unknown asset error"
+    (ok (equal (cl-kraken:assets "abc")
+               '(:OBJ ("error" "EQuery:Unknown asset")))))
+  (testing "when passed an empty ASSET, evaluates to unknown asset error"
+    (ok (equal (cl-kraken:assets "")
+               '(:OBJ ("error" "EQuery:Unknown asset")))))
+  (testing "when passed a symbol ASSET, a type error is signaled"
     (ok (signals (cl-kraken:assets 'xbt) 'type-error)
-        "The value XBT is not of the expected type (OR STRING NULL).")
+        "The value of ASSET is XBT, which is not of type (OR STRING NULL)."))
+  (testing "when passed a keyword ASSET, a type error is signaled"
     (ok (signals (cl-kraken:assets :xbt) 'type-error)
-        "The value :XBT is not of the expected type (OR STRING NULL).")))
+        "The value of ASSET is :XBT, which is not of type (OR STRING NULL).")))
 
 (deftest asset-pairs
   (testing "with no argument evaluates to a JSOWN object for all asset pairs"
