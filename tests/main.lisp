@@ -74,11 +74,18 @@
   (testing "when passed \" XBTusd ,  xmrEUR \" evals to XBTUSD and XMREUR pairs"
     (ok (equal (cl-kraken:asset-pairs " XBTusd ,  xmrEUR ")
                *xbtusd-and-xmreur-pairs*)))
-  (testing "when passed a symbol, a type error is signaled"
-    (ok (signals (cl-kraken:asset-pairs 'xbteur) 'type-error)
-        "The value XBTEUR is not of the expected type (OR STRING NULL).")
-    (ok (signals (cl-kraken:asset-pairs :xbteur) 'type-error)
-        "The value :XBTEUR is not of the expected type (OR STRING NULL).")))
+  (testing "when passed an invalid PAIR, evaluates to unknown asset pair error"
+    (ok (equal (cl-kraken:asset-pairs "abc")
+               '(:OBJ ("error" "EQuery:Unknown asset pair")))))
+  (testing "when passed an empty PAIR, evaluates to unknown asset pair error"
+    (ok (equal (cl-kraken:asset-pairs "")
+               '(:OBJ ("error" "EQuery:Unknown asset pair")))))
+  (testing "when passed a symbol PAIR, a type error is signaled"
+    (ok (signals (cl-kraken:asset-pairs 'xbtusd) 'type-error)
+        "The value of PAIR is XBTUSD, which is not of type (OR STRING NULL)."))
+  (testing "when passed a keyword PAIR, a type error is signaled"
+    (ok (signals (cl-kraken:asset-pairs :xbtusd) 'type-error)
+        "The value of PAIR is :XBTUSD which is not of type (OR STRING NULL).")))
 
 (deftest ticker
   (testing "when passed \"xBteuR\" evaluates to XBTEUR ticker JSOWN object"
