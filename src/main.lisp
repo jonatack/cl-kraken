@@ -25,18 +25,24 @@
 (in-package #:cl-kraken)
 (declaim (optimize (speed 0) (safety 3) (debug 3)))
 
+;;; API
+
+;;; All API calls accept a VERBOSE boolean keyword parameter (T or default NIL)
+;;; to output the HTTP request headers for verifying and debugging.
+
 ;;; Kraken Public API
 
-(defun server-time ()
+(defun server-time (&key verbose)
   "Get server time. Useful to approximate skew time between server and client.
   URL: https://api.kraken.com/0/public/Time
   Kraken returns a hash with keys `error' and `result'.
     `result' is an array of hashes with keys:
       `unixtime' = unix timestamp
       `rfc1123'  = RFC 1123 time format"
-  (get-public "Time"))
+  (declare (type boolean verbose))
+  (get-public "Time" :verbose verbose))
 
-(defun assets (&key asset)
+(defun assets (&key asset verbose)
   "Get asset info.
   URL: https://api.kraken.com/0/public/Assets
   Input:
@@ -48,10 +54,12 @@
       `aclass'           = asset class, currently always set to 'currency'
       `decimals'         = decimal places for record keeping
       `display_decimals' = decimal places for display (usually fewer)"
+  (declare (type boolean verbose))
   (check-type asset (or string null))
-  (get-public "Assets" :params (when (stringp asset) `(("asset" . ,asset)))))
+  (get-public "Assets" :params (when (stringp asset) `(("asset" . ,asset)))
+                       :verbose verbose))
 
-(defun asset-pairs (&key pair)
+(defun asset-pairs (&key pair verbose)
   "Get tradeable asset pairs.
   URL: https://api.kraken.com/0/public/AssetPairs
   Input:
@@ -79,10 +87,12 @@
   If an asset pair is on a maker/taker fee schedule, the taker side is given in
     `fees' and maker side in `fees_maker'.
   For asset pairs not on maker/taker, the rates will only be given in `fees'."
+  (declare (type boolean verbose))
   (check-type pair (or string null))
-  (get-public "AssetPairs" :params (when (stringp pair) `(("pair" . ,pair)))))
+  (get-public "AssetPairs" :params (when (stringp pair) `(("pair" . ,pair)))
+                           :verbose verbose))
 
-(defun ohlc (pair &key since (interval 1))
+(defun ohlc (pair &key since (interval 1) verbose)
   "Get OHLC (Open, High, Low, Close) public price data for an asset pair.
   URL: https://api.kraken.com/0/public/OHLC
   Input:
@@ -98,6 +108,7 @@
            `time', `open', `high', `low', `close', `VWAP', `volume', `count'.
        - `last' is a Unix Time id for the current not-yet-committed frame.
            Useful as value for SINCE when querying for new committed OHLC data."
+  (declare (type boolean verbose))
   #+(or sbcl ccl abcl ecl) (declare (type simple-string pair))
   #+clisp (check-type pair simple-string)
   #+(or sbcl ccl ecl) (declare (type (or integer null) since))
@@ -105,9 +116,9 @@
   #+(or sbcl ccl ecl) (declare (type integer interval))
   #+(or abcl clisp) (check-type interval integer)
   (let ((params `(("pair" . ,pair) ("since" . ,since) ("interval" . ,interval))))
-    (get-public "OHLC" :params params)))
+    (get-public "OHLC" :params params :verbose verbose)))
 
-(defun ticker (pair)
+(defun ticker (pair &key verbose)
   "Get ticker data for asset pairs.
   URL: https://api.kraken.com/0/public/Ticker
   Input:
@@ -123,13 +134,16 @@
       l = low array                       (today, last 24 hours)
       h = high array                      (today, last 24 hours)
       o = opening price                   (today, at 00:00:00 UTC)"
+  (declare (type boolean verbose))
   (check-type pair (and string (not null)))
-  (get-public "Ticker" :params `(("pair" . ,pair))))
+  (get-public "Ticker" :params `(("pair" . ,pair)) :verbose verbose))
 
 ;;; Kraken Private API requiring authentication
 
-(defun trade-balance ()
-  (post-private "TradeBalance"))
+(defun balance (&key verbose)
+  (declare (type boolean verbose))
+  (post-private "Balance" :verbose verbose))
 
-(defun balance ()
-  (post-private "Balance"))
+(defun trade-balance (&key verbose)
+  (declare (type boolean verbose))
+  (post-private "TradeBalance" :verbose verbose))
