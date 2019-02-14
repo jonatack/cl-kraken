@@ -85,7 +85,7 @@
         "The value of PAIR is XBTUSD, which is not of type (OR STRING NULL)."))
   (testing "when passed a keyword PAIR, a type error is signaled"
     (ok (signals (cl-kraken:asset-pairs :xbtusd) 'type-error)
-        "The value of PAIR is :XBTUSD which is not of type (OR STRING NULL).")))
+        "The value of PAIR is :XBTUSD, which is not of type (OR STRING NULL).")))
 
 (deftest ticker
   (testing "when passed \"xBteuR\" evaluates to XBTEUR ticker JSOWN object"
@@ -145,7 +145,7 @@
                '(:OBJ ("error" "EQuery:Unknown asset pair")))))
   (testing "when passed a symbol PAIR, a type error is signaled"
     (ok (signals (cl-kraken:ticker 'xbteur) 'type-error)
-        "The value of PAIR is XBTEUR, which is not of type (OR STRING NULL)."))
+        "The value of PAIR is XBTEUR, which is not of type (AND STRING (NOT NULL))."))
   (testing "when passed a keyword PAIR, a type error is signaled"
     (ok (signals (cl-kraken:ticker :xbteur) 'type-error)
-        "The value of PAIR is :XBTEUR which is not of type (OR STRING NULL).")))
+        "The value of PAIR is :XBTEUR, which is not of type (AND STRING (NOT NULL)).")))
