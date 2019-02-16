@@ -45,6 +45,17 @@ To use, git clone the repo into your `~/quicklisp/local-projects` directory, the
 (asset-pairs "xbteur,ethusd")
 (asset-pairs "XBTUSD, xbteur, ETHJPY, ethgbp")
 
+;;; OHLC
+;;; Get OHLC (Open, High, Low, Close) price data for an asset pair.
+(ohlc pair &key since (interval 1))
+;;; PAIR is a required, case-insensitive string representing a single asset pair for which to query OHLC data.
+;;; INTERVAL is an optional integer time interval in minutes defaulting to 1, permitted values are 1, 5, 15, 30, 60, 240, 1440, 10080, 21600.
+;;; SINCE is an optional integer Unix Time id to specify from when to return new committed OHLC data, corresponding to previous OHLC `last' values.
+;;;
+(ohlc "xbteur")
+(ohlc "ZECEUR" :since 1548265854)
+(ohlc "EthUsd" :interval 15 :since 1548265854)
+
 ;;; TICKER
 ;;; Get ticker data for one or more asset pairs.
 ;;; Pairs are passed as a required case-insensitive, space-insensitive, comma-delimited string.

@@ -14,8 +14,9 @@
                           #:post-private)
   (:export
    ;; Public API
-   #:assets
    #:asset-pairs
+   #:assets
+   #:ohlc
    #:server-time
    #:ticker
    ;; Private API
@@ -80,6 +81,31 @@
   For asset pairs not on maker/taker, the rates will only be given in `fees'."
   (check-type pair (or string null))
   (get-public "AssetPairs" :params (when (stringp pair) `(("pair" . ,pair)))))
+
+(defun ohlc (pair &key since (interval 1))
+  "Get OHLC (Open, High, Low, Close) public price data for an asset pair.
+  URL: https://api.kraken.com/0/public/OHLC
+  Input:
+    PAIR     = required single asset pair for which to query OHLC data
+    INTERVAL = optional integer time interval in minutes defaulting to 1,
+               permitted values are 1, 5, 15, 30, 60, 240, 1440, 10080, 21600;
+               Kraken returns an Invalid Arguments error for other values
+    SINCE    = optional integer Unix Time id from when to return new committed
+               OHLC data, corresponding to previous OHLC `last' values.
+  Kraken returns a hash with keys `error' and `result'.
+    `result' is an array containing a pair name and a `last' Unix Time id.
+       - The pair name is consed with a data list containing, in order:
+           `time', `open', `high', `low', `close', `VWAP', `volume', `count'.
+       - `last' is a Unix Time id for the current not-yet-committed frame.
+           Useful as value for SINCE when querying for new committed OHLC data."
+  #+(or sbcl ccl abcl ecl) (declare (type simple-string pair))
+  #+clisp (check-type pair simple-string)
+  #+(or sbcl ccl ecl) (declare (type (or integer null) since))
+  #+(or abcl clisp) (check-type since (or integer null))
+  #+(or sbcl ccl ecl) (declare (type integer interval))
+  #+(or abcl clisp) (check-type interval integer)
+  (let ((params `(("pair" . ,pair) ("since" . ,since) ("interval" . ,interval))))
+    (get-public "OHLC" :params params)))
 
 (defun ticker (pair)
   "Get ticker data for asset pairs.
