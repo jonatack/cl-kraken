@@ -36,7 +36,7 @@
       `rfc1123'  = RFC 1123 time format"
   (get-public "Time"))
 
-(defun assets (&optional asset)
+(defun assets (&key asset)
   "Get asset info.
   URL: https://api.kraken.com/0/public/Assets
   Input:
@@ -51,7 +51,7 @@
   (check-type asset (or string null))
   (get-public "Assets" :params (when (stringp asset) `(("asset" . ,asset)))))
 
-(defun asset-pairs (&optional pair)
+(defun asset-pairs (&key pair)
   "Get tradeable asset pairs.
   URL: https://api.kraken.com/0/public/AssetPairs
   Input:

@@ -28,22 +28,22 @@ To use, git clone the repo into your `~/quicklisp/local-projects` directory, the
 ;;; ASSETS
 ;;; Get data on one or more (or all) assets available on Kraken.
 ;;; Assets are passed as an optional case-insensitive, space-insensitive, comma-delimited string.
-(assets (&optional asset-list-string)
+(assets (&key asset)
 ;;;
 (assets)
-(assets "xbt")
-(assets "xbt,usd,eur,dash,xmr")
-(assets "xbt, USD, eur, JPY, eth, ZEC, ltc")
+(assets :asset "xbt")
+(assets :asset "xbt,usd,eur,dash,xmr")
+(assets :asset "xbt, USD, eur, JPY, eth, ZEC, ltc")
 
 ;;; ASSET PAIRS
 ;;; Get data on one or more (or all) asset pairs tradeable on Kraken.
 ;;; Pairs are passed as an optional case-insensitive, space-insensitive, comma-delimited string.
-(asset-pairs (&optional pair-list-string)
+(asset-pairs (&key pair)
 ;;;
 (asset-pairs)
-(asset-pairs "XBTUSD")
-(asset-pairs "xbteur,ethusd")
-(asset-pairs "XBTUSD, xbteur, ETHJPY, ethgbp")
+(asset-pairs :pair "XBTUSD")
+(asset-pairs :pair "xbteur,ethusd")
+(asset-pairs :pair "XBTUSD, xbteur, ETHJPY, ethgbp")
 
 ;;; OHLC
 ;;; Get OHLC (Open, High, Low, Close) price data for an asset pair.

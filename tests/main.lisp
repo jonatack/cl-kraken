@@ -43,50 +43,50 @@
   (testing "with no argument evaluates to a JSOWN object for all assets"
     (ok (equal (cl-kraken:assets) *all-assets*)))
   (testing "when passed \"XBT\" evals to a JSOWN object for Bitcoin (XBT) asset"
-    (ok (equal (cl-kraken:assets "XBT") *bitcoin-asset*)))
+    (ok (equal (cl-kraken:assets :asset "XBT") *bitcoin-asset*)))
   (testing "when passed \"xbt\" evals to a JSOWN object for Bitcoin (XBT) asset"
-    (ok (equal (cl-kraken:assets "xbt") *bitcoin-asset*)))
+    (ok (equal (cl-kraken:assets :asset "xbt") *bitcoin-asset*)))
   (testing "when passed \"usd,EUR\" evals to a JSOWN object for USD+EUR assets"
-    (ok (equal (cl-kraken:assets "usd,EUR") *usd-and-euro-assets*)))
+    (ok (equal (cl-kraken:assets :asset "usd,EUR") *usd-and-euro-assets*)))
   (testing "when passed \"UsD, euR\" evals to a JSOWN object for USD+EUR assets"
-    (ok (equal (cl-kraken:assets "UsD, euR") *usd-and-euro-assets*)))
+    (ok (equal (cl-kraken:assets :asset "UsD, euR") *usd-and-euro-assets*)))
   (testing "when passed an invalid ASSET, evaluates to unknown asset error"
-    (ok (equal (cl-kraken:assets "abc")
+    (ok (equal (cl-kraken:assets :asset "abc")
                '(:OBJ ("error" "EQuery:Unknown asset")))))
   (testing "when passed an empty ASSET, evaluates to unknown asset error"
-    (ok (equal (cl-kraken:assets "")
+    (ok (equal (cl-kraken:assets :asset "")
                '(:OBJ ("error" "EQuery:Unknown asset")))))
   (testing "when passed a symbol ASSET, a type error is signaled"
-    (ok (signals (cl-kraken:assets 'xbt) 'type-error)
+    (ok (signals (cl-kraken:assets :asset 'xbt) 'type-error)
         "The value of ASSET is XBT, which is not of type (OR STRING NULL)."))
   (testing "when passed a keyword ASSET, a type error is signaled"
-    (ok (signals (cl-kraken:assets :xbt) 'type-error)
+    (ok (signals (cl-kraken:assets :asset :xbt) 'type-error)
         "The value of ASSET is :XBT, which is not of type (OR STRING NULL).")))
 
 (deftest asset-pairs
   (testing "with no argument evaluates to a JSOWN object for all asset pairs"
     (ok (equal (cl-kraken:asset-pairs) *all-pairs*)))
   (testing "when passed \"XBTEUR\" evaluates to a JSOWN object for XBTEUR pair"
-    (ok (equal (cl-kraken:asset-pairs "XBTEUR") *xbteur-pair*)))
+    (ok (equal (cl-kraken:asset-pairs :pair "XBTEUR") *xbteur-pair*)))
   (testing "when passed \"xbteur\" evaluates to a JSOWN object for XBTEUR pair"
-    (ok (equal (cl-kraken:asset-pairs "xbteur") *xbteur-pair*)))
+    (ok (equal (cl-kraken:asset-pairs :pair "xbteur") *xbteur-pair*)))
   (testing "when passed \"xbtusd,xmreur\" evaluates to XBTUSD and XMREUR pairs"
-    (ok (equal (cl-kraken:asset-pairs "xbtusd,xmreur")
+    (ok (equal (cl-kraken:asset-pairs :pair "xbtusd,xmreur")
                *xbtusd-and-xmreur-pairs*)))
   (testing "when passed \" XBTusd ,  xmrEUR \" evals to XBTUSD and XMREUR pairs"
-    (ok (equal (cl-kraken:asset-pairs " XBTusd ,  xmrEUR ")
+    (ok (equal (cl-kraken:asset-pairs :pair " XBTusd ,  xmrEUR ")
                *xbtusd-and-xmreur-pairs*)))
   (testing "when passed an invalid PAIR, evaluates to unknown asset pair error"
-    (ok (equal (cl-kraken:asset-pairs "abc")
+    (ok (equal (cl-kraken:asset-pairs :pair "abc")
                '(:OBJ ("error" "EQuery:Unknown asset pair")))))
   (testing "when passed an empty PAIR, evaluates to unknown asset pair error"
-    (ok (equal (cl-kraken:asset-pairs "")
+    (ok (equal (cl-kraken:asset-pairs :pair "")
                '(:OBJ ("error" "EQuery:Unknown asset pair")))))
   (testing "when passed a symbol PAIR, a type error is signaled"
-    (ok (signals (cl-kraken:asset-pairs 'xbtusd) 'type-error)
+    (ok (signals (cl-kraken:asset-pairs :pair 'xbtusd) 'type-error)
         "The value of PAIR is XBTUSD, which is not of type (OR STRING NULL)."))
   (testing "when passed a keyword PAIR, a type error is signaled"
-    (ok (signals (cl-kraken:asset-pairs :xbtusd) 'type-error)
+    (ok (signals (cl-kraken:asset-pairs :pair :xbtusd) 'type-error)
         "The value of PAIR is :XBTUSD, which is not of type (OR STRING NULL).")))
 
 (deftest ticker
