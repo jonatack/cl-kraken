@@ -219,7 +219,7 @@
   ;; SINCE tests
   (testing "when passed a string SINCE, a type error is signaled"
     (ok (signals (cl-kraken:ohlc "xbteur" :since "1") 'type-error)
-        "The value of SINCE is \"1\", which is not of type INTEGER."))
+        "The value of SINCE is \"1\", which is not of type (OR INTEGER NULL."))
   (testing "when passed a symbol SINCE, a type error is signaled"
     (ok (signals (cl-kraken:ohlc "xbteur" :since 'a) 'type-error)
         "The value of SINCE is 'a, which is not of type (OR INTEGER NULL)."))
