@@ -217,6 +217,21 @@
     (ok (signals (cl-kraken:ohlc "xbteur" :interval :1) 'type-error)
         "The value of INTERVAL is :|1|, which is not of type INTEGER."))
   ;; SINCE tests
+  (testing "valid SINCE and INTERVAL params are correctly included in the query"
+    (let* ((headers (with-output-to-string (*standard-output*)
+                      (cl-kraken:ohlc "xbteur" :since 5 :interval 21600 :verbose t)))
+           (query   (subseq headers 65 104)))
+      (ok (string= query "OHLC?pair=xbteur&since=5&interval=21600"))))
+  (testing "when a valid SINCE is passed it is correctly included in the query"
+    (let* ((headers (with-output-to-string (*standard-output*)
+                      (cl-kraken:ohlc "xbteur" :since 12345678 :verbose t)))
+           (query   (subseq headers 65 107)))
+      (ok (string= query "OHLC?pair=xbteur&since=12345678&interval=1"))))
+  (testing "when no SINCE is passed, it is absent from the query"
+    (let* ((headers (with-output-to-string (*standard-output*)
+                      (cl-kraken:ohlc "xbteur" :interval 21600 :verbose t)))
+           (query   (subseq headers 65 96)))
+      (ok (string= query "OHLC?pair=xbteur&interval=21600"))))
   (testing "when passed a string SINCE, a type error is signaled"
     (ok (signals (cl-kraken:ohlc "xbteur" :since "1") 'type-error)
         "The value of SINCE is \"1\", which is not of type (OR INTEGER NULL."))
