@@ -26,7 +26,8 @@
            #:post-private))
 (in-package #:cl-kraken/src/http)
 
-(defun get-public (method &key params (scheme +api-scheme+) (host +api-host+))
+(defun get-public (method &key params (scheme +api-scheme+) (host +api-host+)
+                               verbose)
   "HTTP GET request for public API queries."
   (check-type method (and string (not null)))
   (check-type params list)
@@ -34,10 +35,10 @@
   (check-type host   (and string (not null)))
   (let* ((path (concatenate 'string +api-public-path+ method))
          (uri  (make-uri :scheme scheme :host host :path path :query params)))
-    (parse (get uri))))
+    (parse (get uri :verbose verbose))))
 
 (defun post-private (method &key params (scheme +api-scheme+) (host +api-host+)
-                              (key *api-key*) (secret *api-secret*))
+                                 verbose (key *api-key*) (secret *api-secret*))
   "HTTP POST request for private authenticated API queries."
   (check-type method (and string (not null)))
   (check-type params list)
@@ -50,7 +51,7 @@
          (nonce   (nonce-from-unix-time))
          (headers (post-http-headers path nonce key secret))
          (data    `(("nonce" . ,nonce))))
-    (parse (post uri :headers headers :content data))))
+    (parse (post uri :headers headers :content data :verbose verbose))))
 
 (defun post-http-headers (path nonce key secret)
   "Kraken POST HTTP headers must contain the API key and signature."
