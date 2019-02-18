@@ -27,7 +27,8 @@ To use, git clone the repo into your `~/quicklisp/local-projects` directory, the
 ```lisp
 ;;; ASSETS
 ;;; Get data on one or more (or all) assets available on Kraken.
-;;; Assets are passed as an optional case-insensitive, space-insensitive, comma-delimited string.
+;;; Assets are passed as an optional case-insensitive, space-insensitive,
+;;; comma-delimited string.
 (assets (&key asset)
 ;;;
 (assets)
@@ -37,7 +38,8 @@ To use, git clone the repo into your `~/quicklisp/local-projects` directory, the
 
 ;;; ASSET PAIRS
 ;;; Get data on one or more (or all) asset pairs tradeable on Kraken.
-;;; Pairs are passed as an optional case-insensitive, space-insensitive, comma-delimited string.
+;;; Pairs are passed as an optional case-insensitive, space-insensitive,
+;;; comma-delimited string.
 (asset-pairs (&key pair)
 ;;;
 (asset-pairs)
@@ -47,10 +49,13 @@ To use, git clone the repo into your `~/quicklisp/local-projects` directory, the
 
 ;;; OHLC
 ;;; Get OHLC (Open, High, Low, Close) price data for an asset pair.
+;;; PAIR is a required, case-insensitive string representing a single asset pair
+;;;   for which to query OHLC data.
+;;; INTERVAL is an optional integer time interval in minutes defaulting to 1.
+;;;   Permitted values are 1, 5, 15, 30, 60, 240, 1440, 10080, 21600.
+;;; SINCE is an optional integer Unix Time id to specify from when to return
+;;;   new committed OHLC data, corresponding to previous OHLC `last' values.
 (ohlc pair &key since (interval 1))
-;;; PAIR is a required, case-insensitive string representing a single asset pair for which to query OHLC data.
-;;; INTERVAL is an optional integer time interval in minutes defaulting to 1, permitted values are 1, 5, 15, 30, 60, 240, 1440, 10080, 21600.
-;;; SINCE is an optional integer Unix Time id to specify from when to return new committed OHLC data, corresponding to previous OHLC `last' values.
 ;;;
 (ohlc "xbteur")
 (ohlc "ZECEUR" :since 1548265854)
@@ -58,7 +63,8 @@ To use, git clone the repo into your `~/quicklisp/local-projects` directory, the
 
 ;;; TICKER
 ;;; Get ticker data for one or more asset pairs.
-;;; Pairs are passed as a required case-insensitive, space-insensitive, comma-delimited string.
+;;; Pairs are passed as a required case-insensitive, space-insensitive,
+;;; comma-delimited string.
 (ticker pair-list-string)
 ;;;
 (ticker "XBTUSD")
@@ -79,16 +85,13 @@ To run the test suite, the ROVE test library needs to be loaded.
 (ql:quickload :rove)
 ```
 
-Then run the tests with either
+Then run the tests using one of the following:
 
 ```lisp
-(asdf:test-system :cl-kraken)
-```
-
-or
-
-```lisp
-(rove:run :cl-kraken/tests)
+(asdf:test-system :cl-kraken)            ; Detailed test output.
+(rove:run :cl-kraken/tests :style :spec) ; Detailed test output.
+(rove:run :cl-kraken/tests :style :dot)  ; One dot per test output (in Rove master).
+(rove:run :cl-kraken/tests :style :none) ; Minimal test output.
 ```
 
 ## Portability
