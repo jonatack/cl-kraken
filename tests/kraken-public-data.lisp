@@ -3,23 +3,13 @@
 (in-package #:cl-user)
 (defpackage #:cl-kraken/tests/kraken-public-data
   (:use #:cl)
-  (:export #:*kraken-rfc1123*
-           #:*bitcoin-asset*
+  (:export #:*bitcoin-asset*
            #:*usd-and-euro-assets*
            #:*all-assets*
            #:*xbteur-pair*
            #:*xbtusd-and-xmreur-pairs*
            #:*all-pairs*))
 (in-package #:cl-kraken/tests/kraken-public-data)
-
-;;; Kraken RFC1123 time format
-
-(defparameter *kraken-rfc1123*
-  '(:short-weekday ", " (:day 2 #\space) #\space :short-month #\space
-    :short-year #\space (:hour 2) #\: (:min 2) #\: (:sec 2) #\space
-    :gmt-offset-hhmm)
-  "Define a custom RFC1123 time format because Kraken sends a 2-digit year
-  instead of 4 digits and a day padded with #\SPACE rather than #\0.")
 
 ;;; Kraken Assets
 
