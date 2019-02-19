@@ -17,8 +17,12 @@
   :description "Unit tests for CL-Kraken"
   :class :package-inferred-system
   :depends-on ("rove"
-               "cl-kraken/tests/main"
-               "cl-kraken/tests/http"
+               "cl-kraken/tests/time"
                "cl-kraken/tests/cryptography"
-               "cl-kraken/tests/time")
+               "cl-kraken/tests/http"
+               "cl-kraken/tests/asset-pairs"
+               "cl-kraken/tests/assets"
+               "cl-kraken/tests/ohlc"
+               "cl-kraken/tests/server-time"
+               "cl-kraken/tests/ticker")
   :perform (test-op (op c) (symbol-call :rove '#:run c)))
