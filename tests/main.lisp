@@ -153,41 +153,66 @@
         "The value of PAIR is :XBTEUR, which is not of type (AND STRING (NOT NULL)).")))
 
 (deftest ohlc
-  (testing "when passed \"xBteuR\" evaluates to expected XBTEUR OHLC object"
-    (let* ((unix-now (timestamp-to-unix (now)))
-           (response (cl-kraken:ohlc "XBTeUr" :since unix-now))
-           (error!   (filter response "error"))
-           (result   (filter response "result"))
-           (pair     (filter result "XXBTZEUR"))
-           (ohlc     (car pair))
-           (time     (first ohlc))
-           (open     (second ohlc))
-           (high     (third ohlc))
-           (low      (fourth ohlc))
-           (close    (fifth ohlc))
-           (vwap     (sixth ohlc))
-           (volume   (seventh ohlc))
-           (count    (eighth ohlc))
-           (last     (filter result "last")))
-      (ok (= (length response) 3))
-      (ok (null error!))
-      (ok (consp result))
-      (ok (= (length result) 3))
-      (ok (consp pair))
-      (ok (= (length pair) 1))
-      (ok (consp ohlc))
-      (ok (= (length ohlc) 8))
-      (ok (integerp time))
-      (ok (simple-string-p open))
-      (ok (simple-string-p high))
-      (ok (simple-string-p low))
-      (ok (simple-string-p close))
-      (ok (simple-string-p vwap))
-      (ok (simple-string-p volume))
-      (ok (integerp count))
-      (ok (integerp last))
-      (ok (>= (parse-float high) (parse-float low)))))
-  ;; PAIR tests
+  (let* ((unix-now (timestamp-to-unix (now)))
+         (since    (write-to-string unix-now)))
+    (testing "when passed \"xBteuR\" evaluates to expected XBTEUR OHLC object"
+      (let* ((response (cl-kraken:ohlc "XBTeUr" :since unix-now))
+             (error!   (filter response "error"))
+             (result   (filter response "result"))
+             (pair     (filter result "XXBTZEUR"))
+             (ohlc     (car pair))
+             (time     (first ohlc))
+             (open     (second ohlc))
+             (high     (third ohlc))
+             (low      (fourth ohlc))
+             (close    (fifth ohlc))
+             (vwap     (sixth ohlc))
+             (volume   (seventh ohlc))
+             (count    (eighth ohlc))
+             (last     (filter result "last")))
+        (ok (= (length response) 3))
+        (ok (null error!))
+        (ok (consp result))
+        (ok (= (length result) 3))
+        (ok (consp pair))
+        (ok (= (length pair) 1))
+        (ok (consp ohlc))
+        (ok (= (length ohlc) 8))
+        (ok (integerp time))
+        (ok (simple-string-p open))
+        (ok (simple-string-p high))
+        (ok (simple-string-p low))
+        (ok (simple-string-p close))
+        (ok (simple-string-p vwap))
+        (ok (simple-string-p volume))
+        (ok (integerp count))
+        (ok (integerp last))
+        (ok (>= (parse-float high) (parse-float low)))))
+    ;; Test correct handling of keyword parameters to query params.
+    (testing "when passed no INTERVAL or SINCE, queries default interval of 1"
+      (let* ((headers (with-output-to-string (*standard-output*)
+                        (cl-kraken:ohlc "xbteur" :verbose t)))
+             (query (subseq headers 65 92)))
+        (ok (string= query "OHLC?pair=xbteur&interval=1"))))
+    (testing "when passed a valid INTERVAL, queries specified interval"
+      (let* ((headers (with-output-to-string (*standard-output*)
+                        (cl-kraken:ohlc "xbteur" :interval 21600 :verbose t)))
+             (query   (subseq headers 65 96)))
+        (ok (string= query "OHLC?pair=xbteur&interval=21600"))))
+    (testing "when passed a valid SINCE, queries specified since + default interval"
+      (let* ((headers (with-output-to-string (*standard-output*)
+                        (cl-kraken:ohlc "xbteur" :since unix-now :verbose t)))
+             (query (subseq headers 65 109)))
+        (ok (string= query (concatenate 'string "OHLC?pair=xbteur&since=" since
+                                        "&interval=1")))))
+    (testing "when passed a valid SINCE+INTERVAL, queries both specified values"
+      (let* ((headers (with-output-to-string (*standard-output*)
+                        (cl-kraken:ohlc "xbteur" :since unix-now :interval 21600
+                                                 :verbose t)))
+             (query (subseq headers 65 113)))
+        (ok (string= query (concatenate 'string "OHLC?pair=xbteur&since=" since
+                                        "&interval=21600"))))))
+  ;; Test invalid PAIR values.
   (testing "when passed more than one PAIR, evaluates to unknown asset pair error"
     (ok (equal (cl-kraken:ohlc "xbteur,xbtusd")
                '(:OBJ ("error" "EQuery:Unknown asset pair")))))
@@ -203,7 +228,7 @@
   (testing "when passed a keyword PAIR, a type error is signaled"
     (ok (signals (cl-kraken:ohlc :xbteur) 'type-error)
         "The value of PAIR is :XBTEUR, which is not of type SIMPLE-STRING."))
-  ;; INTERVAL tests
+  ;; Test invalid INTERVAL values.
   (testing "when passed an invalid INTERVAL, returns an invalid arguments error"
     (ok (equal (cl-kraken:ohlc "xbteur" :interval 0)
                '(:OBJ ("error" "EGeneral:Invalid arguments")))))
@@ -216,22 +241,7 @@
   (testing "when passed a keyword INTERVAL, a type error is signaled"
     (ok (signals (cl-kraken:ohlc "xbteur" :interval :1) 'type-error)
         "The value of INTERVAL is :|1|, which is not of type INTEGER."))
-  ;; SINCE tests
-  (testing "valid SINCE and INTERVAL params are correctly included in the query"
-    (let* ((headers (with-output-to-string (*standard-output*)
-                      (cl-kraken:ohlc "xbteur" :since 5 :interval 21600 :verbose t)))
-           (query   (subseq headers 65 104)))
-      (ok (string= query "OHLC?pair=xbteur&since=5&interval=21600"))))
-  (testing "when a valid SINCE is passed it is correctly included in the query"
-    (let* ((headers (with-output-to-string (*standard-output*)
-                      (cl-kraken:ohlc "xbteur" :since 12345678 :verbose t)))
-           (query   (subseq headers 65 107)))
-      (ok (string= query "OHLC?pair=xbteur&since=12345678&interval=1"))))
-  (testing "when no SINCE is passed, it is absent from the query"
-    (let* ((headers (with-output-to-string (*standard-output*)
-                      (cl-kraken:ohlc "xbteur" :interval 21600 :verbose t)))
-           (query   (subseq headers 65 96)))
-      (ok (string= query "OHLC?pair=xbteur&interval=21600"))))
+  ;; Test invalid SINCE values.
   (testing "when passed a string SINCE, a type error is signaled"
     (ok (signals (cl-kraken:ohlc "xbteur" :since "1") 'type-error)
         "The value of SINCE is \"1\", which is not of type (OR INTEGER NULL."))
