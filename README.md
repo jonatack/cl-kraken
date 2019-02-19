@@ -101,9 +101,12 @@ Then run the tests using one of the following:
 
 ## Portability
 
-Developed with SBCL 1.4.16 and tested successfully with ClozureCL 1.11.5, CLISP 2.49.92, and ABCL 1.5.0/1.6.0dev, all on Linux x86/64.
+Developed for SBCL 1.4.16 and tested successfully with:
 
-Works with ECL 16.1.3 except for the nonce function, which the private API calls depend on. To be fixed.
+- ABCL 1.5.0 and 1.6.0-dev
+- CLISP 2.49.92
+- ClozureCL 1.11.5
+- ECL 16.1.3
 
 
 ### Author
