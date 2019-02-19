@@ -32,23 +32,23 @@
          (expected `(:OBJ ("error")
                           ("result" :OBJ
                                     ("unixtime" . ,unix) ("rfc1123" . ,rfc)))))
-    (testing "evaluates to the expected JSOWN server time object"
+    (testing "evaluates to the expected server time"
       (ok (equal response expected)))
-    (testing "returns a Unix Time component as an integer"
+    (testing "evaluates to a Unix Time component expressed as an integer"
       (ok (integerp unix)))
-    (testing "returns Unix Time within ±20 seconds of current time (given skew)"
+    (testing "evaluates to Unix Time ±20 seconds of current time, given skew"
       (ok (< (abs (- unix now)) 20)))))
 
 (deftest assets
-  (testing "with no argument evaluates to a JSOWN object for all assets"
+  (testing "with no argument passed, evaluates to all assets"
     (ok (equal (cl-kraken:assets) *all-assets*)))
-  (testing "when passed \"XBT\" evals to a JSOWN object for Bitcoin (XBT) asset"
+  (testing "when passed \"XBT\", evaluates to Bitcoin (XBT) asset"
     (ok (equal (cl-kraken:assets :asset "XBT") *bitcoin-asset*)))
-  (testing "when passed \"xbt\" evals to a JSOWN object for Bitcoin (XBT) asset"
+  (testing "when passed \"xbt\", evaluates to Bitcoin (XBT) asset"
     (ok (equal (cl-kraken:assets :asset "xbt") *bitcoin-asset*)))
-  (testing "when passed \"usd,EUR\" evals to a JSOWN object for USD+EUR assets"
+  (testing "when passed \"usd,EUR\", evaluates to USD and Euro assets"
     (ok (equal (cl-kraken:assets :asset "usd,EUR") *usd-and-euro-assets*)))
-  (testing "when passed \"UsD, euR\" evals to a JSOWN object for USD+EUR assets"
+  (testing "when passed \"UsD, euR\", evaluates to USD and Euro assets"
     (ok (equal (cl-kraken:assets :asset "UsD, euR") *usd-and-euro-assets*)))
   (testing "when passed an invalid ASSET, evaluates to unknown asset error"
     (ok (equal (cl-kraken:assets :asset "abc")
@@ -64,16 +64,16 @@
         "The value of ASSET is :XBT, which is not of type (OR STRING NULL).")))
 
 (deftest asset-pairs
-  (testing "with no argument evaluates to a JSOWN object for all asset pairs"
+  (testing "with no argument passed, evaluates to all asset pairs"
     (ok (equal (cl-kraken:asset-pairs) *all-pairs*)))
-  (testing "when passed \"XBTEUR\" evaluates to a JSOWN object for XBTEUR pair"
+  (testing "when passed \"XBTEUR\", evaluates to XBTEUR pair"
     (ok (equal (cl-kraken:asset-pairs :pair "XBTEUR") *xbteur-pair*)))
-  (testing "when passed \"xbteur\" evaluates to a JSOWN object for XBTEUR pair"
+  (testing "when passed \"xbteur\", evaluates to XBTEUR pair"
     (ok (equal (cl-kraken:asset-pairs :pair "xbteur") *xbteur-pair*)))
-  (testing "when passed \"xbtusd,xmreur\" evaluates to XBTUSD and XMREUR pairs"
+  (testing "when passed \"xbtusd,xmreur\", evaluates to XBTUSD+XMREUR pairs"
     (ok (equal (cl-kraken:asset-pairs :pair "xbtusd,xmreur")
                *xbtusd-and-xmreur-pairs*)))
-  (testing "when passed \" XBTusd ,  xmrEUR \" evals to XBTUSD and XMREUR pairs"
+  (testing "when passed \" XBTusd ,  xmrEUR \" evaluates to XBTUSD+XMREUR pairs"
     (ok (equal (cl-kraken:asset-pairs :pair " XBTusd ,  xmrEUR ")
                *xbtusd-and-xmreur-pairs*)))
   (testing "when passed an invalid PAIR, evaluates to unknown asset pair error"
@@ -90,7 +90,7 @@
         "The value of PAIR is :XBTUSD, which is not of type (OR STRING NULL).")))
 
 (deftest ticker
-  (testing "when passed \"xBteuR\" evaluates to XBTEUR ticker JSOWN object"
+  (testing "when passed \"xBteuR\", evaluates to XBTEUR ticker"
     (let* ((response (cl-kraken:ticker "xBteuR"))
            (error!   (filter response "error"))
            (result   (filter response "result"))
@@ -126,7 +126,7 @@
       (ok (consp high))
       (ok (stringp open))
       (ok (= (length high) 2))))
-  (testing "when passed \" xbtjpy ,ETCusd \" evaluates to XBTJPY+ETCUSD tickers"
+  (testing "when passed \" xbtjpy ,ETCusd \", evaluates to XBTJPY+ETCUSD ticker"
     (let* ((response (cl-kraken:ticker " xbtjpy ,ETCusd "))
            (error!   (filter response "error"))
            (result   (filter response "result"))
@@ -153,42 +153,67 @@
         "The value of PAIR is :XBTEUR, which is not of type (AND STRING (NOT NULL)).")))
 
 (deftest ohlc
-  (testing "when passed \"xBteuR\" evaluates to expected XBTEUR OHLC object"
-    (let* ((unix-now (timestamp-to-unix (now)))
-           (response (cl-kraken:ohlc "XBTeUr" :since unix-now))
-           (error!   (filter response "error"))
-           (result   (filter response "result"))
-           (pair     (filter result "XXBTZEUR"))
-           (ohlc     (car pair))
-           (time     (first ohlc))
-           (open     (second ohlc))
-           (high     (third ohlc))
-           (low      (fourth ohlc))
-           (close    (fifth ohlc))
-           (vwap     (sixth ohlc))
-           (volume   (seventh ohlc))
-           (count    (eighth ohlc))
-           (last     (filter result "last")))
-      (ok (= (length response) 3))
-      (ok (null error!))
-      (ok (consp result))
-      (ok (= (length result) 3))
-      (ok (consp pair))
-      (ok (= (length pair) 1))
-      (ok (consp ohlc))
-      (ok (= (length ohlc) 8))
-      (ok (integerp time))
-      (ok (simple-string-p open))
-      (ok (simple-string-p high))
-      (ok (simple-string-p low))
-      (ok (simple-string-p close))
-      (ok (simple-string-p vwap))
-      (ok (simple-string-p volume))
-      (ok (integerp count))
-      (ok (integerp last))
-      (ok (>= (parse-float high) (parse-float low)))))
-  ;; PAIR tests
-  (testing "when passed more than one PAIR, evaluates to unknown asset pair error"
+  (let* ((unix-now (timestamp-to-unix (now)))
+         (since    (write-to-string unix-now)))
+    (testing "when passed \"xBteuR\", evaluates to XBTEUR OHLC data"
+      (let* ((response (cl-kraken:ohlc "XBTeUr" :since unix-now))
+             (error!   (filter response "error"))
+             (result   (filter response "result"))
+             (pair     (filter result "XXBTZEUR"))
+             (ohlc     (car pair))
+             (time     (first ohlc))
+             (open     (second ohlc))
+             (high     (third ohlc))
+             (low      (fourth ohlc))
+             (close    (fifth ohlc))
+             (vwap     (sixth ohlc))
+             (volume   (seventh ohlc))
+             (count    (eighth ohlc))
+             (last     (filter result "last")))
+        (ok (= (length response) 3))
+        (ok (null error!))
+        (ok (consp result))
+        (ok (= (length result) 3))
+        (ok (consp pair))
+        (ok (= (length pair) 1))
+        (ok (consp ohlc))
+        (ok (= (length ohlc) 8))
+        (ok (integerp time))
+        (ok (simple-string-p open))
+        (ok (simple-string-p high))
+        (ok (simple-string-p low))
+        (ok (simple-string-p close))
+        (ok (simple-string-p vwap))
+        (ok (simple-string-p volume))
+        (ok (integerp count))
+        (ok (integerp last))
+        (ok (>= (parse-float high) (parse-float low)))))
+    ;; Test correct handling of keyword parameters to query params.
+    (testing "when passed no INTERVAL or SINCE, queries default interval of 1"
+      (let* ((headers (with-output-to-string (*standard-output*)
+                        (cl-kraken:ohlc "xbteur" :verbose t)))
+             (query   (subseq headers 65 92)))
+        (ok (string= query "OHLC?pair=xbteur&interval=1"))))
+    (testing "when passed a valid INTERVAL, queries specified interval"
+      (let* ((headers (with-output-to-string (*standard-output*)
+                        (cl-kraken:ohlc "xbteur" :interval 21600 :verbose t)))
+             (query   (subseq headers 65 96)))
+        (ok (string= query "OHLC?pair=xbteur&interval=21600"))))
+    (testing "when passed a valid SINCE, queries since + default interval of 1"
+      (let* ((headers (with-output-to-string (*standard-output*)
+                        (cl-kraken:ohlc "xbteur" :since unix-now :verbose t)))
+             (query   (subseq headers 65 109)))
+        (ok (string= query (concatenate 'string "OHLC?pair=xbteur&since=" since
+                                        "&interval=1")))))
+    (testing "when passed a valid SINCE+INTERVAL, queries both specified values"
+      (let* ((headers (with-output-to-string (*standard-output*)
+                        (cl-kraken:ohlc "xbteur" :since unix-now :interval 21600
+                                                 :verbose t)))
+             (query   (subseq headers 65 113)))
+        (ok (string= query (concatenate 'string "OHLC?pair=xbteur&since=" since
+                                        "&interval=21600"))))))
+  ;; Test invalid PAIR values.
+  (testing "when passed a multiple PAIR, evaluates to unknown asset pair error"
     (ok (equal (cl-kraken:ohlc "xbteur,xbtusd")
                '(:OBJ ("error" "EQuery:Unknown asset pair")))))
   (testing "when passed an invalid PAIR, evaluates to unknown asset pair error"
@@ -203,7 +228,7 @@
   (testing "when passed a keyword PAIR, a type error is signaled"
     (ok (signals (cl-kraken:ohlc :xbteur) 'type-error)
         "The value of PAIR is :XBTEUR, which is not of type SIMPLE-STRING."))
-  ;; INTERVAL tests
+  ;; Test invalid INTERVAL values.
   (testing "when passed an invalid INTERVAL, returns an invalid arguments error"
     (ok (equal (cl-kraken:ohlc "xbteur" :interval 0)
                '(:OBJ ("error" "EGeneral:Invalid arguments")))))
@@ -216,7 +241,7 @@
   (testing "when passed a keyword INTERVAL, a type error is signaled"
     (ok (signals (cl-kraken:ohlc "xbteur" :interval :1) 'type-error)
         "The value of INTERVAL is :|1|, which is not of type INTEGER."))
-  ;; SINCE tests
+  ;; Test invalid SINCE values.
   (testing "when passed a string SINCE, a type error is signaled"
     (ok (signals (cl-kraken:ohlc "xbteur" :since "1") 'type-error)
         "The value of SINCE is \"1\", which is not of type (OR INTEGER NULL."))

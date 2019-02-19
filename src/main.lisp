@@ -115,7 +115,8 @@
   #+(or abcl clisp) (check-type since (or integer null))
   #+(or sbcl ccl ecl) (declare (type integer interval))
   #+(or abcl clisp) (check-type interval integer)
-  (let ((params `(("pair" . ,pair) ("since" . ,since) ("interval" . ,interval))))
+  (let ((params `(("pair" . ,pair) ("interval" . ,interval))))
+    (when (integerp since) (push `("since" . ,since) (cdr params)))
     (get-public "OHLC" :params params :verbose verbose)))
 
 (defun ticker (pair &key verbose)
