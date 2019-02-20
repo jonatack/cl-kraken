@@ -1,0 +1,41 @@
+language: common-lisp
+
+sudo: false
+
+env:
+  global:
+    - ROSWELL_BRANCH=master
+    - PATH=~/.roswell/bin:$PATH
+    - ROSWELL_INSTALL_DIR=$HOME/.roswell
+  matrix:
+    - LISP=sbcl
+    - LISP=ccl
+    - LISP=clisp
+    - LISP=abcl
+    - LISP=ecl
+
+matrix:
+  allow_failures:
+    - env: LISP=ecl
+
+addons:
+  apt:
+    packages:
+      - libc6-i386
+      - openjdk-8-jre
+
+install:
+  - curl -L https://raw.githubusercontent.com/roswell/roswell/$ROSWELL_BRANCH/scripts/install-for-ci.sh | sh
+  - git clone --depth=1 git://github.com/death/monotonic-clock.git ~/common-lisp/monotonic-clock
+  - git clone --depth=1 git://github.com/soemraws/parse-float.git ~/common-lisp/parse-float
+  - ros install fukamachi/rove
+
+cache:
+  directories:
+    - $HOME/.roswell
+    - $HOME/.config/common-lisp
+
+script:
+# - rove cl-kraken.asd ; When it will be working with ECL.
+  - ros -s rove -e '(ql:quickload :cl-kraken)
+                    (or (rove:run :cl-kraken/tests :style :spec) (uiop:quit -1))'
