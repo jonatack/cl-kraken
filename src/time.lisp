@@ -12,7 +12,7 @@
   (:import-from #:monotonic-clock
                 #:monotonic-now)
   (:export #:unix-time-in-microseconds
-           #:nonce-from-unix-time))
+           #:generate-kraken-nonce))
 (in-package #:cl-kraken/src/time)
 
 (defun unix-time-in-microseconds (&aux (current-time (now)))
@@ -20,7 +20,7 @@
   (+ (floor (nsec-of current-time) 1000)
      (* 1000000 (timestamp-to-unix current-time))))
 
-(defun nonce-from-unix-time ()
+(defun generate-kraken-nonce ()
   "Kraken requires the nonce to be an always-increasing unsigned integer
   between 51 and 64 bits in length. For this, we use UNIX-TIME-IN-MICROSECONDS
   above, expressed as a string. This is analogous to the nonce implementations
