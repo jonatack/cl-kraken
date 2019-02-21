@@ -36,6 +36,4 @@ cache:
     - $HOME/.config/common-lisp
 
 script:
-# - rove cl-kraken.asd ; When it will be working with ECL.
-  - ros -s rove -e '(ql:quickload :cl-kraken)
-                    (or (rove:run :cl-kraken/tests :style :spec) (uiop:quit -1))'
+  - rove cl-kraken.asd
