@@ -8,6 +8,7 @@
                 #:now
                 #:nsec-of
                 #:timestamp-to-unix)
+  #+ecl
   (:import-from #:monotonic-clock
                 #:monotonic-now)
   (:export #:unix-time-in-microseconds
