@@ -34,7 +34,6 @@
   a replacement nonce for now, but it generates a 13 digit integer instead of a
   16 digit one and so cannot be used with the same API key and secret as other
   Common Lisp implementations. Otherwise, Kraken raises invalid nonce errors."
-  (write-to-string
-   #+(or sbcl ccl abcl allegro cmu lispworks) (unix-time-in-microseconds)
-   #+clisp (get-internal-real-time)
-   #+ecl (monotonic-now)))
+  (write-to-string #+ecl            (monotonic-now)
+                   #+clisp          (get-internal-real-time)
+                   #-(or clisp ecl) (unix-time-in-microseconds)))
