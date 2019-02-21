@@ -12,17 +12,16 @@
     (testing "is 51 bits in length"
       (ok (= 51 (integer-length time))))))
 
-(deftest nonce-from-unix-time
-  (let ((nonce (cl-kraken/src/time:nonce-from-unix-time)))
+(deftest generate-kraken-nonce
+  (let ((nonce (cl-kraken/src/time:generate-kraken-nonce)))
     (testing "is a string"
       (ok (stringp nonce)))
-    (testing "is 16 characters in length (13 characters in ECL)"
-      (let ((expected-length #+(or sbcl ccl clisp abcl allegro cmu lispworks) 16
-                             #+ecl 13))
-        (ok (= expected-length (length nonce)))))
+    #-ecl
+    (testing "is 16 characters in length"
+      (ok (= 16 (length nonce))))
     (testing "is continually increasing"
       (let ((old-nonce (parse-integer
                         nonce))
             (new-nonce (parse-integer
-                        (cl-kraken/src/time:nonce-from-unix-time))))
+                        (cl-kraken/src/time:generate-kraken-nonce))))
         (ok (> new-nonce old-nonce))))))

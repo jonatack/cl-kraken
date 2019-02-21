@@ -109,11 +109,11 @@
        - `last' is a Unix Time id for the current not-yet-committed frame.
            Useful as value for SINCE when querying for new committed OHLC data."
   (declare (type boolean verbose))
-  #+(or sbcl ccl abcl ecl) (declare (type simple-string pair))
+  #+(or sbcl ccl ecl abcl) (declare (type simple-string pair))
+  #+(or sbcl ccl ecl) (declare (type (or integer null) since)
+                               (type integer interval))
   #+clisp (check-type pair simple-string)
-  #+(or sbcl ccl ecl) (declare (type (or integer null) since))
   #+(or abcl clisp) (check-type since (or integer null))
-  #+(or sbcl ccl ecl) (declare (type integer interval))
   #+(or abcl clisp) (check-type interval integer)
   (let ((params `(("pair" . ,pair) ("interval" . ,interval))))
     (when (integerp since) (push `("since" . ,since) (cdr params)))

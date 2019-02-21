@@ -21,7 +21,7 @@
   (:import-from #:cl-kraken/src/cryptography
                 #:signature)
   (:import-from #:cl-kraken/src/time
-                #:nonce-from-unix-time)
+                #:generate-kraken-nonce)
   (:export #:get-public
            #:post-private))
 (in-package #:cl-kraken/src/http)
@@ -48,7 +48,7 @@
   (check-type secret (and string (not null)))
   (let* ((path    (concatenate 'string +api-private-path+ method))
          (uri     (make-uri :scheme scheme :host host :path path :query params))
-         (nonce   (nonce-from-unix-time))
+         (nonce   (generate-kraken-nonce))
          (headers (post-http-headers path nonce key secret))
          (data    `(("nonce" . ,nonce))))
     (parse (post uri :headers headers :content data :verbose verbose))))
