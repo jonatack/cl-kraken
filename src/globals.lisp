@@ -8,12 +8,12 @@
 
 ;;; User API key and secret
 (defparameter *api-key*
-  #+(or sbcl ccl clisp abcl allegro cmu lispworks)
+  #-ecl
   "api-key-for-other-Common-Lisps"
   #+ecl
   "api-key-for-ECL")
 (defparameter *api-secret*
-  #+(or sbcl ccl clisp abcl allegro cmu lispworks)
+  #-ecl
   "api-secret-for-other-Common-Lisps"
   #+ecl
   "api-secret-for-ECL")
