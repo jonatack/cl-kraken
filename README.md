@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/jonatack/cl-kraken.svg?branch=master)](https://travis-ci.com/jonatack/cl-kraken)
+
 # cl-kraken
 
 An API wrapper for the Kraken cryptocurrency exchange in Common Lisp.
