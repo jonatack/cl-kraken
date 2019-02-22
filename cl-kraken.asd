@@ -22,6 +22,7 @@
                "cl-kraken/tests/http"
                "cl-kraken/tests/asset-pairs"
                "cl-kraken/tests/assets"
+               "cl-kraken/tests/depth"
                "cl-kraken/tests/ohlc"
                "cl-kraken/tests/server-time"
                "cl-kraken/tests/ticker")

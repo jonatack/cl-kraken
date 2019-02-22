@@ -16,6 +16,7 @@
    ;; Public API
    #:asset-pairs
    #:assets
+   #:depth
    #:ohlc
    #:server-time
    #:ticker
@@ -91,6 +92,24 @@
   (check-type pair (or string null))
   (get-public "AssetPairs" :params (when (stringp pair) `(("pair" . ,pair)))
                            :verbose verbose))
+
+(defun depth (pair &key count verbose)
+  "Get order book public price data for an asset pair.
+  URL: https://api.kraken.com/0/public/Depth
+  Input:
+    PAIR  = required single asset pair for which to query order book
+    COUNT = optional integer of maximum asks and bids to receive
+  Kraken returns a hash with keys `error' and `result'.
+    `result' is an array containing a pair name and the keys `asks' and `bids'
+             each followed by an array of `price', `volume', and `timestamp>'."
+  (declare (type boolean verbose))
+  #+(or sbcl ccl ecl abcl) (declare (type simple-string pair))
+  #+(or sbcl ccl ecl) (declare (type (or integer null) count))
+  #+clisp (check-type pair simple-string)
+  #+(or abcl clisp) (check-type count (or integer null))
+  (let ((params `(("pair" . ,pair))))
+    (when (integerp count) (push `("count" . ,count) (cdr params)))
+    (get-public "Depth" :params params :verbose verbose)))
 
 (defun ohlc (pair &key since (interval 1) verbose)
   "Get OHLC (Open, High, Low, Close) public price data for an asset pair.
