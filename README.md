@@ -31,8 +31,7 @@ All API calls accept a VERBOSE boolean keyword parameter (T or default NIL) to o
 ```lisp
 ;;; ASSETS
 ;;; Get data on one or more (or all) assets available on Kraken.
-;;; Assets are passed as an optional case-insensitive, space-insensitive,
-;;; comma-delimited string.
+;;; Assets are passed as an optional case-insensitive, comma-delimited string.
 (assets &key asset verbose)
 ;;;
 (assets)
@@ -42,14 +41,24 @@ All API calls accept a VERBOSE boolean keyword parameter (T or default NIL) to o
 
 ;;; ASSET PAIRS
 ;;; Get data on one or more (or all) asset pairs tradeable on Kraken.
-;;; Pairs are passed as an optional case-insensitive, space-insensitive,
-;;; comma-delimited string.
+;;; Pairs are passed as an optional case-insensitive, comma-delimited string.
 (asset-pairs &key pair verbose)
 ;;;
 (asset-pairs)
 (asset-pairs :pair "XBTUSD")
 (asset-pairs :pair "xbteur,ethusd")
 (asset-pairs :pair "XBTUSD, xbteur, ETHJPY, ethgbp" :verbose t)
+
+;;; DEPTH (Order Book)
+;;; Get order book public price data for an asset pair.
+;;; PAIR is a required case-insensitive string representing a single asset pair
+;;;   for which to query depth.
+;;; COUNT is an optional integer of maximum asks and bids to receive.
+(depth pair &key count verbose)
+;;;
+(depth "xbteur")
+(depth "ADAXBT" :count 1)
+(depth "LtcUsd" :count 10 :verbose t)
 
 ;;; OHLC
 ;;; Get OHLC (Open, High, Low, Close) price data for an asset pair.
@@ -67,8 +76,7 @@ All API calls accept a VERBOSE boolean keyword parameter (T or default NIL) to o
 
 ;;; TICKER
 ;;; Get ticker data for one or more asset pairs.
-;;; Pairs are passed as a required case-insensitive, space-insensitive,
-;;; comma-delimited string.
+;;; Pairs are passed as a required case-insensitive, comma-delimited string.
 (ticker pair &key verbose)
 ;;;
 (ticker "XBTUSD")
