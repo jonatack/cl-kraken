@@ -50,7 +50,7 @@ All API calls accept a VERBOSE boolean keyword parameter (T or default NIL) to o
 (asset-pairs :pair "XBTUSD, xbteur, ETHJPY, ethgbp" :verbose t)
 
 ;;; DEPTH (Order Book)
-;;; Get order book public price data for an asset pair.
+;;; Get order book price data for an asset pair.
 ;;; PAIR is a required case-insensitive string representing a single asset pair
 ;;;   for which to query depth.
 ;;; COUNT is an optional integer of maximum asks and bids to receive.
@@ -73,6 +73,17 @@ All API calls accept a VERBOSE boolean keyword parameter (T or default NIL) to o
 (ohlc "xbteur")
 (ohlc "ZECEUR" :since 1548265854)
 (ohlc "EthUsd" :interval 15 :since 1548265854 :verbose t)
+
+;;; SPREAD
+;;; Get spread price data for an asset pair.
+;;; PAIR is a required, case-insensitive string representing a single asset pair.
+;;; SINCE is an optional integer Unix Time id from when to return spread data,
+;;;   corresponding to previous spread `last' values.
+(spread pair &key since verbose)
+;;;
+(spread "XBTEUR")
+(spread "zecjpy" :since 1551009182)
+(spread "EthUsd" :since 1551009182 :verbose t)
 
 ;;; TICKER
 ;;; Get ticker data for one or more asset pairs.

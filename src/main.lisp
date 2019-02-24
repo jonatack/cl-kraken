@@ -19,6 +19,7 @@
    #:depth
    #:ohlc
    #:server-time
+   #:spread
    #:ticker
    ;; Private API
    #:balance
@@ -123,8 +124,8 @@
                OHLC data, corresponding to previous OHLC `last' values.
   Kraken returns a hash with keys `error' and `result'.
     `result' is an array containing a pair name and a `last' Unix Time id.
-       - The pair name is consed with a data list containing, in order:
-           `time', `open', `high', `low', `close', `VWAP', `volume', `count'.
+       - The pair name contains an array of arrays, each containing values for
+           `time', `open', `high', `low', `close', `VWAP', `volume' and `count'.
        - `last' is a Unix Time id for the current not-yet-committed frame.
            Useful as value for SINCE when querying for new committed OHLC data."
   (declare (type boolean verbose))
@@ -137,6 +138,28 @@
   (let ((params `(("pair" . ,pair) ("interval" . ,interval))))
     (when (integerp since) (push `("since" . ,since) (cdr params)))
     (get-public "OHLC" :params params :verbose verbose)))
+
+(defun spread (pair &key since verbose)
+  "Get recent spread data for an asset pair.
+  URL: https://api.kraken.com/0/public/Spread
+  Input:
+    PAIR  = required single asset pair for which to query spread data
+    SINCE = optional integer Unix Time id from when to return spread data,
+            corresponding to previous spread `last' values.
+            Note: SINCE is inclusive, so any returned data with the same time as
+            a previous set should overwrite all of the previous set's entries.
+  Kraken returns a hash with keys `error' and `result'.
+    `result' is an array containing a pair name and a `last' Unix Time id.
+       - The pair name contains an array of arrays for `time', `bid', and `ask'.
+       - `last' is a Unix Time id to use for SINCE when querying new spread."
+  (declare (type boolean verbose))
+  #+(or sbcl ccl ecl abcl) (declare (type simple-string pair))
+  #+(or sbcl ccl ecl) (declare (type (or integer null) since))
+  #+clisp (check-type pair simple-string)
+  #+(or abcl clisp) (check-type since (or integer null))
+  (let ((params `(("pair" . ,pair))))
+    (when (integerp since) (push `("since" . ,since) (cdr params)))
+    (get-public "Spread" :params params :verbose verbose)))
 
 (defun ticker (pair &key verbose)
   "Get ticker data for asset pairs.
