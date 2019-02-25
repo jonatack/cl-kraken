@@ -94,6 +94,18 @@ All API calls accept a VERBOSE boolean keyword parameter (T or default NIL) to o
 (ticker "xbtusd,etcxbt,XBTEUR")
 (ticker "xbtusd, etcxbt, XBTEUR, XBTGBP" :verbose t)
 
+;;; TRADES
+;;; Get recent trades for an asset pair.
+;;; PAIR is a required, case-insensitive string representing a single asset pair.
+;;; SINCE is an optional integer timestamp id from when to return trades data,
+;;;   corresponding to previous trades `last' values.
+(trades pair &key since verbose)
+;;;
+(trades "XBTEUR")
+(trades "zecjpy" :since 1551123951304758112)
+
+(trades "EthUsd" :since 1551123951304758112 :verbose t)
+
 ;;; SERVER TIME
 ;;; Get Kraken server time. Useful to approximate skew time between server and client.
 (server-time &key verbose)
