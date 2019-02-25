@@ -48,8 +48,8 @@
     (testing "when no SINCE is passed, it is absent from the query params"
       (let* ((headers (with-output-to-string (*standard-output*)
                         (cl-kraken:spread "xbteur" :verbose t)))
-             (query   (subseq headers 65 83)))
-        (ok (string= query "Spread?pair=xbteur"))))
+             (query   (subseq headers 65 84)))
+        (ok (string= query "Spread?pair=xbteur "))))
     (testing "when passed a valid SINCE, it is present in the query params"
       (let* ((since   (write-to-string unix-now))
              (headers (with-output-to-string (*standard-output*)
