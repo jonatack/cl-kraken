@@ -12,6 +12,9 @@
   (:shadowing-import-from #:cl-kraken/src/http
                           #:get-public
                           #:post-private)
+  (:import-from #:cl-kraken/src/time
+                #:unix-time-in-microseconds
+                #:generate-kraken-nonce)
   (:export
    ;; Public API
    #:asset-pairs
@@ -24,7 +27,10 @@
    #:trades
    ;; Private API
    #:balance
-   #:trade-balance))
+   #:trade-balance
+   ;; Utilities
+   #:unix-time-in-microseconds
+   #:generate-kraken-nonce))
 (in-package #:cl-kraken)
 (declaim (optimize (speed 0) (safety 3) (debug 3)))
 
