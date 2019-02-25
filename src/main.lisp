@@ -21,6 +21,7 @@
    #:server-time
    #:spread
    #:ticker
+   #:trades
    ;; Private API
    #:balance
    #:trade-balance))
@@ -180,6 +181,27 @@
   (declare (type boolean verbose))
   (check-type pair (and string (not null)))
   (get-public "Ticker" :params `(("pair" . ,pair)) :verbose verbose))
+
+(defun trades (pair &key since verbose)
+  "Get recent trades public price data for an asset pair.
+  URL: https://api.kraken.com/0/public/Trades
+  Input:
+    PAIR  = required single asset pair for which to query trades data
+    SINCE = optional integer timestamp id from when to return new trades data,
+            corresponding to previous trades `last' values.
+  Kraken returns a hash with keys `error' and `result'.
+    `result' is an array containing a pair name and a `last' Unix Time id.
+       - The pair name is followed by an array of maximum 1000 trades containing
+         `price', `volume', `time', `buy/sell', `market/limit', `miscellaneous'.
+       - `last' is a timestamp id to use for SINCE when querying new trades."
+  (declare (type boolean verbose))
+  #+(or sbcl ccl ecl abcl) (declare (type simple-string pair))
+  #+(or sbcl ccl ecl) (declare (type (or integer null) since))
+  #+clisp (check-type pair simple-string)
+  #+(or abcl clisp) (check-type since (or integer null))
+  (let ((params `(("pair" . ,pair))))
+    (when (integerp since) (push `("since" . ,since) (cdr params)))
+    (get-public "Trades" :params params :verbose verbose)))
 
 ;;; Kraken Private API requiring authentication
 
