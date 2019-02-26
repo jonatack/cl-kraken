@@ -28,6 +28,8 @@
       (ok (= (length last) 19))
       (ok (listp pair))
       (ok (= (length pair) 1000))
+      (ok (listp trade))
+      (ok (= (length trade) 6))
       (destructuring-bind (price volume time buy/sell market/limit misc) trade
         (ok (typep price '(simple-array character (10))))
         (ok (typep (parse-float price) 'single-float))
