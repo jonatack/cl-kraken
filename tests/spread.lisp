@@ -17,14 +17,17 @@
       (let* ((response (cl-kraken:spread "xbteur" :since unix-now))
              (error!   (filter response "error"))
              (result   (filter response "result"))
-             (pair     (filter result "XXBTZEUR")))
+             (pair     (filter result "XXBTZEUR"))
+             (last     (filter result "last")))
         (ok (= (length response) 3))
         (ok (eq (first response) :OBJ))
         (ok (equal (second response) '("error")))
         (ok (null error!))
         (ok (consp result))
         (ok (= (length result) 3))
-        (ok (listp pair))))
+        (ok (listp pair))
+        (ok (integerp last))
+        (ok (= (integer-length last) 31))))
     ;; Test invalid PAIR values.
     (testing "when passed a multiple PAIR, evaluates to unknown asset pair error"
       (ok (equal (cl-kraken:spread "xbteur,xbtusd")
@@ -45,8 +48,8 @@
     (testing "when no SINCE is passed, it is absent from the query params"
       (let* ((headers (with-output-to-string (*standard-output*)
                         (cl-kraken:spread "xbteur" :verbose t)))
-             (query   (subseq headers 65 83)))
-        (ok (string= query "Spread?pair=xbteur"))))
+             (query   (subseq headers 65 84)))
+        (ok (string= query "Spread?pair=xbteur "))))
     (testing "when passed a valid SINCE, it is present in the query params"
       (let* ((since   (write-to-string unix-now))
              (headers (with-output-to-string (*standard-output*)
