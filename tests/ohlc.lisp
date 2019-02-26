@@ -55,26 +55,26 @@
     (testing "when passed no INTERVAL or SINCE, queries default interval of 1"
       (let* ((headers (with-output-to-string (*standard-output*)
                         (cl-kraken:ohlc "xbteur" :verbose t)))
-             (query   (subseq headers 65 92)))
-        (ok (string= query "OHLC?pair=xbteur&interval=1"))))
+             (query   (subseq headers 65 93)))
+        (ok (string= query "OHLC?pair=xbteur&interval=1 "))))
     (testing "when passed a valid INTERVAL, queries specified interval"
       (let* ((headers (with-output-to-string (*standard-output*)
                         (cl-kraken:ohlc "xbteur" :interval 21600 :verbose t)))
-             (query   (subseq headers 65 96)))
-        (ok (string= query "OHLC?pair=xbteur&interval=21600"))))
+             (query   (subseq headers 65 97)))
+        (ok (string= query "OHLC?pair=xbteur&interval=21600 "))))
     (testing "when passed a valid SINCE, queries since + default interval of 1"
       (let* ((headers (with-output-to-string (*standard-output*)
                         (cl-kraken:ohlc "xbteur" :since unix-now :verbose t)))
-             (query   (subseq headers 65 109)))
+             (query   (subseq headers 65 110)))
         (ok (string= query (concatenate 'string "OHLC?pair=xbteur&since=" since
-                                        "&interval=1")))))
+                                        "&interval=1 ")))))
     (testing "when passed a valid SINCE+INTERVAL, queries both specified values"
       (let* ((headers (with-output-to-string (*standard-output*)
                         (cl-kraken:ohlc "xbteur" :since unix-now :interval 21600
                                                  :verbose t)))
-             (query   (subseq headers 65 113)))
+             (query   (subseq headers 65 114)))
         (ok (string= query (concatenate 'string "OHLC?pair=xbteur&since=" since
-                                        "&interval=21600"))))))
+                                        "&interval=21600 "))))))
   ;; Test invalid PAIR values.
   (testing "when passed a multiple PAIR, evaluates to unknown asset pair error"
     (ok (equal (cl-kraken:ohlc "xbteur,xbtusd")
