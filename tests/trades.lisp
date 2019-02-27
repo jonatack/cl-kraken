@@ -33,7 +33,7 @@
       (destructuring-bind (price volume time buy/sell market/limit misc) trade
         (ok (typep price '(simple-array character (10))))
         (ok (typep (parse-float price) 'single-float))
-        (ok (typep volume '(simple-array character (10))))
+        (ok (typep volume 'simple-string))
         (ok (typep (parse-float volume) 'single-float))
         (ok (typep time 'ratio))
         (ok (or (string= buy/sell "b") (string= buy/sell "s")))
