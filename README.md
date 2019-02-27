@@ -29,16 +29,6 @@ All API calls accept a VERBOSE boolean keyword parameter (T or default NIL) to o
 ### Public market data API calls
 
 ```lisp
-;;; ASSETS
-;;; Get data on one or more (or all) assets available on Kraken.
-;;; Assets are passed as an optional case-insensitive, comma-delimited string.
-(assets &key asset verbose)
-;;;
-(assets)
-(assets :asset "xbt")
-(assets :asset "xbt,usd,eur,dash,xmr")
-(assets :asset "xbt, USD, eur, JPY, eth, ZEC, ltc" :verbose t)
-
 ;;; ASSET PAIRS
 ;;; Get data on one or more (or all) asset pairs tradeable on Kraken.
 ;;; Pairs are passed as an optional case-insensitive, comma-delimited string.
@@ -48,6 +38,16 @@ All API calls accept a VERBOSE boolean keyword parameter (T or default NIL) to o
 (asset-pairs :pair "XBTUSD")
 (asset-pairs :pair "xbteur,ethusd")
 (asset-pairs :pair "XBTUSD, xbteur, ETHJPY, ethgbp" :verbose t)
+
+;;; ASSETS
+;;; Get data on one or more (or all) assets available on Kraken.
+;;; Assets are passed as an optional case-insensitive, comma-delimited string.
+(assets &key asset verbose)
+;;;
+(assets)
+(assets :asset "xbt")
+(assets :asset "xbt,usd,eur,dash,xmr")
+(assets :asset "xbt, USD, eur, JPY, eth, ZEC, ltc" :verbose t)
 
 ;;; DEPTH (Order Book)
 ;;; Get order book price data for an asset pair.
@@ -73,6 +73,13 @@ All API calls accept a VERBOSE boolean keyword parameter (T or default NIL) to o
 (ohlc "xbteur")
 (ohlc "ZECEUR" :since 1548265854)
 (ohlc "EthUsd" :interval 15 :since 1548265854 :verbose t)
+
+;;; SERVER TIME
+;;; Get Kraken server time. Useful to approximate skew time between server and client.
+(server-time &key verbose)
+;;;
+(server-time)
+(server-time :verbose t)
 
 ;;; SPREAD
 ;;; Get spread price data for an asset pair.
@@ -104,13 +111,6 @@ All API calls accept a VERBOSE boolean keyword parameter (T or default NIL) to o
 (trades "xbtusd")
 (trades "ETHGBP" :since 1551123951304758112)
 (trades "ltcUSD" :since 1551123951304758112 :verbose t)
-
-;;; SERVER TIME
-;;; Get Kraken server time. Useful to approximate skew time between server and client.
-(server-time &key verbose)
-;;;
-(server-time)
-(server-time :verbose t)
 ```
 
 

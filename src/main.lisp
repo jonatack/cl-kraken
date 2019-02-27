@@ -35,33 +35,6 @@
 
 ;;; Kraken Public API
 
-(defun server-time (&key verbose)
-  "Get server time. Useful to approximate skew time between server and client.
-  URL: https://api.kraken.com/0/public/Time
-  Kraken returns a hash with keys `error' and `result'.
-    `result' is an array of hashes with keys:
-      `unixtime' = unix timestamp
-      `rfc1123'  = RFC 1123 time format"
-  (declare (type boolean verbose))
-  (get-public "Time" :verbose verbose))
-
-(defun assets (&key asset verbose)
-  "Get asset info.
-  URL: https://api.kraken.com/0/public/Assets
-  Input:
-    `asset' = optional, comma-delimited, case-insensitive asset list string; if
-              not provided, defaults to all assets.
-  Kraken returns a hash with keys `error' and `result'.
-    `result' is a hash of asset name keys, each with a values hash containing:
-      `altname'          = alternate name, like EUR, USD, XBT
-      `aclass'           = asset class, currently always set to 'currency'
-      `decimals'         = decimal places for record keeping
-      `display_decimals' = decimal places for display (usually fewer)"
-  (declare (type boolean verbose))
-  (check-type asset (or string null))
-  (get-public "Assets" :params (when (stringp asset) `(("asset" . ,asset)))
-                       :verbose verbose))
-
 (defun asset-pairs (&key pair verbose)
   "Get tradeable asset pairs.
   URL: https://api.kraken.com/0/public/AssetPairs
@@ -94,6 +67,23 @@
   (check-type pair (or string null))
   (get-public "AssetPairs" :params (when (stringp pair) `(("pair" . ,pair)))
                            :verbose verbose))
+
+(defun assets (&key asset verbose)
+  "Get asset info.
+  URL: https://api.kraken.com/0/public/Assets
+  Input:
+    `asset' = optional, comma-delimited, case-insensitive asset list string; if
+              not provided, defaults to all assets.
+  Kraken returns a hash with keys `error' and `result'.
+    `result' is a hash of asset name keys, each with a values hash containing:
+      `altname'          = alternate name, like EUR, USD, XBT
+      `aclass'           = asset class, currently always set to 'currency'
+      `decimals'         = decimal places for record keeping
+      `display_decimals' = decimal places for display (usually fewer)"
+  (declare (type boolean verbose))
+  (check-type asset (or string null))
+  (get-public "Assets" :params (when (stringp asset) `(("asset" . ,asset)))
+                       :verbose verbose))
 
 (defun depth (pair &key count verbose)
   "Get order book public price data for an asset pair.
@@ -139,6 +129,16 @@
   (let ((params `(("pair" . ,pair) ("interval" . ,interval))))
     (when (integerp since) (push `("since" . ,since) (cdr params)))
     (get-public "OHLC" :params params :verbose verbose)))
+
+(defun server-time (&key verbose)
+  "Get server time. Useful to approximate skew time between server and client.
+  URL: https://api.kraken.com/0/public/Time
+  Kraken returns a hash with keys `error' and `result'.
+    `result' is an array of hashes with keys:
+      `unixtime' = unix timestamp
+      `rfc1123'  = RFC 1123 time format"
+  (declare (type boolean verbose))
+  (get-public "Time" :verbose verbose))
 
 (defun spread (pair &key since verbose)
   "Get recent spread data for an asset pair.
