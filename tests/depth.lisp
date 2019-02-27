@@ -64,7 +64,7 @@
            (query   (subseq headers 65 83)))
       (ok (string= query "Depth?pair=xbteur "))))
   (testing "when passed a valid COUNT, count is present in the query params"
-    (let* ((count    3)
+    (let* ((count    (+ 1 (random 9)))
            (headers  (with-output-to-string (*standard-output*)
                        (cl-kraken:depth "xbteur" :count count :verbose t)))
            (query    (subseq headers 65 91))
@@ -72,7 +72,7 @@
                                   (write-to-string count) " ")))
       (ok (string= query expected))))
   (testing "when passed a valid COUNT, evaluates to that number of asks/bids"
-    (let* ((count    5)
+    (let* ((count    (+ 1 (random 9)))
            (response (cl-kraken:depth "xbteur" :count count))
            (pair     (filter response "result" "XXBTZEUR"))
            (asks     (filter pair "asks"))
