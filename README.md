@@ -114,7 +114,7 @@ All API calls accept a VERBOSE boolean keyword parameter (T or default NIL) to o
 ```
 
 
-### Tests
+## Tests
 
 To run the test suite, the ROVE test library needs to be loaded.
 
@@ -129,6 +129,12 @@ Then run the tests using one of the following:
 (rove:run :cl-kraken/tests :style :spec) ; Detailed test output.
 (rove:run :cl-kraken/tests :style :dot)  ; One dot per test output (in Rove master).
 (rove:run :cl-kraken/tests :style :none) ; Minimal test output.
+```
+
+To run the tests of one test file only, append the file name without the extension:
+
+```lisp
+(rove:run :cl-kraken/tests/cryptography) ; Run tests in tests/cryptography.lisp only.
 ```
 
 ## Portability
