@@ -21,17 +21,17 @@
     message = (PATH + SHA256(NONCE + POST data)) in octets
     key     = base64-decoded API secret key in octets
   Before returning, the signature is converted from octets to a base64 string."
-  (check-type path   (and string (not null)) "a non-NIL string")
-  (check-type nonce  (and string (not null)) "a non-NIL string")
-  (check-type secret (and string (not null)) "a non-NIL string")
+  (check-type path   (and simple-string (not null)))
+  (check-type nonce  (and simple-string (not null)))
+  (check-type secret (and simple-string (not null)))
   (let ((message (message path nonce))
         (key     (base64-string-to-usb8-array secret)))
     (usb8-array-to-base64-string (hmac-sha512 message key))))
 
 (defun message (path nonce)
   "Message composed of (PATH + SHA256(NONCE + POST data)) in octets."
-  (check-type path  (and string (not null)) "a non-NIL string")
-  (check-type nonce (and string (not null)) "a non-NIL string")
+  (check-type path  (and simple-string (not null)))
+  (check-type nonce (and simple-string (not null)))
   (let ((post-params-data (concatenate 'string nonce "nonce=" nonce)))
     (concatenate '(simple-array (unsigned-byte 8) (*))
                  (map '(simple-array (unsigned-byte 8) (*)) 'char-code path)
