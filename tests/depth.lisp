@@ -9,13 +9,14 @@
 (in-package #:cl-kraken/tests/depth)
 
 (deftest depth
-  (testing "when passed \"xbteur\", evaluates to XBTEUR depth order book data"
-    (let* ((response    (cl-kraken:depth "xbteur" :count 1))
-           (error!      (filter response "error"))
-           (result      (filter response "result"))
-           (pair        (filter result "XXBTZEUR"))
-           (asks        (car (filter pair "asks")))
-           (bids        (car (filter pair "bids"))))
+  (testing "when passed \"xbteur\", evaluates to XBTEUR depth order book"
+    (let* ((count    1)
+           (response (cl-kraken:depth "xbteur" :count count))
+           (error!   (filter response "error"))
+           (result   (filter response "result"))
+           (pair     (filter result "XXBTZEUR"))
+           (asks     (filter pair "asks"))
+           (bids     (filter pair "bids")))
       (ok (= (length response) 3))
       (ok (eq (first response) :OBJ))
       (ok (equal (second response) '("error")))
@@ -24,13 +25,17 @@
       (ok (= (length result) 2))
       (ok (consp pair))
       (ok (= (length pair) 3))
-      (destructuring-bind (ask-price ask-volume ask-timestamp) asks
+      (ok (consp asks))
+      (ok (= (length asks) count))
+      (ok (consp bids))
+      (ok (= (length bids) count))
+      (destructuring-bind (ask-price ask-volume ask-timestamp) (car asks)
         (ok (simple-string-p ask-price))
         (ok (simple-string-p ask-volume))
         (ok (typep (parse-float ask-price) 'single-float))
         (ok (typep (parse-float ask-volume) 'single-float))
         (ok (integerp ask-timestamp)))
-      (destructuring-bind (bid-price bid-volume bid-timestamp) bids
+      (destructuring-bind (bid-price bid-volume bid-timestamp) (car bids)
         (ok (simple-string-p bid-price))
         (ok (simple-string-p bid-volume))
         (ok (typep (parse-float bid-price) 'single-float))
