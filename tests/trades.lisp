@@ -12,12 +12,12 @@
 
 (deftest trades
   (testing "when passed \"xbtUSD\", evaluates to data on 1000 XBTUSD trades"
-    (let* ((response         (cl-kraken:trades "xbtUSD"))
-           (error!           (filter response "error"))
-           (result           (filter response "result"))
-           (last             (filter result "last"))
-           (pair             (filter result "XXBTZUSD"))
-           (trade            (first pair)))
+    (let* ((response (cl-kraken:trades "xbtUSD"))
+           (error!   (filter response "error"))
+           (result   (filter response "result"))
+           (last     (filter result "last"))
+           (pair     (filter result "XXBTZUSD"))
+           (trade    (first pair)))
       (ok (= (length response) 3))
       (ok (eq (first response) :OBJ))
       (ok (equal (second response) '("error")))
