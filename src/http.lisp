@@ -2,7 +2,7 @@
 
 (in-package #:cl-user)
 (defpackage #:cl-kraken/src/http
-  (:documentation "HTTP GET and POST functions for the Kraken API requests.")
+  (:documentation "HTTP request functions.")
   (:use #:cl)
   (:shadowing-import-from #:dexador
                           #:get
@@ -22,26 +22,30 @@
                 #:signature)
   (:import-from #:cl-kraken/src/time
                 #:generate-kraken-nonce)
-  (:export #:get-public
-           #:post-private))
+  (:export #:request))
 (in-package #:cl-kraken/src/http)
+
+(defun request (method &key post params verbose)
+  "General HTTP GET/POST request and JSON parsing function."
+  (check-type method (and string (not null)))
+  (check-type post   boolean)
+  (check-type params list)
+  (check-type verbose boolean)
+  (let ((function-name (if post 'post-private 'get-public)))
+    (parse (funcall function-name method :params params :verbose verbose))))
 
 (defun get-public (method &key params (scheme +api-scheme+) (host +api-host+)
                                verbose)
   "HTTP GET request for public API queries."
-  (check-type method (and string (not null)))
-  (check-type params list)
   (check-type scheme (and string (not null)))
   (check-type host   (and string (not null)))
   (let* ((path (concatenate 'string +api-public-path+ method))
          (uri  (make-uri :scheme scheme :host host :path path :query params)))
-    (parse (get uri :verbose verbose))))
+    (get uri :verbose verbose)))
 
 (defun post-private (method &key params (scheme +api-scheme+) (host +api-host+)
                                  verbose (key *api-key*) (secret *api-secret*))
   "HTTP POST request for private authenticated API queries."
-  (check-type method (and string (not null)))
-  (check-type params list)
   (check-type scheme (and string (not null)))
   (check-type host   (and string (not null)))
   (check-type key    (and string (not null)))
@@ -51,7 +55,7 @@
          (nonce   (generate-kraken-nonce))
          (headers (post-http-headers path nonce key secret))
          (data    `(("nonce" . ,nonce))))
-    (parse (post uri :headers headers :content data :verbose verbose))))
+    (post uri :headers headers :content data :verbose verbose)))
 
 (defun post-http-headers (path nonce key secret)
   "Kraken POST HTTP headers must contain the API key and signature."
