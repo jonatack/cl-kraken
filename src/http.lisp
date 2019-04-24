@@ -26,6 +26,17 @@
            #:post-private))
 (in-package #:cl-kraken/src/http)
 
+#|
+Right now it is possible to DOS a service which uses dexador to access external
+resources, if these resources are extremely slow or just accept TCP connection
+but don't respond. For now I've added this workaround into my application code:
+
+(ql:quickload 'trivial-timeout)
+
+(with-timeout (read-timeout)
+      (dex:get url :timeout connect-timeout))
+|#
+
 (defun get-public (method &key params (scheme +api-scheme+) (host +api-host+)
                                verbose)
   "HTTP GET request for public API queries."
