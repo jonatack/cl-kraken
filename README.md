@@ -143,7 +143,7 @@ Developed for SBCL 1.4.16 and tested successfully with:
 
 - ABCL 1.5.0 and 1.6.0-dev
 - CLISP 2.49.92
-- ClozureCL 1.11.5
+- ClozureCL 1.11.5 and 1.12-dev.5
 - ECL 16.1.3
 
 
