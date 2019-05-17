@@ -139,7 +139,7 @@ To run the tests of one test file only, append the file name without the extensi
 
 ## Portability
 
-Developed for SBCL 1.4.16 and tested successfully with:
+Developed for SBCL 1.5.2 and tested successfully with:
 
 - ABCL 1.5.0 and 1.6.0-dev
 - CLISP 2.49.92
