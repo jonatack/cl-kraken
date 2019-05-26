@@ -19,11 +19,17 @@
   in the various other Kraken API libraries in C, C++, Go, Python, and Ruby."
   (write-to-string (unix-time-in-microseconds)))
 
-#-(or clisp ecl)
+#-(or sbcl clisp ecl)
 (defun unix-time-in-microseconds (&aux (current-time (now)))
   "Unix Time in usec using the LOCAL-TIME library."
   (+ (floor (nsec-of current-time) 1000)
      (* 1000000 (timestamp-to-unix current-time))))
+
+#+sbcl
+(defun unix-time-in-microseconds ()
+  "Unix Time in usec using SBCL's SB-EXT:GET-TIME-OF-DAY."
+  (multiple-value-bind (sec usec) (sb-ext:get-time-of-day)
+    (+ (* 1000000 sec) usec)))
 
 #+clisp
 (defun unix-time-in-microseconds ()
