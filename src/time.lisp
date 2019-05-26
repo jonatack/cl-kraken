@@ -4,6 +4,7 @@
 (defpackage #:cl-kraken/src/time
   (:documentation "CL-Kraken time utilities.")
   (:use #:cl)
+  #-(or sbcl (and ccl (not windows)) clisp ecl)
   (:import-from #:local-time
                 #:now
                 #:nsec-of
