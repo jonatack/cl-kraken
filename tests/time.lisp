@@ -16,7 +16,6 @@
   (let ((nonce (cl-kraken/src/time:generate-kraken-nonce)))
     (testing "is a string"
       (ok (stringp nonce)))
-    #-ecl
     (testing "is 16 characters in length"
       (ok (= 16 (length nonce))))
     (testing "is continually increasing"

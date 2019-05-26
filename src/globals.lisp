@@ -7,16 +7,8 @@
 (in-package #:cl-kraken/src/globals)
 
 ;;; User API key and secret
-(defparameter *api-key*
-  #-ecl
-  "api-key-for-other-Common-Lisps"
-  #+ecl
-  "api-key-for-ECL")
-(defparameter *api-secret*
-  #-ecl
-  "api-secret-for-other-Common-Lisps"
-  #+ecl
-  "api-secret-for-ECL")
+(defparameter *api-key* "api-key")
+(defparameter *api-secret* "api-secret")
 
 ;;; Global Parameters
 

@@ -8,13 +8,11 @@
                 #:now
                 #:nsec-of
                 #:timestamp-to-unix)
-  #+ecl
-  (:import-from #:monotonic-clock
-                #:monotonic-now)
   (:export #:unix-time-in-microseconds
            #:generate-kraken-nonce))
 (in-package #:cl-kraken/src/time)
 
+#-ecl
 (defun unix-time-in-microseconds (&aux (current-time (now)))
   "Unix Epoch Time in microseconds."
   (+ (floor (nsec-of current-time) 1000)
@@ -30,10 +28,26 @@
   so for lack of a better alternative from my limited knowledge, it appears we
   can work around it for now with CLISP::GET-INTERNAL-REAL-TIME.
 
-  ECL has the same issue. Using MONOTONIC-CLOCK:MONOTONIC-NOW appears to work as
-  a replacement nonce for now, but it generates a 13 digit integer instead of a
-  16 digit one and so cannot be used with the same API key and secret as other
-  Common Lisp implementations. Otherwise, Kraken raises invalid nonce errors."
-  (write-to-string #+ecl            (monotonic-now)
-                   #+clisp          (get-internal-real-time)
-                   #-(or clisp ecl) (unix-time-in-microseconds)))
+  ECL has the same issue, so we use the custom UNIX-TIME-IN-MICROSECONDS below."
+  (write-to-string #+clisp (get-internal-real-time)
+                   #-clisp (unix-time-in-microseconds)))
+
+#+ecl
+(progn
+  (cffi:defctype time_t :long)
+  (cffi:defctype seconds_t :int)
+
+  (cffi:defcstruct timeval
+    (tv_sec time_t)
+    (tv_usec seconds_t))
+
+  (cffi:defcfun gettimeofday :int
+    (timeval :pointer)
+    (pointer :pointer))
+
+  (defun unix-time-in-microseconds ()
+    "Unix Time in usec using CFFI to call `gettimeofday' in C."
+    (cffi:with-foreign-object (tv '(:struct timeval))
+      (gettimeofday tv (cffi::null-pointer))
+      (+ (* 1000000 (cffi:mem-ref tv 'time_t))
+         (cffi:mem-ref tv 'seconds_t (cffi:foreign-type-size 'time_t))))))
