@@ -12,25 +12,24 @@
            #:generate-kraken-nonce))
 (in-package #:cl-kraken/src/time)
 
-#-ecl
-(defun unix-time-in-microseconds (&aux (current-time (now)))
-  "Unix Epoch Time in microseconds."
-  (+ (floor (nsec-of current-time) 1000)
-     (* 1000000 (timestamp-to-unix current-time))))
-
 (defun generate-kraken-nonce ()
   "Kraken requires the nonce to be an always-increasing unsigned integer
   between 51 and 64 bits in length. For this, we use UNIX-TIME-IN-MICROSECONDS
-  above, expressed as a string. This is analogous to the nonce implementations
-  in the various other Kraken API libraries in C, C++, Go, Python, and Ruby.
+  below, expressed as a string. This is analogous to the nonce implementations
+  in the various other Kraken API libraries in C, C++, Go, Python, and Ruby."
+  (write-to-string (unix-time-in-microseconds)))
 
-  In CLISP, LOCAL-TIME:NOW returns precision in seconds instead of microseconds,
-  so for lack of a better alternative from my limited knowledge, it appears we
-  can work around it for now with CLISP::GET-INTERNAL-REAL-TIME.
+#-(or clisp ecl)
+(defun unix-time-in-microseconds (&aux (current-time (now)))
+  "Unix Time in usec using the LOCAL-TIME library."
+  (+ (floor (nsec-of current-time) 1000)
+     (* 1000000 (timestamp-to-unix current-time))))
 
-  ECL has the same issue, so we use the custom UNIX-TIME-IN-MICROSECONDS below."
-  (write-to-string #+clisp (get-internal-real-time)
-                   #-clisp (unix-time-in-microseconds)))
+#+clisp
+(defun unix-time-in-microseconds ()
+  "Unix Time in usec using CLISP's GET-INTERNAL-REAL-TIME. This is necessary
+  because in CLISP, LOCAL-TIME:NOW returns precision in sec instead of usec."
+  (get-internal-real-time))
 
 #+ecl
 (progn
