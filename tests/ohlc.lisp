@@ -48,8 +48,8 @@
         (ok (simple-string-p volume))
         (ok (integerp count))
         (ok (integerp last))
-        (ok (typep high-price 'single-float))
-        (ok (typep low-price  'single-float))
+        (ok (floatp high-price))
+        (ok (floatp low-price))
         (ok (>= high-price low-price))))
     ;; Test correct handling of keyword parameters to query params.
     (testing "when passed no INTERVAL or SINCE, queries default interval of 1"

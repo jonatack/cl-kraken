@@ -32,14 +32,14 @@
       (destructuring-bind (ask-price ask-volume ask-timestamp) (car asks)
         (ok (simple-string-p ask-price))
         (ok (simple-string-p ask-volume))
-        (ok (typep (parse-float ask-price) 'single-float))
-        (ok (typep (parse-float ask-volume) 'single-float))
+        (ok (floatp (parse-float ask-price)))
+        (ok (floatp (parse-float ask-volume)))
         (ok (integerp ask-timestamp)))
       (destructuring-bind (bid-price bid-volume bid-timestamp) (car bids)
         (ok (simple-string-p bid-price))
         (ok (simple-string-p bid-volume))
-        (ok (typep (parse-float bid-price) 'single-float))
-        (ok (typep (parse-float bid-volume) 'single-float))
+        (ok (floatp (parse-float bid-price)))
+        (ok (floatp (parse-float bid-volume)))
         (ok (integerp bid-timestamp)))))
   ;; Test invalid PAIR values.
   (testing "when passed a multiple PAIR, evaluates to unknown asset pair error"
