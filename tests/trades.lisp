@@ -31,7 +31,7 @@
       (ok (listp trade))
       (ok (= (length trade) 6))
       (destructuring-bind (price volume time buy/sell market/limit misc) trade
-        (ok (typep price '(simple-array character (10))))
+        (ok (simple-string-p price))
         (ok (typep (parse-float price) 'single-float))
         (ok (typep volume 'simple-string))
         (ok (typep (parse-float volume) 'single-float))
