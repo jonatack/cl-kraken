@@ -25,7 +25,8 @@ Allowed failures on Travis are due to CI build issues and not portability ones.
 ## Dependencies
 
 CL-KRAKEN imports a small number of functions from the following Common Lisp
-libraries: DEXADOR, JSOWN, QURI, LOCAL-TIME, IRONCLAD, and CL-BASE64.
+libraries: DEXADOR, JSOWN, QURI, LOCAL-TIME, IRONCLAD, CL-BASE64, and for ECL,
+CFFI.
 
 
 ## Getting started

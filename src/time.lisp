@@ -9,6 +9,15 @@
                 #:now
                 #:nsec-of
                 #:timestamp-to-unix)
+  #+ecl
+  (:import-from #:cffi
+                #:defcfun
+                #:defcstruct
+                #:defctype
+                #:foreign-type-size
+                #:mem-ref
+                #:null-pointer
+                #:with-foreign-object)
   (:export #:unix-time-in-microseconds
            #:generate-kraken-nonce))
 (in-package #:cl-kraken/src/time)
@@ -50,20 +59,20 @@
 
 #+ecl
 (progn
-  (cffi:defctype time_t :long)
-  (cffi:defctype seconds_t :int)
+  (defctype time_t :long)
+  (defctype seconds_t :int)
 
-  (cffi:defcstruct timeval
+  (defcstruct timeval
     (tv_sec time_t)
     (tv_usec seconds_t))
 
-  (cffi:defcfun gettimeofday :int
+  (defcfun gettimeofday :int
     (timeval :pointer)
     (pointer :pointer))
 
   (defun unix-time-in-microseconds ()
     "Unix Time in usec using CFFI to call `gettimeofday' in C."
-    (cffi:with-foreign-object (tv '(:struct timeval))
-      (gettimeofday tv (cffi::null-pointer))
-      (+ (* +one-million+ (cffi:mem-ref tv 'time_t))
-         (cffi:mem-ref tv 'seconds_t (cffi:foreign-type-size 'time_t))))))
+    (with-foreign-object (tv '(:struct timeval))
+      (gettimeofday tv (null-pointer))
+      (+ (* +one-million+ (mem-ref tv 'time_t))
+         (mem-ref tv 'seconds_t (foreign-type-size 'time_t))))))
