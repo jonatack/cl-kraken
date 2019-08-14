@@ -4,12 +4,15 @@
 
 An API wrapper for the Kraken cryptocurrency exchange in Common Lisp.
 
-Currently a side project for learning Common Lisp: Language, packages system, unit testing, interfacing with outside libraries and the real world, and so on. Suggestions and pull requests welcome!
+Currently a side project for learning Common Lisp: Language, packages system,
+unit testing, interfacing with outside libraries and the real world, and so
+on. Suggestions and pull requests welcome!
 
 
 ## Dependencies
 
-CL-KRAKEN imports a small number of functions from the following Common Lisp libraries: DEXADOR, JSOWN, QURI, LOCAL-TIME, IRONCLAD, and CL-BASE64.
+CL-KRAKEN imports a small number of functions from the following Common Lisp
+libraries: DEXADOR, JSOWN, QURI, LOCAL-TIME, IRONCLAD, and CL-BASE64.
 
 
 ## Getting started
@@ -24,7 +27,8 @@ To use, git clone the repo into your `~/quicklisp/local-projects` directory, the
 
 ## API
 
-All API calls accept a VERBOSE boolean keyword parameter (T or default NIL) to output the HTTP request headers for verifying and debugging.
+All API calls accept a VERBOSE boolean keyword parameter (T or default NIL) to
+output the HTTP request headers for verifying and debugging.
 
 ### Public market data API calls
 
