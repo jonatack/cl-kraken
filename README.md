@@ -2,12 +2,25 @@
 
 # cl-kraken
 
-An API wrapper for the Kraken cryptocurrency exchange in Common Lisp.
+A work-in-progress API wrapper for the Kraken cryptocurrency exchange in Common
+Lisp.
 
-Currently a side project for learning Common Lisp: Language, packages system,
-unit testing, interfacing with outside libraries and the real world, and so
-on. Suggestions and pull requests welcome!
+Currently a side project for learning Common Lisp: language, portability,
+packages, unit testing, interfacing with outside libraries and the real world,
+and so on. Suggestions and pull requests welcome!
 
+
+## Portability
+
+Developed for SBCL 1.5.5 (and in general the latest version of SBCL) and
+regularly tested successfully with:
+
+- ABCL 1.5.0 and 1.6.0-dev
+- CLISP 2.49.92
+- ClozureCL 1.11.5 and 1.12-dev.5
+- ECL 16.1.3
+
+Allowed failures on Travis are due to CI build issues and not portability ones.
 
 ## Dependencies
 
@@ -140,16 +153,6 @@ To run the tests of one test file only, append the file name without the extensi
 ```lisp
 (rove:run :cl-kraken/tests/cryptography) ; Run tests in tests/cryptography.lisp only.
 ```
-
-## Portability
-
-Developed for SBCL 1.5.2 and tested successfully with:
-
-- ABCL 1.5.0 and 1.6.0-dev
-- CLISP 2.49.92
-- ClozureCL 1.11.5 and 1.12-dev.5
-- ECL 16.1.3
-
 
 ### Author
 
