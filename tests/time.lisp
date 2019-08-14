@@ -5,6 +5,18 @@
   (:use #:cl #:rove))
 (in-package #:cl-kraken/tests/time)
 
+(deftest +one-million+
+  (testing "is an integer"
+    (ok (integerp cl-kraken/src/time::+one-million+)))
+  (testing "evaluates to 1,000,000"
+    (ok (= cl-kraken/src/time::+one-million+ 1000000))))
+
+(deftest +one-thousand+
+  (testing "is an integer"
+    (ok (integerp cl-kraken/src/time::+one-thousand+)))
+  (testing "evaluates to 1,000"
+    (ok (= cl-kraken/src/time::+one-thousand+ 1000))))
+
 (deftest unix-time-in-microseconds
   (let ((time (cl-kraken/src/time:unix-time-in-microseconds)))
     (testing "is an integer"

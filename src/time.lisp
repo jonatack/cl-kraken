@@ -23,6 +23,7 @@
 (in-package #:cl-kraken/src/time)
 
 (defparameter +one-million+ 1000000)
+(defparameter +one-thousand+ 1000)
 
 (defun generate-kraken-nonce ()
   "Kraken requires the nonce to be an always-increasing unsigned integer
@@ -34,7 +35,7 @@
 #-(or sbcl (and ccl (not windows)) clisp ecl)
 (defun unix-time-in-microseconds (&aux (current-time (now)))
   "Unix Time in usec using the LOCAL-TIME library."
-  (+ (floor (nsec-of current-time) 1000)
+  (+ (floor (nsec-of current-time) +one-thousand+)
      (* +one-million+ (timestamp-to-unix current-time))))
 
 #+sbcl
