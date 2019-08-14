@@ -33,7 +33,7 @@
 
 ;;; Kraken Public API
 
-(defun asset-pairs (&key pair verbose)
+(defun asset-pairs (&key pair raw verbose)
   "Get tradeable asset pairs.
   URL: https://api.kraken.com/0/public/AssetPairs
   Input:
@@ -61,12 +61,12 @@
   If an asset pair is on a maker/taker fee schedule, the taker side is given in
     `fees' and maker side in `fees_maker'.
   For asset pairs not on maker/taker, the rates will only be given in `fees'."
-  (declare (type boolean verbose))
+  (declare (type boolean raw verbose))
   (check-type pair (or string null))
   (request "AssetPairs" :params (when (stringp pair) `(("pair" . ,pair)))
-                        :verbose verbose))
+                        :raw raw :verbose verbose))
 
-(defun assets (&key asset verbose)
+(defun assets (&key asset raw verbose)
   "Get asset info.
   URL: https://api.kraken.com/0/public/Assets
   Input:
@@ -78,12 +78,12 @@
       `aclass'           = asset class, currently always set to 'currency'
       `decimals'         = decimal places for record keeping
       `display_decimals' = decimal places for display (usually fewer)"
-  (declare (type boolean verbose))
+  (declare (type boolean raw verbose))
   (check-type asset (or string null))
   (request "Assets" :params (when (stringp asset) `(("asset" . ,asset)))
-                    :verbose verbose))
+                    :raw raw :verbose verbose))
 
-(defun depth (pair &key count verbose)
+(defun depth (pair &key count raw verbose)
   "Get order book public price data for an asset pair.
   URL: https://api.kraken.com/0/public/Depth
   Input:
@@ -92,16 +92,16 @@
   Kraken returns a hash with keys `error' and `result'.
     `result' is an array containing a pair name and the keys `asks' and `bids'
              each followed by an array of `price', `volume', and `timestamp>'."
-  (declare (type boolean verbose))
+  (declare (type boolean raw verbose))
   #+(or sbcl ccl ecl abcl) (declare (type simple-string pair))
   #+(or sbcl ccl ecl) (declare (type (or integer null) count))
   #+clisp (check-type pair simple-string)
   #+(or abcl clisp) (check-type count (or integer null))
   (let ((params `(("pair" . ,pair))))
     (when (integerp count) (push `("count" . ,count) (cdr params)))
-    (request "Depth" :params params :verbose verbose)))
+    (request "Depth" :params params :raw raw :verbose verbose)))
 
-(defun ohlc (pair &key since (interval 1) verbose)
+(defun ohlc (pair &key since (interval 1) raw verbose)
   "Get OHLC (Open, High, Low, Close) public price data for an asset pair.
   URL: https://api.kraken.com/0/public/OHLC
   Input:
@@ -117,7 +117,7 @@
            `time', `open', `high', `low', `close', `VWAP', `volume' and `count'.
        - `last' is a Unix Time id for the current not-yet-committed frame.
            Useful as value for SINCE when querying for new committed OHLC data."
-  (declare (type boolean verbose))
+  (declare (type boolean raw verbose))
   #+(or sbcl ccl ecl abcl) (declare (type simple-string pair))
   #+(or sbcl ccl ecl) (declare (type (or integer null) since)
                                (type integer interval))
@@ -126,19 +126,19 @@
   #+(or abcl clisp) (check-type interval integer)
   (let ((params `(("pair" . ,pair) ("interval" . ,interval))))
     (when (integerp since) (push `("since" . ,since) (cdr params)))
-    (request "OHLC" :params params :verbose verbose)))
+    (request "OHLC" :params params :raw raw :verbose verbose)))
 
-(defun server-time (&key verbose)
+(defun server-time (&key raw verbose)
   "Get server time. Useful to approximate skew time between server and client.
   URL: https://api.kraken.com/0/public/Time
   Kraken returns a hash with keys `error' and `result'.
     `result' is an array of hashes with keys:
       `unixtime' = unix timestamp
       `rfc1123'  = RFC 1123 time format"
-  (declare (type boolean verbose))
-  (request "Time" :verbose verbose))
+  (declare (type boolean raw verbose))
+  (request "Time" :raw raw :verbose verbose))
 
-(defun spread (pair &key since verbose)
+(defun spread (pair &key since raw verbose)
   "Get recent spread data for an asset pair.
   URL: https://api.kraken.com/0/public/Spread
   Input:
@@ -151,16 +151,16 @@
     `result' is an array containing a pair name and a `last' Unix Time id.
        - The pair name contains an array of arrays for `time', `bid', and `ask'.
        - `last' is a Unix Time id to use for SINCE when querying new spread."
-  (declare (type boolean verbose))
+  (declare (type boolean raw verbose))
   #+(or sbcl ccl ecl abcl) (declare (type simple-string pair))
   #+(or sbcl ccl ecl) (declare (type (or integer null) since))
   #+clisp (check-type pair simple-string)
   #+(or abcl clisp) (check-type since (or integer null))
   (let ((params `(("pair" . ,pair))))
     (when (integerp since) (push `("since" . ,since) (cdr params)))
-    (request "Spread" :params params :verbose verbose)))
+    (request "Spread" :params params :raw raw :verbose verbose)))
 
-(defun ticker (pair &key verbose)
+(defun ticker (pair &key raw verbose)
   "Get ticker data for asset pairs.
   URL: https://api.kraken.com/0/public/Ticker
   Input:
@@ -176,11 +176,11 @@
       l = low array                       (today, last 24 hours)
       h = high array                      (today, last 24 hours)
       o = opening price                   (today, at 00:00:00 UTC)"
-  (declare (type boolean verbose))
+  (declare (type boolean raw verbose))
   (check-type pair (and string (not null)))
-  (request "Ticker" :params `(("pair" . ,pair)) :verbose verbose))
+  (request "Ticker" :params `(("pair" . ,pair)) :raw raw :verbose verbose))
 
-(defun trades (pair &key since verbose)
+(defun trades (pair &key since raw verbose)
   "Get recent trades public price data for an asset pair.
   URL: https://api.kraken.com/0/public/Trades
   Input:
@@ -192,21 +192,21 @@
        - The pair name is followed by an array of maximum 1000 trades containing
          `price', `volume', `time', `buy/sell', `market/limit', `miscellaneous'.
        - `last' is a timestamp id to use for SINCE when querying new trades."
-  (declare (type boolean verbose))
+  (declare (type boolean raw verbose))
   #+(or sbcl ccl ecl abcl) (declare (type simple-string pair))
   #+(or sbcl ccl ecl) (declare (type (or integer null) since))
   #+clisp (check-type pair simple-string)
   #+(or abcl clisp) (check-type since (or integer null))
   (let ((params `(("pair" . ,pair))))
     (when (integerp since) (push `("since" . ,since) (cdr params)))
-    (request "Trades" :params params :verbose verbose)))
+    (request "Trades" :params params :raw raw :verbose verbose)))
 
 ;;; Kraken Private API requiring authentication
 
-(defun balance (&key verbose)
-  (declare (type boolean verbose))
-  (request "Balance" :post t :verbose verbose))
+(defun balance (&key raw verbose)
+  (declare (type boolean raw verbose))
+  (request "Balance" :post t :raw raw :verbose verbose))
 
-(defun trade-balance (&key verbose)
+(defun trade-balance (&key raw verbose)
   (declare (type boolean verbose))
-  (request "TradeBalance" :post t :verbose verbose))
+  (request "TradeBalance" :post t :raw raw :verbose verbose))
