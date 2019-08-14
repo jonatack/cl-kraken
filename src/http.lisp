@@ -25,14 +25,16 @@
   (:export #:request))
 (in-package #:cl-kraken/src/http)
 
-(defun request (method &key post params verbose)
+(defun request (method &key params post raw verbose)
   "General HTTP GET/POST request and JSON parsing function."
   (check-type method (and string (not null)))
-  (check-type post   boolean)
   (check-type params list)
+  (check-type post boolean)
+  (check-type raw boolean)
   (check-type verbose boolean)
-  (let ((function-name (if post 'post-private 'get-public)))
-    (parse (funcall function-name method :params params :verbose verbose))))
+  (let* ((function (if post 'post-private 'get-public))
+         (response (funcall function method :params params :verbose verbose)))
+    (if raw response (parse response))))
 
 (defun get-public (method &key params verbose
                                (scheme +api-scheme+) (host +api-host+))
