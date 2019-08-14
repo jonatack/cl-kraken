@@ -9,9 +9,7 @@
   (:nicknames #:cl-kraken/src/main)
   (:use #:cl)
   (:shadow #:dexador)
-  (:shadowing-import-from #:cl-kraken/src/http
-                          #:get-public
-                          #:post-private)
+  (:shadowing-import-from #:cl-kraken/src/http #:request)
   (:export
    ;; Public API
    #:asset-pairs
@@ -65,8 +63,8 @@
   For asset pairs not on maker/taker, the rates will only be given in `fees'."
   (declare (type boolean verbose))
   (check-type pair (or string null))
-  (get-public "AssetPairs" :params (when (stringp pair) `(("pair" . ,pair)))
-                           :verbose verbose))
+  (request "AssetPairs" :params (when (stringp pair) `(("pair" . ,pair)))
+                        :verbose verbose))
 
 (defun assets (&key asset verbose)
   "Get asset info.
@@ -82,8 +80,8 @@
       `display_decimals' = decimal places for display (usually fewer)"
   (declare (type boolean verbose))
   (check-type asset (or string null))
-  (get-public "Assets" :params (when (stringp asset) `(("asset" . ,asset)))
-                       :verbose verbose))
+  (request "Assets" :params (when (stringp asset) `(("asset" . ,asset)))
+                    :verbose verbose))
 
 (defun depth (pair &key count verbose)
   "Get order book public price data for an asset pair.
@@ -101,7 +99,7 @@
   #+(or abcl clisp) (check-type count (or integer null))
   (let ((params `(("pair" . ,pair))))
     (when (integerp count) (push `("count" . ,count) (cdr params)))
-    (get-public "Depth" :params params :verbose verbose)))
+    (request "Depth" :params params :verbose verbose)))
 
 (defun ohlc (pair &key since (interval 1) verbose)
   "Get OHLC (Open, High, Low, Close) public price data for an asset pair.
@@ -128,7 +126,7 @@
   #+(or abcl clisp) (check-type interval integer)
   (let ((params `(("pair" . ,pair) ("interval" . ,interval))))
     (when (integerp since) (push `("since" . ,since) (cdr params)))
-    (get-public "OHLC" :params params :verbose verbose)))
+    (request "OHLC" :params params :verbose verbose)))
 
 (defun server-time (&key verbose)
   "Get server time. Useful to approximate skew time between server and client.
@@ -138,7 +136,7 @@
       `unixtime' = unix timestamp
       `rfc1123'  = RFC 1123 time format"
   (declare (type boolean verbose))
-  (get-public "Time" :verbose verbose))
+  (request "Time" :verbose verbose))
 
 (defun spread (pair &key since verbose)
   "Get recent spread data for an asset pair.
@@ -160,7 +158,7 @@
   #+(or abcl clisp) (check-type since (or integer null))
   (let ((params `(("pair" . ,pair))))
     (when (integerp since) (push `("since" . ,since) (cdr params)))
-    (get-public "Spread" :params params :verbose verbose)))
+    (request "Spread" :params params :verbose verbose)))
 
 (defun ticker (pair &key verbose)
   "Get ticker data for asset pairs.
@@ -180,7 +178,7 @@
       o = opening price                   (today, at 00:00:00 UTC)"
   (declare (type boolean verbose))
   (check-type pair (and string (not null)))
-  (get-public "Ticker" :params `(("pair" . ,pair)) :verbose verbose))
+  (request "Ticker" :params `(("pair" . ,pair)) :verbose verbose))
 
 (defun trades (pair &key since verbose)
   "Get recent trades public price data for an asset pair.
@@ -201,14 +199,14 @@
   #+(or abcl clisp) (check-type since (or integer null))
   (let ((params `(("pair" . ,pair))))
     (when (integerp since) (push `("since" . ,since) (cdr params)))
-    (get-public "Trades" :params params :verbose verbose)))
+    (request "Trades" :params params :verbose verbose)))
 
 ;;; Kraken Private API requiring authentication
 
 (defun balance (&key verbose)
   (declare (type boolean verbose))
-  (post-private "Balance" :verbose verbose))
+  (request "Balance" :post t :verbose verbose))
 
 (defun trade-balance (&key verbose)
   (declare (type boolean verbose))
-  (post-private "TradeBalance" :verbose verbose))
+  (request "TradeBalance" :post t :verbose verbose))
