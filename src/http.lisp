@@ -34,8 +34,8 @@
   (let ((function-name (if post 'post-private 'get-public)))
     (parse (funcall function-name method :params params :verbose verbose))))
 
-(defun get-public (method &key params (scheme +api-scheme+) (host +api-host+)
-                               verbose)
+(defun get-public (method &key params verbose
+                               (scheme +api-scheme+) (host +api-host+))
   "HTTP GET request for public API queries."
   (check-type scheme (and string (not null)))
   (check-type host   (and string (not null)))
@@ -43,8 +43,9 @@
          (uri  (make-uri :scheme scheme :host host :path path :query params)))
     (get uri :verbose verbose)))
 
-(defun post-private (method &key params (scheme +api-scheme+) (host +api-host+)
-                                 verbose (key *api-key*) (secret *api-secret*))
+(defun post-private (method &key params verbose
+                                 (scheme +api-scheme+) (host +api-host+)
+                                 (key *api-key*) (secret *api-secret*))
   "HTTP POST request for private authenticated API queries."
   (check-type scheme (and string (not null)))
   (check-type host   (and string (not null)))
