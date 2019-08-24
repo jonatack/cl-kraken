@@ -8,14 +8,16 @@ os:
 
 env:
   global:
-    - ROSWELL_BRANCH=master
+    - ROSWELL_BRANCH=master  # use Roswell master for latest updates
     - PATH=~/.roswell/bin:$PATH
     - ROSWELL_INSTALL_DIR=$HOME/.roswell
+    - COVERAGE_EXCLUDE=t     # for Prove or Rove
   matrix:
     - LISP=sbcl
     - LISP=ccl
-    - LISP=clisp
     - LISP=abcl
+    # - LISP=clisp
+    # - LISP=cmucl
     - LISP=ecl
 
 matrix:
@@ -23,13 +25,15 @@ matrix:
   allow_failures:
     - env: LISP=clisp
     - env: LISP=abcl
+    # - env: LISP=alisp
+    # - env: LISP=cmucl
     - env: LISP=ecl
 
 addons:
   apt:
     packages:
-      - libc6-i386
-      - openjdk-8-jre
+      - libc6-i386     # needed for some implementations
+      - openjdk-8-jre  # needed for ABCL
 
 cache:
   directories:
@@ -37,11 +41,9 @@ cache:
     - $HOME/.config/common-lisp
 
 install:
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install libev; fi
   - curl -L https://raw.githubusercontent.com/roswell/roswell/$ROSWELL_BRANCH/scripts/install-for-ci.sh | sh
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then ros install sbcl; fi
   - git clone --depth=1 git://github.com/soemraws/parse-float.git ~/common-lisp/parse-float
-  - ros install fukamachi/rove
+  - ros install fukamachi/rove  # Use Rove master for latest updates
 
 script:
   - rove cl-kraken.asd
