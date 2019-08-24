@@ -62,9 +62,12 @@
     ("result" :OBJ
      ("XXBTZEUR" :OBJ ("altname" . "XBTEUR") ("wsname" . "XBT/EUR") ("aclass_base" . "currency")
       ("base" . "XXBT") ("aclass_quote" . "currency") ("quote" . "ZEUR") ("lot" . "unit")
-      ("pair_decimals" . 1) ("lot_decimals" . 8) ("lot_multiplier" . 1) ("leverage_buy" 2 3 4 5) ("leverage_sell" 2 3 4 5)
-      ("fees" (0 13/50) (50000 6/25) (100000 11/50) (250000 1/5) (500000 9/50) (1000000 4/25) (2500000 7/50) (5000000 3/25) (10000000 1/10))
-      ("fees_maker" (0 4/25) (50000 7/50) (100000 3/25) (250000 1/10) (500000 2/25) (1000000 3/50) (2500000 1/25) (5000000 1/50) (10000000 0))
+      ("pair_decimals" . 1) ("lot_decimals" . 8) ("lot_multiplier" . 1)
+      ("leverage_buy" 2 3 4 5) ("leverage_sell" 2 3 4 5)
+      ("fees" (0 13/50) (50000 6/25) (100000 11/50) (250000 1/5) (500000 9/50)
+       (1000000 4/25) (2500000 7/50) (5000000 3/25) (10000000 1/10))
+      ("fees_maker" (0 4/25) (50000 7/50) (100000 3/25) (250000 1/10)
+       (500000 2/25) (1000000 3/50) (2500000 1/25) (5000000 1/50) (10000000 0))
       ("fee_volume_currency" . "ZUSD") ("margin_call" . 80) ("margin_stop" . 40)))))
 
 (defparameter *xbtusd-and-xmreur-pairs*
@@ -72,16 +75,22 @@
     ("result" :OBJ
      ("XXBTZUSD" :OBJ ("altname" . "XBTUSD") ("wsname" . "XBT/USD") ("aclass_base" . "currency")
       ("base" . "XXBT") ("aclass_quote" . "currency") ("quote" . "ZUSD") ("lot" . "unit")
-      ("pair_decimals" . 1) ("lot_decimals" . 8) ("lot_multiplier" . 1) ("leverage_buy" 2 3 4 5) ("leverage_sell" 2 3 4 5)
-      ("fees" (0 13/50) (50000 6/25) (100000 11/50) (250000 1/5) (500000 9/50) (1000000 4/25) (2500000 7/50) (5000000 3/25) (10000000 1/10))
-      ("fees_maker" (0 4/25) (50000 7/50) (100000 3/25) (250000 1/10) (500000 2/25) (1000000 3/50) (2500000 1/25) (5000000 1/50) (10000000 0))
+      ("pair_decimals" . 1) ("lot_decimals" . 8) ("lot_multiplier" . 1)
+      ("leverage_buy" 2 3 4 5) ("leverage_sell" 2 3 4 5)
+      ("fees" (0 13/50) (50000 6/25) (100000 11/50) (250000 1/5) (500000 9/50)
+       (1000000 4/25) (2500000 7/50) (5000000 3/25) (10000000 1/10))
+      ("fees_maker" (0 4/25) (50000 7/50) (100000 3/25) (250000 1/10)
+       (500000 2/25) (1000000 3/50) (2500000 1/25) (5000000 1/50) (10000000 0))
       ("fee_volume_currency" . "ZUSD") ("margin_call" . 80) ("margin_stop" . 40))
 
      ("XXMRZEUR" :OBJ ("altname" . "XMREUR") ("wsname" . "XMR/EUR") ("aclass_base" . "currency")
       ("base" . "XXMR") ("aclass_quote" . "currency") ("quote" . "ZEUR") ("lot" . "unit")
-      ("pair_decimals" . 2) ("lot_decimals" . 8) ("lot_multiplier" . 1) ("leverage_buy" 2) ("leverage_sell" 2)
-      ("fees" (0 13/50) (50000 6/25) (100000 11/50) (250000 1/5) (500000 9/50) (1000000 4/25) (2500000 7/50) (5000000 3/25) (10000000 1/10))
-      ("fees_maker" (0 4/25) (50000 7/50) (100000 3/25) (250000 1/10) (500000 2/25) (1000000 3/50) (2500000 1/25) (5000000 1/50) (10000000 0))
+      ("pair_decimals" . 2) ("lot_decimals" . 8) ("lot_multiplier" . 1)
+      ("leverage_buy" 2) ("leverage_sell" 2)
+      ("fees" (0 13/50) (50000 6/25) (100000 11/50) (250000 1/5) (500000 9/50)
+       (1000000 4/25) (2500000 7/50) (5000000 3/25) (10000000 1/10))
+      ("fees_maker" (0 4/25) (50000 7/50) (100000 3/25) (250000 1/10)
+       (500000 2/25) (1000000 3/50) (2500000 1/25) (5000000 1/50) (10000000 0))
       ("fee_volume_currency" . "ZUSD") ("margin_call" . 80) ("margin_stop" . 40)))))
 
 (defparameter *all-pairs*
