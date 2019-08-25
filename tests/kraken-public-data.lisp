@@ -3,7 +3,8 @@
 (in-package #:cl-user)
 (defpackage #:cl-kraken/tests/kraken-public-data
   (:use #:cl)
-  (:export #:*bitcoin-asset*
+  (:export #:*raw-assets*
+           #:*bitcoin-asset*
            #:*usd-and-euro-assets*
            #:*all-assets*
            #:*xbteur-pair*
@@ -12,6 +13,13 @@
 (in-package #:cl-kraken/tests/kraken-public-data)
 
 ;;; Kraken Assets
+
+(defparameter *raw-assets*
+  (concatenate
+   'string "{\"error\":[],\"result\":{"
+   "\"XXBT\":{\"aclass\":\"currency\",\"altname\":\"XBT\",\"decimals\":10,\"display_decimals\":5},"
+   "\"ZEUR\":{\"aclass\":\"currency\",\"altname\":\"EUR\",\"decimals\":4,\"display_decimals\":2},"
+   "\"ZUSD\":{\"aclass\":\"currency\",\"altname\":\"USD\",\"decimals\":4,\"display_decimals\":2}}}"))
 
 (defparameter *bitcoin-asset*
   '(:OBJ ("error")
