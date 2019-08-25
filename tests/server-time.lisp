@@ -43,6 +43,9 @@
          (response  (cl-kraken:server-time))
          (time (filter response "result" "unixtime")))
     (testing "evaluates to the expected server time"
+      (ok (consp response))
+      (ok (consp (cadr (cdaddr response))))
+      (ok (consp (caddr (cdaddr response))))
       (ok (equal response (expected-list time))))
     (testing "evaluates to a Unix Time component expressed as an integer"
       (ok (integerp time)))
@@ -52,6 +55,9 @@
   (let* ((response  (cl-kraken:server-time :raw nil))
          (time (filter response "result" "unixtime")))
     (testing "when passed RAW NIL, evaluates as if no RAW parameter was passed"
+      (ok (consp response))
+      (ok (consp (cadr (cdaddr response))))
+      (ok (consp (caddr (cdaddr response))))
       (ok (equal response (expected-list time)))))
   ;; Test with parameter RAW T
   (let* ((response  (cl-kraken:server-time :raw t))
