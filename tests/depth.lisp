@@ -74,7 +74,7 @@
                        (cl-kraken:depth "xbteur" :count count :verbose t)))
            (query    (subseq headers 65 91))
            (expected (concatenate 'string "Depth?pair=xbteur&count="
-                                  (write-to-string count) " ")))
+                                  (princ-to-string count) " ")))
       (ok (string= query expected))))
   (testing "when passed a valid COUNT, evaluates to that number of asks/bids"
     (let* ((count    (+ 1 (random 9)))

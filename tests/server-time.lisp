@@ -35,7 +35,7 @@
 (defun expected-string (time)
   "Builds the expected response string from an integer Unix Time."
   (concatenate 'string
-               "{\"error\":[],\"result\":{\"unixtime\":" (write-to-string time)
+               "{\"error\":[],\"result\":{\"unixtime\":" (princ-to-string time)
                ",\"rfc1123\":\"" (unix-to-rfc1123 time) "\"}}"))
 
 (deftest server-time

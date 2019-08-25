@@ -13,7 +13,7 @@
 
 (deftest ohlc
   (let* ((unix-now (timestamp-to-unix (now)))
-         (since    (write-to-string unix-now)))
+         (since    (princ-to-string unix-now)))
     (testing "when passed \"xBteuR\", evaluates to XBTEUR OHLC data"
       (let* ((response   (cl-kraken:ohlc "XBTeUr" :since unix-now))
              (error!     (filter response "error"))
