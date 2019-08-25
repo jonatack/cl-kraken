@@ -107,13 +107,13 @@
       (ok (> (length bids) count))))
   (testing "when passed a string COUNT, a type error is signaled"
     (ok (signals (cl-kraken:depth "xbteur" :count "1") 'type-error)
-        "The value of INTERVAL is \"1\", which is not of type INTEGER."))
+        "The value of COUNT is \"1\", which is not of type INTEGER."))
   (testing "when passed a symbol COUNT, a type error is signaled"
     (ok (signals (cl-kraken:depth "xbteur" :count 'a) 'type-error)
-        "The value of INTERVAL is 'a, which is not of type INTEGER."))
-  (testing "when passed a keyword INTERVAL, a type error is signaled"
+        "The value of COUNT is 'a, which is not of type INTEGER."))
+  (testing "when passed a keyword COUNT, a type error is signaled"
     (ok (signals (cl-kraken:depth "xbteur" :count :1) 'type-error)
-        "The value of INTERVAL is :|1|, which is not of type INTEGER."))
+        "The value of COUNT is :|1|, which is not of type INTEGER."))
   ;; Test RAW parameter.
   (testing "when passed RAW T, evaluates to the raw response string"
     (let* ((response (cl-kraken:depth "xbtusd" :count 1 :raw t))
