@@ -9,6 +9,7 @@
                 #:format-timestring
                 #:+utc-zone+)
   (:import-from #:jsown
+                #:parse
                 #:filter))
 (in-package #:cl-kraken/tests/server-time)
 
@@ -46,4 +47,25 @@
     (testing "evaluates to a Unix Time component expressed as an integer"
       (ok (integerp time)))
     (testing "evaluates to Unix Time ±20 seconds of current time, given skew"
-      (ok (< (abs (- time now)) 20)))))
+      (ok (< (abs (- time now)) 20))))
+  ;; Test with parameter RAW NIL
+  (let* ((response  (cl-kraken:server-time :raw nil))
+         (time (filter response "result" "unixtime")))
+    (testing "when passed RAW NIL, evaluates as if no RAW parameter was passed"
+      (ok (equal response (expected-list time)))))
+  ;; Test with parameter RAW T
+  (let* ((response  (cl-kraken:server-time :raw t))
+         (time (filter (parse response) "result" "unixtime")))
+    (testing "when passed RAW T, evaluates to the raw response string"
+      (ok (simple-string-p response))
+      (ok (string-equal response (expected-string time)))))
+  ;; Test invalid RAW values.
+  (testing "when passed a string RAW, a type error is signaled"
+    (ok (signals (cl-kraken:server-time :raw "1") 'type-error)
+        "The value of RAW is \"1\", which is not of type (MEMBER T NIL)."))
+  (testing "when passed a symbol RAW, a type error is signaled"
+    (ok (signals (cl-kraken:server-time :raw 'a) 'type-error)
+        "The value of RAW is 'a, which is not of type (MEMBER T NIL)."))
+  (testing "when passed a keyword RAW, a type error is signaled"
+    (ok (signals (cl-kraken:server-time :raw :1) 'type-error)
+        "The value of RAW is :|1|, which is not of type (MEMBER T NIL).")))
