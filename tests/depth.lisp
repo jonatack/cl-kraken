@@ -17,6 +17,7 @@
            (pair     (filter result "XXBTZEUR"))
            (asks     (filter pair "asks"))
            (bids     (filter pair "bids")))
+      (ok (consp response))
       (ok (= (length response) 3))
       (ok (eq (first response) :OBJ))
       (ok (equal (second response) '("error")))
@@ -112,4 +113,30 @@
         "The value of INTERVAL is 'a, which is not of type INTEGER."))
   (testing "when passed a keyword INTERVAL, a type error is signaled"
     (ok (signals (cl-kraken:depth "xbteur" :count :1) 'type-error)
-        "The value of INTERVAL is :|1|, which is not of type INTEGER.")))
+        "The value of INTERVAL is :|1|, which is not of type INTEGER."))
+  ;; Test RAW parameter.
+  (testing "when passed RAW T, evaluates to the raw response string"
+    (let* ((response (cl-kraken:depth "xbtusd" :count 1 :raw t))
+           (start (subseq response 0 42)))
+      (ok (stringp response))
+      (ok (string= start "{\"error\":[],\"result\":{\"XXBTZUSD\":{\"asks\":["))))
+  (testing "when passed RAW NIL, evaluates as if no RAW argument was passed"
+    (let* ((response (cl-kraken:depth "xbteur" :count 1 :raw nil))
+           (error!   (filter response "error"))
+           (result   (filter response "result")))
+      (ok (consp response))
+      (ok (= (length response) 3))
+      (ok (eq (first response) :OBJ))
+      (ok (equal (second response) '("error")))
+      (ok (null error!))
+      (ok (consp result))))
+  ;; Test invalid RAW values.
+  (testing "when passed a string RAW, a type error is signaled"
+    (ok (signals (cl-kraken:depth "xbteur" :raw "1") 'type-error)
+        "The value of RAW is \"1\", which is not of type (MEMBER T NIL)."))
+  (testing "when passed a symbol RAW, a type error is signaled"
+    (ok (signals (cl-kraken:depth "xbteur" :raw 'a) 'type-error)
+        "The value of RAW is 'a, which is not of type (MEMBER T NIL)."))
+  (testing "when passed a keyword RAW, a type error is signaled"
+    (ok (signals (cl-kraken:depth "xbteur" :raw :1) 'type-error)
+        "The value of RAW is :|1|, which is not of type (MEMBER T NIL).")))
