@@ -1,3 +1,4 @@
+[![Quicklisp](http://quickdocs.org/badge/cl-kraken.svg)](http://quickdocs.org/cl-kraken/)
 [![Build Status](https://travis-ci.com/jonatack/cl-kraken.svg?branch=master)](https://travis-ci.com/jonatack/cl-kraken)
 [![Coverage Status](https://coveralls.io/repos/github/jonatack/cl-kraken/badge.svg?branch=master)](https://coveralls.io/github/jonatack/cl-kraken?branch=master)
 
