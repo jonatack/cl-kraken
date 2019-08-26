@@ -3,15 +3,24 @@
 (in-package #:cl-user)
 (defpackage #:cl-kraken/tests/kraken-public-data
   (:use #:cl)
-  (:export #:*bitcoin-asset*
+  (:export #:*raw-assets*
+           #:*bitcoin-asset*
            #:*usd-and-euro-assets*
            #:*all-assets*
+           #:*raw-pairs*
            #:*xbteur-pair*
            #:*xbtusd-and-xmreur-pairs*
            #:*all-pairs*))
 (in-package #:cl-kraken/tests/kraken-public-data)
 
 ;;; Kraken Assets
+
+(defparameter *raw-assets*
+  (concatenate
+   'string "{\"error\":[],\"result\":{"
+   "\"XXBT\":{\"aclass\":\"currency\",\"altname\":\"XBT\",\"decimals\":10,\"display_decimals\":5},"
+   "\"ZEUR\":{\"aclass\":\"currency\",\"altname\":\"EUR\",\"decimals\":4,\"display_decimals\":2},"
+   "\"ZUSD\":{\"aclass\":\"currency\",\"altname\":\"USD\",\"decimals\":4,\"display_decimals\":2}}}"))
 
 (defparameter *bitcoin-asset*
   '(:OBJ ("error")
@@ -58,6 +67,30 @@
      ("ZUSD"  :OBJ ("aclass" . "currency") ("altname" .   "USD") ("decimals" .  4) ("display_decimals" . 2)))))
 
 ;;; Kraken Asset Pairs
+
+(defparameter *raw-pairs*
+  (concatenate
+   'string "{\"error\":[],\"result\":{"
+   "\"XXBTZEUR\":{\"altname\":\"XBTEUR\",\"wsname\":\"XBT\\/EUR\","
+   "\"aclass_base\":\"currency\",\"base\":\"XXBT\","
+   "\"aclass_quote\":\"currency\",\"quote\":\"ZEUR\",\"lot\":\"unit\","
+   "\"pair_decimals\":1,\"lot_decimals\":8,\"lot_multiplier\":1,"
+   "\"leverage_buy\":[2,3,4,5],\"leverage_sell\":[2,3,4,5],"
+   "\"fees\":[[0,0.26],[50000,0.24],[100000,0.22],[250000,0.2],[500000,0.18],"
+   "[1000000,0.16],[2500000,0.14],[5000000,0.12],[10000000,0.1]],"
+   "\"fees_maker\":[[0,0.16],[50000,0.14],[100000,0.12],[250000,0.1],"
+   "[500000,0.08],[1000000,0.06],[2500000,0.04],[5000000,0.02],[10000000,0]],"
+   "\"fee_volume_currency\":\"ZUSD\",\"margin_call\":80,\"margin_stop\":40},"
+   "\"XXBTZUSD\":{\"altname\":\"XBTUSD\",\"wsname\":\"XBT\\/USD\","
+   "\"aclass_base\":\"currency\",\"base\":\"XXBT\","
+   "\"aclass_quote\":\"currency\",\"quote\":\"ZUSD\",\"lot\":\"unit\","
+   "\"pair_decimals\":1,\"lot_decimals\":8,\"lot_multiplier\":1,"
+   "\"leverage_buy\":[2,3,4,5],\"leverage_sell\":[2,3,4,5],"
+   "\"fees\":[[0,0.26],[50000,0.24],[100000,0.22],[250000,0.2],[500000,0.18],"
+   "[1000000,0.16],[2500000,0.14],[5000000,0.12],[10000000,0.1]],"
+   "\"fees_maker\":[[0,0.16],[50000,0.14],[100000,0.12],[250000,0.1],"
+   "[500000,0.08],[1000000,0.06],[2500000,0.04],[5000000,0.02],[10000000,0]],"
+   "\"fee_volume_currency\":\"ZUSD\",\"margin_call\":80,\"margin_stop\":40}}}"))
 
 (defparameter *xbteur-pair*
   '(:OBJ ("error")

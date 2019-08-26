@@ -30,7 +30,7 @@
   between 51 and 64 bits in length. For this, we use UNIX-TIME-IN-MICROSECONDS
   below, expressed as a string. This is analogous to the nonce implementations
   in the various other Kraken API libraries in C, C++, Go, Python, and Ruby."
-  (write-to-string (unix-time-in-microseconds)))
+  (princ-to-string (unix-time-in-microseconds)))
 
 #-(or sbcl (and ccl (not windows)) clisp ecl)
 (defun unix-time-in-microseconds (&aux (current-time (now)))

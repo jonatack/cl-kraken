@@ -13,7 +13,7 @@
 
 (deftest ohlc
   (let* ((unix-now (timestamp-to-unix (now)))
-         (since    (write-to-string unix-now)))
+         (since    (princ-to-string unix-now)))
     (testing "when passed \"xBteuR\", evaluates to XBTEUR OHLC data"
       (let* ((response   (cl-kraken:ohlc "XBTeUr" :since unix-now))
              (error!     (filter response "error"))
@@ -31,6 +31,7 @@
              (last       (filter result "last"))
              (high-price (parse-float high))
              (low-price  (parse-float low)))
+        (ok (consp response))
         (ok (= (length response) 3))
         (ok (null error!))
         (ok (consp result))
@@ -113,4 +114,32 @@
         "The value of SINCE is 'a, which is not of type (OR INTEGER NULL)."))
   (testing "when passed a keyword SINCE, a type error is signaled"
     (ok (signals (cl-kraken:ohlc "xbteur" :since :1) 'type-error)
-        "The value of SINCE is :|1|, which is not of type (OR INTEGER NULL).")))
+        "The value of SINCE is :|1|, which is not of type (OR INTEGER NULL)."))
+  ;; Test RAW parameter.
+  (testing "when passed RAW T, evaluates to the raw response string"
+    (let* ((response (cl-kraken:ohlc "xbtusd"
+                                     :since (timestamp-to-unix (now)) :raw t))
+           (start (subseq response 0 35)))
+      (ok (stringp response))
+      (ok (string= start "{\"error\":[],\"result\":{\"XXBTZUSD\":[["))))
+  (testing "when passed RAW NIL, evaluates as if no RAW argument was passed"
+    (let* ((response (cl-kraken:ohlc "xbteur"
+                                     :since (timestamp-to-unix (now)) :raw nil))
+           (error!   (filter response "error"))
+           (result   (filter response "result")))
+      (ok (consp response))
+      (ok (= (length response) 3))
+      (ok (eq (first response) :OBJ))
+      (ok (equal (second response) '("error")))
+      (ok (null error!))
+      (ok (consp result))))
+  ;; Test invalid RAW values.
+  (testing "when passed a string RAW, a type error is signaled"
+    (ok (signals (cl-kraken:ohlc "xbteur" :raw "1") 'type-error)
+        "The value of RAW is \"1\", which is not of type (MEMBER T NIL)."))
+  (testing "when passed a symbol RAW, a type error is signaled"
+    (ok (signals (cl-kraken:ohlc "xbteur" :raw 'a) 'type-error)
+        "The value of RAW is 'a, which is not of type (MEMBER T NIL)."))
+  (testing "when passed a keyword RAW, a type error is signaled"
+    (ok (signals (cl-kraken:ohlc "xbteur" :raw :1) 'type-error)
+        "The value of RAW is :|1|, which is not of type (MEMBER T NIL).")))

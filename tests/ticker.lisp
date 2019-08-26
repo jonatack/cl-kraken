@@ -21,6 +21,10 @@
            (low      (filter pair "l"))
            (high     (filter pair "h"))
            (open     (filter pair "o")))
+      (ok (consp response))
+      (ok (= (length response) 3))
+      (ok (eq (first response) :OBJ))
+      (ok (equal (second response) '("error")))
       (ok (null error!))
       (ok (consp result))
       (ok (= (length result) 2))
@@ -67,4 +71,34 @@
         "The value of PAIR is XBTEUR, which is not of type (AND STRING (NOT NULL))."))
   (testing "when passed a keyword PAIR, a type error is signaled"
     (ok (signals (cl-kraken:ticker :xbteur) 'type-error)
-        "The value of PAIR is :XBTEUR, which is not of type (AND STRING (NOT NULL)).")))
+        "The value of PAIR is :XBTEUR, which is not of type (AND STRING (NOT NULL))."))
+  ;; Test RAW parameter.
+  (testing "when passed RAW T, evaluates to the raw response string"
+    (let* ((response (cl-kraken:ticker "xbteur" :raw t))
+           (start (subseq response 0 39)))
+      (ok (stringp response))
+      (ok (string= start "{\"error\":[],\"result\":{\"XXBTZEUR\":{\"a\":["))))
+  (testing "when passed RAW NIL, evaluates as if no RAW argument was passed"
+    (let* ((response (cl-kraken:ticker "xbtusd" :raw nil))
+           (error!   (filter response "error"))
+           (result   (filter response "result"))
+           (pair     (filter result "XXBTZUSD")))
+      (ok (consp response))
+      (ok (= (length response) 3))
+      (ok (eq (first response) :OBJ))
+      (ok (equal (second response) '("error")))
+      (ok (null error!))
+      (ok (consp result))
+      (ok (= (length result) 2))
+      (ok (consp pair))
+      (ok (= (length pair) 10))))
+  ;; Test invalid RAW values.
+  (testing "when passed a string RAW, a type error is signaled"
+    (ok (signals (cl-kraken:ticker "xbteur" :raw "1") 'type-error)
+        "The value of RAW is \"1\", which is not of type (MEMBER T NIL)."))
+  (testing "when passed a symbol RAW, a type error is signaled"
+    (ok (signals (cl-kraken:ticker "xbteur" :raw 'a) 'type-error)
+        "The value of RAW is 'a, which is not of type (MEMBER T NIL)."))
+  (testing "when passed a keyword RAW, a type error is signaled"
+    (ok (signals (cl-kraken:ticker "xbteur" :raw :1) 'type-error)
+        "The value of RAW is :|1|, which is not of type (MEMBER T NIL).")))
