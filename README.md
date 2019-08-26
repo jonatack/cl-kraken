@@ -1,9 +1,11 @@
 [![Build Status](https://travis-ci.com/jonatack/cl-kraken.svg?branch=master)](https://travis-ci.com/jonatack/cl-kraken)
 
-# cl-kraken
+# CL-KRAKEN
 
-A work-in-progress API wrapper for the Kraken cryptocurrency exchange in Common
-Lisp.
+CL-KRAKEN is an API wrapper for the Kraken cryptocurrency exchange written in
+Common Lisp. For the moment, CL-KRAKEN enables all of the public market data API
+in the [Kraken REST API documentation](https://www.kraken.com/features/api) and
+some of the private user data API. See the API section below for details.
 
 Currently a side project for learning Common Lisp: language, portability,
 packages, unit testing, interfacing with outside libraries and the real world,
