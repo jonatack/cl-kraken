@@ -8,12 +8,12 @@ os:
 
 env:
   global:
-    - ROSWELL_BRANCH=master  # use Roswell master for latest updates
     - PATH=~/.roswell/bin:$PATH
     - ROSWELL_INSTALL_DIR=$HOME/.roswell
-    - COVERAGE_EXCLUDE=t     # for Prove or Rove
+    - COVERAGE_EXCLUDE=tests # for Prove or Rove
+    - ROSWELL_BRANCH=master  # use Roswell master for latest updates
   matrix:
-    - LISP=sbcl
+    - LISP=sbcl COVERAGE=1
     - LISP=ccl
     - LISP=abcl
     # - LISP=clisp
@@ -44,6 +44,12 @@ install:
   - curl -L https://raw.githubusercontent.com/roswell/roswell/$ROSWELL_BRANCH/scripts/install-for-ci.sh | sh
   - git clone --depth=1 git://github.com/soemraws/parse-float.git ~/common-lisp/parse-float
   - ros install fukamachi/rove  # Use Rove master for latest updates
+  - if [ "$COVERAGE" = "1" ]; then ros install fukamachi/cl-coveralls; fi
 
 script:
   - rove cl-kraken.asd
+
+after_script:
+  - if [ "$COVERAGE" = "1" ]; then
+      coveralls report/;
+    fi
