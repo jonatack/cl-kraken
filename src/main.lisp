@@ -27,12 +27,17 @@
 (declaim (optimize (speed 0) (safety 3) (debug 3)))
 
 ;;; API
-
-;;; All API calls accept a VERBOSE boolean keyword parameter (T or default NIL)
-;;; to output the HTTP request headers for verifying and debugging.
-
+;;;
+;;; All API calls accept the following optional boolean keyword parameters:
+;;;
+;;; - RAW     (T or default NIL) to return the JSON response as a raw string
+;;;                              instead of parsed to a list data structure.
+;;;
+;;; - VERBOSE (T or default NIL) to output the HTTP request headers for
+;;;                              verifying and debugging.
+;;;
 ;;; Kraken Public API
-
+;;;
 (defun asset-pairs (&key pair raw verbose)
   "Get tradeable asset pairs.
   URL: https://api.kraken.com/0/public/AssetPairs
@@ -201,8 +206,9 @@
     (when (integerp since) (push `("since" . ,since) (cdr params)))
     (request "Trades" :params params :raw raw :verbose verbose)))
 
+;;;
 ;;; Kraken Private API requiring authentication
-
+;;;
 (defun balance (&key raw verbose)
   (declare (type boolean raw verbose))
   (request "Balance" :post t :raw raw :verbose verbose))

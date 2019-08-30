@@ -33,7 +33,8 @@ CFFI.
 
 ## Getting started
 
-To use, git clone the repo into your `~/quicklisp/local-projects` directory, then:
+To use, git clone the repo into your `~/quicklisp/local-projects` directory,
+then:
 
 ```lisp
 (ql:quickload :cl-kraken)
@@ -45,11 +46,11 @@ To use, git clone the repo into your `~/quicklisp/local-projects` directory, the
 
 All API calls accept the following optional boolean keyword parameters:
 
-- RAW (T or default NIL) for the JSON response be returned as a raw string
-  rather than parsed and converted to a list data structure
+- RAW (T or default NIL) to return the JSON response as a raw string instead of
+  parsed and converted to a list data structure.
 
 - VERBOSE (T or default NIL) to output the HTTP request headers for verifying
-  and debugging
+  and debugging.
 
 ### Public market data API calls
 
