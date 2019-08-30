@@ -30,8 +30,6 @@
 
 (defun message (path nonce)
   "Message composed of (PATH + SHA256(NONCE + POST data)) in octets."
-  (check-type path  (and simple-string (not null)))
-  (check-type nonce (and simple-string (not null)))
   (let ((post-params-data (concatenate 'string nonce "nonce=" nonce)))
     (concatenate '(simple-array (unsigned-byte 8) (*))
                  (map '(simple-array (unsigned-byte 8) (*)) 'char-code path)
