@@ -64,6 +64,4 @@
   "Kraken POST HTTP headers must contain the API key and signature."
   (check-type path   (and string (not null)))
   (check-type nonce  (and string (not null)))
-  (check-type key    (and string (not null)))
-  (check-type secret (and string (not null)))
   `(("api-key" . ,key) ("api-sign" . ,(signature path nonce secret))))
