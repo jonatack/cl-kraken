@@ -15,13 +15,12 @@ and so on. Suggestions and pull requests welcome!
 
 ## Portability
 
-Developed for SBCL 1.5.5 (and in general the latest version of SBCL) and
-regularly tested successfully with:
+Developed with SBCL (in general the latest version) and tested regularly with:
 
-- ABCL 1.5.0 and 1.6.0-dev
+- Armed Bear Common Lisp (ABCL) 1.5.0 and 1.6.0-dev
 - CLISP 2.49.92
-- ClozureCL 1.11.5 and 1.12-dev.5
-- ECL 16.1.3
+- Clozure Common Lisp (CCL) 1.11.5 and 1.12-dev.5
+- Embeddable Common Lisp (ECL) 16.1.3
 
 Allowed failures on Travis are due to CI build issues and not portability ones.
 
