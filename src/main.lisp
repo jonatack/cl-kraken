@@ -24,7 +24,9 @@
    #:balance
    #:trade-balance))
 (in-package #:cl-kraken)
-(declaim (optimize (speed 0) (safety 3) (debug 3)))
+
+(eval-when (:compile-toplevel)
+  (declaim (optimize (speed 2) (safety 3) (debug 3))))
 
 ;;; API
 ;;;
