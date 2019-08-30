@@ -1,6 +1,5 @@
 ;;;; cl-kraken/tests/time.lisp
 
-(in-package #:cl-user)
 (defpackage #:cl-kraken/tests/time
   (:use #:cl #:rove))
 (in-package #:cl-kraken/tests/time)
