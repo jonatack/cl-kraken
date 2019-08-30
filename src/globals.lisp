@@ -7,8 +7,13 @@
 (in-package #:cl-kraken/src/globals)
 
 ;;; User API key and secret
-(defparameter *api-key* "api-key")
-(defparameter *api-secret* "api-secret")
+
+(defparameter *api-key*
+  "J9G291yReQZ4k7JKqaSsSwKCwcQBDdwzQq92z/I8MOu5j3g3SAAJo04c"
+  "This is an empty account for testing. Replace this value with your API key.")
+(defparameter *api-secret*
+  "Y9T6tmWcRsWryvmi7kpxQcYD5MuMSYpDTCVI1/j4aMnEr+J3QLrU66RTp6KAGmvrsrbs2ycCgjQgELgY9GU5FQ=="
+  "This is an empty account for testing. Replace this vaule with your API secret.")
 
 ;;; Global Parameters
 
