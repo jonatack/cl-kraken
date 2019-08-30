@@ -18,7 +18,7 @@ env:
     - LISP=abcl
     # - LISP=clisp
     # - LISP=cmucl
-    - LISP=ecl
+    # - LISP=ecl
 
 matrix:
   fast_finish: true

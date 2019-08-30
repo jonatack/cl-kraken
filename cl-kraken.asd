@@ -27,5 +27,6 @@
                "cl-kraken/tests/server-time"
                "cl-kraken/tests/spread"
                "cl-kraken/tests/ticker"
-               "cl-kraken/tests/trades")
+               "cl-kraken/tests/trades"
+               "cl-kraken/tests/balance")
   :perform (test-op (op c) (symbol-call :rove '#:run c)))
