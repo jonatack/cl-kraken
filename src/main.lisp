@@ -26,7 +26,7 @@
 (in-package #:cl-kraken)
 
 (eval-when (:compile-toplevel)
-  (declaim (optimize (speed 0) (safety 3) (debug 3))))
+  (declaim (optimize (speed 2) (safety 3) (debug 3))))
 
 ;;; API
 ;;;
