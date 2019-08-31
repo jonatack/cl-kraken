@@ -22,7 +22,8 @@
    #:trades
    ;; Private API
    #:balance
-   #:trade-balance))
+   #:trade-balance
+   #:trade-volume))
 (in-package #:cl-kraken)
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
@@ -44,8 +45,8 @@
   "Get tradeable asset pairs.
   URL: https://api.kraken.com/0/public/AssetPairs
   Input:
-    `pair' = optional, comma-delimited, case-insensitive asset pair string; if
-             not provided, defaults to all pairs.
+    `pair' = optional, comma-delimited, case-insensitive asset pair string;
+             if not provided, defaults to all pairs.
   Kraken returns a hash with keys `error' and `result'.
     `result' is a hash of pair keys, each with a values hash containing:
       `altname'             = alternate pair name
@@ -77,8 +78,8 @@
   "Get asset info.
   URL: https://api.kraken.com/0/public/Assets
   Input:
-    `asset' = optional, comma-delimited, case-insensitive asset list string; if
-              not provided, defaults to all assets.
+    `asset' = optional, comma-delimited, case-insensitive asset list string;
+              if not provided, defaults to all assets.
   Kraken returns a hash with keys `error' and `result'.
     `result' is a hash of asset name keys, each with a values hash containing:
       `altname'          = alternate name, like EUR, USD, XBT
@@ -218,3 +219,48 @@
 (defun trade-balance (&key raw verbose)
   (declare (type boolean verbose))
   (request "TradeBalance" :post t :raw raw :verbose verbose))
+
+(defun trade-volume (&key pair fee-info raw verbose)
+  "Get trade volume.
+  URL: https://api.kraken.com/0/private/TradeVolume
+  Input:
+    PAIR     = optional, comma-delimited, case-insensitive asset pair string;
+               if not provided, defaults to all pairs.
+    FEE-INFO = optional boolean whether or not to include fee info in results.
+               Note: Currently appears to be not implemented by Kraken, since
+               the fee info is always returned.
+  Kraken returns a hash with keys `error' and `result'.
+    `result' is a hash of pair keys, each with a values hash containing:
+      `currency'   = volume currency
+      `volume'     = current discount volume
+      `fees'       = array of asset pairs with *taker* fee tier data
+         `fee'        = current fee in percent
+         `minfee'     = minimum fee for pair (if not fixed fee)
+         `maxfee'     = maximum fee for pair (if not fixed fee)
+         `nextfee'    = next tier's fee for pair
+                        (if not fixed fee, nil if at lowest fee tier)
+         `nextvolume' = volume level of next tier
+                        (if not fixed fee, nil if at lowest fee tier)
+         `tiervolume' = volume level of current tier
+                        (if not fixed fee, nil if at lowest fee tier)
+      `fees_maker' = array of asset pairs with *maker* fee tier data for any
+                     pairs on a maker/taker fee schedule
+         `fee'        = current fee in percent
+         `minfee'     = minimum fee for pair (if not fixed fee)
+         `maxfee'     = maximum fee for pair (if not fixed fee)
+         `nextfee'    = next tier's fee for pair
+                        (if not fixed fee, nil if at lowest fee tier)
+         `nextvolume' = volume level of next tier
+                        (if not fixed fee, nil if at lowest fee tier)
+         `tiervolume' = volume level of current tier
+                        (if not fixed fee, nil if at lowest fee tier)
+  If an asset pair is on a maker/taker fee schedule, the taker side is given in
+    `fees' and maker side in `fees_maker'.
+  For asset pairs not on maker/taker, the rates will only be given in `fees'."
+  (declare (type boolean fee-info raw verbose))
+  #+(or sbcl ccl ecl abcl) (declare (type (or simple-string null) pair))
+  #+clisp (check-type pair (or simple-string null))
+  (let ((params))
+    (when (stringp pair) (push (cons "pair" pair) params))
+    (when fee-info (push (list "fee-info") params))
+    (request "TradeVolume" :params params :post t :raw raw :verbose verbose)))
