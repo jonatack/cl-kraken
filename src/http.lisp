@@ -56,7 +56,7 @@
   (let* ((path    (concatenate 'string +api-private-path+ method))
          (uri     (make-uri :scheme scheme :host host :path path))
          (nonce   (generate-kraken-nonce))
-         (data    (append params `(("nonce" . ,nonce))))
+         (data    (acons "nonce" nonce params))
          (headers (post-http-headers path nonce data key secret)))
     (post uri :headers headers :content data :verbose verbose)))
 
