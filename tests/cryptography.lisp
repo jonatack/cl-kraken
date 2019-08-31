@@ -5,24 +5,26 @@
 (in-package #:cl-kraken/tests/cryptography)
 
 (deftest signature
-  (let ((path     "/0/private/Balance")
-        (nonce    "1234567890123456789")
-        (secret   "The quick brown fox jumped over the lazy dog")
-        (expected (concatenate 'string
-                               "U1lRLKnFgIuip1SHiSgzh119yegH9JnTm71PFtXgEuagpZ"
-                               "OEzR7haeO+6xy5LhpSK0qs4a5fqHmGAflT8NMjxA==")))
+  (let* ((path     "/0/private/Balance")
+         (nonce    "1234567890123456789")
+         (data     `(("pair" . "xbteur, xbtusd") ("nonce" . ,nonce)))
+         (secret   "The quick brown fox jumped over the lazy dog")
+         (expected (concatenate 'string
+                                "Nkov7OdxRPxqRW9YiyTScW3LnKNNJJWO5JIzUY9/NHKjgu"
+                                "P+hj5vGqkGtqvpL7Cg5dOv5jwBkpZUvTqni+uGBA==")))
     (testing "evaluates to the correct API signature as a base64 string"
-      (ok (string= (cl-kraken/src/cryptography:signature path nonce secret)
+      (ok (string= (cl-kraken/src/cryptography:signature path nonce data secret)
                    expected)))))
 
 (deftest message
-  (let ((path  "/0/private/Balance")
-        (nonce "1234567890123456789"))
+  (let* ((path  "/0/private/Balance")
+         (nonce "1234567890123456789")
+         (data  `(("pair" . "xbteur, xbtusd") ("nonce" . ,nonce))))
     (testing "evaluates to the expected message in octets"
-      (ok (equalp (cl-kraken/src/cryptography::message path nonce)
+      (ok (equalp (cl-kraken/src/cryptography::message path nonce data)
                   #(47 48 47 112 114 105 118 97 116 101 47 66 97 108 97 110 99
-                    101 66 143 61 96 125 36 69 187 141 17 102 177 167 25 10 98
-                    196 18 219 25 152 119 57 29 5 47 70 193 186 75 164 177))))))
+                    101 25 252 14 179 229 144 89 79 212 89 215 2 55 106 12 69
+                    231 154 3 178 94 77 47 47 98 142 188 157 153 152 209 40))))))
 
 (deftest hmac-sha512
   (let ((key (crypto:ascii-string-to-byte-array "abc"))
