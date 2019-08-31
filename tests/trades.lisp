@@ -111,13 +111,13 @@
       (ok (= (length pair) 1000))
       (ok (listp trade))
       (ok (= (length trade) 6))))
-    ;; Test invalid RAW values.
-    (testing "when passed a string RAW, a type error is signaled"
-      (ok (signals (cl-kraken:trades "xbteur" :raw "1") 'type-error)
-          "The value of RAW is \"1\", which is not of type (MEMBER T NIL)."))
-    (testing "when passed a symbol RAW, a type error is signaled"
-      (ok (signals (cl-kraken:trades "xbteur" :raw 'a) 'type-error)
-          "The value of RAW is 'a, which is not of type (MEMBER T NIL)."))
-    (testing "when passed a keyword RAW, a type error is signaled"
-      (ok (signals (cl-kraken:trades "xbteur" :raw :1) 'type-error)
-          "The value of RAW is :|1|, which is not of type (MEMBER T NIL).")))
+  ;; Test invalid RAW values.
+  (testing "when passed a string RAW, a type error is signaled"
+    (ok (signals (cl-kraken:trades "xbteur" :raw "1") 'type-error)
+        "The value of RAW is \"1\", which is not of type (MEMBER T NIL)."))
+  (testing "when passed a symbol RAW, a type error is signaled"
+    (ok (signals (cl-kraken:trades "xbteur" :raw 'a) 'type-error)
+        "The value of RAW is 'a, which is not of type (MEMBER T NIL)."))
+  (testing "when passed a keyword RAW, a type error is signaled"
+    (ok (signals (cl-kraken:trades "xbteur" :raw :1) 'type-error)
+        "The value of RAW is :|1|, which is not of type (MEMBER T NIL).")))
