@@ -138,7 +138,22 @@ All API calls accept the following optional boolean keyword parameters:
 (trades "ETHGBP" :since 1551123951304758112)
 (trades "ltcUSD" :since 1551123951304758112 :raw t :verbose t)
 ```
+### Private user data API calls
 
+```lisp
+;;; TRADE-VOLUME
+;;; Get account trade volume.
+;;; PAIR is an optional, comma-delimited, case-insensitive asset pair string;
+;;;   if not provided, defaults to all pairs.
+;;; FEE-INFO is an optional boolean whether or not to include fee info in the
+;;;   result. Note: Currently appears to be not implemented by Kraken, since
+;;;   the fee info is always returned.
+(trade-volume &key pair fee-info raw verbose)
+;;;
+(trade-volume)
+(trade-volume :pair "xbtusd, xbteur")
+(trade-volume :pair "ltcGBP" :fee-info t :raw t :verbose t)
+```
 
 ## Tests
 
