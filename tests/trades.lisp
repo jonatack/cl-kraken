@@ -73,8 +73,8 @@
                           (cl-kraken:trades "xbteur" :since kraken-time
                                                      :verbose t)))
            (query       (subseq headers 65 (+ 90 (length since)))))
-      (ok (string= query
-                   (concatenate 'string "Trades?pair=xbteur&since=" since)))))
+      (ok (string=
+           query (concatenate 'string "Trades?since=" since "&pair=xbteur")))))
   ;; Test invalid SINCE values.
   (testing "when passed a string SINCE, a type error is signaled"
     (ok (signals (cl-kraken:trades "xbteur" :since "1") 'type-error)

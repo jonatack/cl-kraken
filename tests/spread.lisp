@@ -56,8 +56,8 @@
              (headers (with-output-to-string (*standard-output*)
                         (cl-kraken:spread "xbteur" :since unix-now :verbose t)))
              (query   (subseq headers 65 (+ 90 (length since)))))
-        (ok (string= query
-                     (concatenate 'string "Spread?pair=xbteur&since=" since)))))
+        (ok (string=
+             query (concatenate 'string "Spread?since=" since "&pair=xbteur")))))
     ;; Test invalid SINCE values.
     (testing "when passed a string SINCE, a type error is signaled"
       (ok (signals (cl-kraken:spread "xbteur" :since "1") 'type-error)

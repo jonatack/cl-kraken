@@ -105,7 +105,7 @@
   #+clisp (check-type pair simple-string)
   #+(or abcl clisp) (check-type count (or integer null))
   (let ((params `(("pair" . ,pair))))
-    (when (integerp count) (push `("count" . ,count) (cdr params)))
+    (when (integerp count) (push (cons "count" count) params))
     (request "Depth" :params params :raw raw :verbose verbose)))
 
 (defun ohlc (pair &key since (interval 1) raw verbose)
@@ -132,7 +132,7 @@
   #+(or abcl clisp) (check-type since (or integer null))
   #+(or abcl clisp) (check-type interval integer)
   (let ((params `(("pair" . ,pair) ("interval" . ,interval))))
-    (when (integerp since) (push `("since" . ,since) (cdr params)))
+    (when (integerp since) (push (cons "since" since) params))
     (request "OHLC" :params params :raw raw :verbose verbose)))
 
 (defun server-time (&key raw verbose)
@@ -164,7 +164,7 @@
   #+clisp (check-type pair simple-string)
   #+(or abcl clisp) (check-type since (or integer null))
   (let ((params `(("pair" . ,pair))))
-    (when (integerp since) (push `("since" . ,since) (cdr params)))
+    (when (integerp since) (push (cons "since" since) params))
     (request "Spread" :params params :raw raw :verbose verbose)))
 
 (defun ticker (pair &key raw verbose)
@@ -205,7 +205,7 @@
   #+clisp (check-type pair simple-string)
   #+(or abcl clisp) (check-type since (or integer null))
   (let ((params `(("pair" . ,pair))))
-    (when (integerp since) (push `("since" . ,since) (cdr params)))
+    (when (integerp since) (push (cons "since" since) params))
     (request "Trades" :params params :raw raw :verbose verbose)))
 
 ;;;

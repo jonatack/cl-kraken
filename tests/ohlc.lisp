@@ -67,15 +67,15 @@
       (let* ((headers (with-output-to-string (*standard-output*)
                         (cl-kraken:ohlc "xbteur" :since unix-now :verbose t)))
              (query   (subseq headers 65 110)))
-        (ok (string= query (concatenate 'string "OHLC?pair=xbteur&since=" since
-                                        "&interval=1 ")))))
+        (ok (string= query (concatenate 'string "OHLC?since=" since
+                                        "&pair=xbteur&interval=1 ")))))
     (testing "when passed a valid SINCE+INTERVAL, queries both specified values"
       (let* ((headers (with-output-to-string (*standard-output*)
                         (cl-kraken:ohlc "xbteur" :since unix-now :interval 21600
                                                  :verbose t)))
              (query   (subseq headers 65 114)))
-        (ok (string= query (concatenate 'string "OHLC?pair=xbteur&since=" since
-                                        "&interval=21600 "))))))
+        (ok (string= query (concatenate 'string "OHLC?since=" since
+                                        "&pair=xbteur&interval=21600 "))))))
   ;; Test invalid PAIR values.
   (testing "when passed a multiple PAIR, evaluates to unknown asset pair error"
     (ok (equal (cl-kraken:ohlc "xbteur,xbtusd")
