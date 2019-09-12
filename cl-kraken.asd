@@ -1,4 +1,6 @@
+;;;; -*- mode: lisp; syntax: common-lisp; indent-tabs-mode: nil -*-
 ;;;; cl-kraken.asd
+;;;; ASDF system definition for CL-Kraken
 
 (defsystem "cl-kraken"
   :name "CL-Kraken"
