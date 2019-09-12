@@ -56,26 +56,26 @@
     (testing "when passed no INTERVAL or SINCE, queries default interval of 1"
       (let* ((headers (with-output-to-string (*standard-output*)
                         (cl-kraken:ohlc "xbteur" :verbose t)))
-             (query   (subseq headers 65 93)))
-        (ok (string= query "OHLC?pair=xbteur&interval=1 "))))
+             (expected "OHLC?pair=xbteur&interval=1 "))
+        (ok (string= headers expected :start1 65 :end1 93))))
     (testing "when passed a valid INTERVAL, queries specified interval"
       (let* ((headers (with-output-to-string (*standard-output*)
                         (cl-kraken:ohlc "xbteur" :interval 21600 :verbose t)))
-             (query   (subseq headers 65 97)))
-        (ok (string= query "OHLC?pair=xbteur&interval=21600 "))))
+             (expected "OHLC?pair=xbteur&interval=21600 "))
+        (ok (string= headers expected :start1 65 :end1 97))))
     (testing "when passed a valid SINCE, queries since + default interval of 1"
       (let* ((headers (with-output-to-string (*standard-output*)
                         (cl-kraken:ohlc "xbteur" :since unix-now :verbose t)))
-             (query   (subseq headers 65 110)))
-        (ok (string= query (concatenate 'string "OHLC?since=" since
-                                        "&pair=xbteur&interval=1 ")))))
+             (expected (concatenate 'string "OHLC?since=" since
+                                    "&pair=xbteur&interval=1 ")))
+        (ok (string= headers expected :start1 65 :end1 110))))
     (testing "when passed a valid SINCE+INTERVAL, queries both specified values"
       (let* ((headers (with-output-to-string (*standard-output*)
                         (cl-kraken:ohlc "xbteur" :since unix-now :interval 21600
                                                  :verbose t)))
-             (query   (subseq headers 65 114)))
-        (ok (string= query (concatenate 'string "OHLC?since=" since
-                                        "&pair=xbteur&interval=21600 "))))))
+             (expected (concatenate 'string "OHLC?since=" since
+                                    "&pair=xbteur&interval=21600 ")))
+        (ok (string= headers expected :start1 65 :end1 114)))))
   ;; Test invalid PAIR values.
   (testing "when passed a multiple PAIR, evaluates to unknown asset pair error"
     (ok (equal (cl-kraken:ohlc "xbteur,xbtusd")
@@ -119,9 +119,9 @@
   (testing "when passed RAW T, evaluates to the raw response string"
     (let* ((response (cl-kraken:ohlc "xbtusd"
                                      :since (timestamp-to-unix (now)) :raw t))
-           (start (subseq response 0 35)))
+           (expected "{\"error\":[],\"result\":{\"XXBTZUSD\":[["))
       (ok (stringp response))
-      (ok (string= start "{\"error\":[],\"result\":{\"XXBTZUSD\":[["))))
+      (ok (string= response expected :start1 0 :end1 35))))
   (testing "when passed RAW NIL, evaluates as if no RAW argument was passed"
     (let* ((response (cl-kraken:ohlc "xbteur"
                                      :since (timestamp-to-unix (now)) :raw nil))

@@ -48,16 +48,14 @@
     ;; Test correct handling of SINCE keyword parameter to query params.
     (testing "when no SINCE is passed, it is absent from the query params"
       (let* ((headers (with-output-to-string (*standard-output*)
-                        (cl-kraken:spread "xbteur" :verbose t)))
-             (query   (subseq headers 65 84)))
-        (ok (string= query "Spread?pair=xbteur "))))
+                        (cl-kraken:spread "xbteur" :verbose t))))
+        (ok (string= headers "Spread?pair=xbteur " :start1 65 :end1 84))))
     (testing "when passed a valid SINCE, it is present in the query params"
       (let* ((since   (princ-to-string unix-now))
              (headers (with-output-to-string (*standard-output*)
                         (cl-kraken:spread "xbteur" :since unix-now :verbose t)))
-             (query   (subseq headers 65 (+ 90 (length since)))))
-        (ok (string=
-             query (concatenate 'string "Spread?since=" since "&pair=xbteur")))))
+             (expected (concatenate 'string "Spread?since=" since "&pair=xbteur")))
+        (ok (string= headers expected :start1 65 :end1 (+ 90 (length since))))))
     ;; Test invalid SINCE values.
     (testing "when passed a string SINCE, a type error is signaled"
       (ok (signals (cl-kraken:spread "xbteur" :since "1") 'type-error)
@@ -72,9 +70,9 @@
   (testing "when passed RAW T, evaluates to the raw response string"
     (let* ((unix-now (timestamp-to-unix (now)))
            (response (cl-kraken:spread "xbtusd" :since unix-now :raw t))
-           (start (subseq response 0 34)))
+           (expected "{\"error\":[],\"result\":{\"XXBTZUSD\":["))
       (ok (stringp response))
-      (ok (string= start "{\"error\":[],\"result\":{\"XXBTZUSD\":["))))
+      (ok (string= response expected :start1 0 :end1 34))))
   (testing "when passed RAW NIL, evaluates as if no RAW argument was passed"
     (let* ((unix-now (timestamp-to-unix (now)))
            (response (cl-kraken:spread "xbteur" :since unix-now :raw nil))
