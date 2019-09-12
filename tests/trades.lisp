@@ -62,9 +62,8 @@
   ;; Test correct handling of SINCE keyword parameter to query params.
   (testing "when no SINCE is passed, it is absent from the query params"
     (let* ((headers (with-output-to-string (*standard-output*)
-                      (cl-kraken:trades "xbteur" :verbose t)))
-           (query   (subseq headers 65 84)))
-      (ok (string= query "Trades?pair=xbteur "))))
+                      (cl-kraken:trades "xbteur" :verbose t))))
+      (ok (string= headers "Trades?pair=xbteur " :start1 65 :end1 84))))
   (testing "when passed an integer SINCE, it is present in the query params"
     (let* ((server-time (filter (server-time) "result" "unixtime"))
            (kraken-time (* server-time 1000 1000 1000))
@@ -72,9 +71,9 @@
            (headers     (with-output-to-string (*standard-output*)
                           (cl-kraken:trades "xbteur" :since kraken-time
                                                      :verbose t)))
-           (query       (subseq headers 65 (+ 90 (length since)))))
-      (ok (string=
-           query (concatenate 'string "Trades?since=" since "&pair=xbteur")))))
+           (expected    (concatenate 'string
+                                     "Trades?since=" since "&pair=xbteur")))
+      (ok (string= headers expected :start1 65 :end1 (+ 90 (length since))))))
   ;; Test invalid SINCE values.
   (testing "when passed a string SINCE, a type error is signaled"
     (ok (signals (cl-kraken:trades "xbteur" :since "1") 'type-error)
@@ -88,9 +87,9 @@
   ;; Test RAW parameter.
   (testing "when passed RAW T, evaluates to the raw response string"
     (let* ((response (cl-kraken:trades "xbteur" :raw t))
-           (start (subseq response 0 35)))
+           (expected "{\"error\":[],\"result\":{\"XXBTZEUR\":[["))
       (ok (stringp response))
-      (ok (string= start "{\"error\":[],\"result\":{\"XXBTZEUR\":[["))))
+      (ok (string= response expected :start1 0 :end1 35 ))))
   (testing "when passed RAW NIL, evaluates as if no RAW argument was passed"
     (let* ((response (cl-kraken:trades "xbtusd" :raw nil))
            (error!   (filter response "error"))

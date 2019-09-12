@@ -61,9 +61,8 @@
   ;; Test correct handling of COUNT keyword parameter to query params.
   (testing "when no COUNT is passed, it is absent from the query params"
     (let* ((headers (with-output-to-string (*standard-output*)
-                      (cl-kraken:depth "xbteur" :verbose t)))
-           (query   (subseq headers 65 83)))
-      (ok (string= query "Depth?pair=xbteur "))))
+                      (cl-kraken:depth "xbteur" :verbose t))))
+      (ok (string= headers "Depth?pair=xbteur " :start1 65 :end1 83))))
   (testing "when no COUNT is passed Kraken returns by default 100 asks and bids"
     (let ((pair (filter (cl-kraken:depth "etceth") "result" "XETCXETH")))
       (ok (= (length (filter pair "asks")) 100))
@@ -72,10 +71,9 @@
     (let* ((count    (+ 1 (random 9)))
            (headers  (with-output-to-string (*standard-output*)
                        (cl-kraken:depth "xbteur" :count count :verbose t)))
-           (query    (subseq headers 65 91))
            (expected (concatenate 'string "Depth?count=" (princ-to-string count)
                                   "&pair=xbteur ")))
-      (ok (string= query expected))))
+      (ok (string= headers expected :start1 65 :end1 91))))
   (testing "when passed a valid COUNT, evaluates to that number of asks/bids"
     (let* ((count    (+ 1 (random 9)))
            (response (cl-kraken:depth "xbteur" :count count))
@@ -116,10 +114,10 @@
         "The value of COUNT is :|1|, which is not of type INTEGER."))
   ;; Test RAW parameter.
   (testing "when passed RAW T, evaluates to the raw response string"
-    (let* ((response (cl-kraken:depth "xbtusd" :count 1 :raw t))
-           (start (subseq response 0 42)))
+    (let* ((response (cl-kraken:depth "xbtusd" :count 1 :raw t)))
       (ok (stringp response))
-      (ok (string= start "{\"error\":[],\"result\":{\"XXBTZUSD\":{\"asks\":["))))
+      (ok (string= response "{\"error\":[],\"result\":{\"XXBTZUSD\":{\"asks\":["
+                   :start1 0 :end1 42))))
   (testing "when passed RAW NIL, evaluates as if no RAW argument was passed"
     (let* ((response (cl-kraken:depth "xbteur" :count 1 :raw nil))
            (error!   (filter response "error"))

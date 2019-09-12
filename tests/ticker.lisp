@@ -75,9 +75,9 @@
   ;; Test RAW parameter.
   (testing "when passed RAW T, evaluates to the raw response string"
     (let* ((response (cl-kraken:ticker "xbteur" :raw t))
-           (start (subseq response 0 39)))
+           (expected "{\"error\":[],\"result\":{\"XXBTZEUR\":{\"a\":["))
       (ok (stringp response))
-      (ok (string= start "{\"error\":[],\"result\":{\"XXBTZEUR\":{\"a\":["))))
+      (ok (string= response expected :start1 0 :end1 39))))
   (testing "when passed RAW NIL, evaluates as if no RAW argument was passed"
     (let* ((response (cl-kraken:ticker "xbtusd" :raw nil))
            (error!   (filter response "error"))

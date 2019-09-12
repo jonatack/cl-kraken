@@ -39,19 +39,16 @@
       (ok (string= headers ""))))
   (testing "when passed VERBOSE T"
     (let* ((headers (with-output-to-string (*standard-output*)
-                      (cl-kraken::request "Time" :verbose t)))
-           (query (subseq headers 51 78)))
-      (ok (string= query *expected-query*))))
+                      (cl-kraken::request "Time" :verbose t))))
+      (ok (string= headers *expected-query* :start1 51 :end1 78))))
   (testing "when passed RAW NIL VERBOSE T"
     (let* ((headers (with-output-to-string (*standard-output*)
-                      (cl-kraken::request "Time" :raw nil :verbose t)))
-           (query (subseq headers 51 78)))
-      (ok (string= query *expected-query*))))
+                      (cl-kraken::request "Time" :raw nil :verbose t))))
+      (ok (string= headers *expected-query* :start1 51 :end1 78))))
   (testing "when passed RAW T VERBOSE T"
     (let* ((headers (with-output-to-string (*standard-output*)
-                      (cl-kraken::request "Time" :raw t :verbose t)))
-           (query (subseq headers 51 78)))
-      (ok (string= query *expected-query*)))))
+                      (cl-kraken::request "Time" :raw t :verbose t))))
+      (ok (string= headers *expected-query* :start1 51 :end1 78)))))
 
 (deftest post-http-headers
   (let* ((path   "/0/private/Balance")
