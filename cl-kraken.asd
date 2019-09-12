@@ -8,7 +8,7 @@
   :description "A Common Lisp API client for the Kraken exchange"
   :homepage "https://github.com/jonatack/cl-kraken"
   :license "MIT"
-  :version "0.0.2"
+  :version "0.0.3"
   :class :package-inferred-system
   :depends-on ("cl-kraken/src/main")
   :in-order-to ((test-op (test-op "cl-kraken/tests"))))
