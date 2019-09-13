@@ -54,27 +54,27 @@
         (ok (>= high-price low-price))))
     ;; Test correct handling of keyword parameters to query params.
     (testing "when passed no INTERVAL or SINCE, queries default interval of 1"
-      (let* ((headers (with-output-to-string (*standard-output*)
-                        (cl-kraken:ohlc "xbteur" :verbose t)))
-             (expected "OHLC?pair=xbteur&interval=1 "))
+      (let ((headers (with-output-to-string (*standard-output*)
+                       (cl-kraken:ohlc "xbteur" :verbose t)))
+            (expected "OHLC?pair=xbteur&interval=1 "))
         (ok (string= headers expected :start1 65 :end1 93))))
     (testing "when passed a valid INTERVAL, queries specified interval"
-      (let* ((headers (with-output-to-string (*standard-output*)
-                        (cl-kraken:ohlc "xbteur" :interval 21600 :verbose t)))
-             (expected "OHLC?pair=xbteur&interval=21600 "))
+      (let ((headers (with-output-to-string (*standard-output*)
+                       (cl-kraken:ohlc "xbteur" :interval 21600 :verbose t)))
+            (expected "OHLC?pair=xbteur&interval=21600 "))
         (ok (string= headers expected :start1 65 :end1 97))))
     (testing "when passed a valid SINCE, queries since + default interval of 1"
-      (let* ((headers (with-output-to-string (*standard-output*)
-                        (cl-kraken:ohlc "xbteur" :since unix-now :verbose t)))
-             (expected (concatenate 'string "OHLC?since=" since
-                                    "&pair=xbteur&interval=1 ")))
+      (let ((headers (with-output-to-string (*standard-output*)
+                       (cl-kraken:ohlc "xbteur" :since unix-now :verbose t)))
+            (expected (concatenate 'string "OHLC?since=" since
+                                   "&pair=xbteur&interval=1 ")))
         (ok (string= headers expected :start1 65 :end1 110))))
     (testing "when passed a valid SINCE+INTERVAL, queries both specified values"
-      (let* ((headers (with-output-to-string (*standard-output*)
-                        (cl-kraken:ohlc "xbteur" :since unix-now :interval 21600
-                                                 :verbose t)))
-             (expected (concatenate 'string "OHLC?since=" since
-                                    "&pair=xbteur&interval=21600 ")))
+      (let ((headers (with-output-to-string (*standard-output*)
+                       (cl-kraken:ohlc "xbteur" :since unix-now :interval 21600
+                                                :verbose t)))
+            (expected (concatenate 'string "OHLC?since=" since
+                                   "&pair=xbteur&interval=21600 ")))
         (ok (string= headers expected :start1 65 :end1 114)))))
   ;; Test invalid PAIR values.
   (testing "when passed a multiple PAIR, evaluates to unknown asset pair error"
@@ -117,9 +117,9 @@
         "The value of SINCE is :|1|, which is not of type (OR INTEGER NULL)."))
   ;; Test RAW parameter.
   (testing "when passed RAW T, evaluates to the raw response string"
-    (let* ((response (cl-kraken:ohlc "xbtusd"
-                                     :since (timestamp-to-unix (now)) :raw t))
-           (expected "{\"error\":[],\"result\":{\"XXBTZUSD\":[["))
+    (let ((response (cl-kraken:ohlc "xbtusd"
+                                    :since (timestamp-to-unix (now)) :raw t))
+          (expected "{\"error\":[],\"result\":{\"XXBTZUSD\":[["))
       (ok (stringp response))
       (ok (string= response expected :start1 0 :end1 35))))
   (testing "when passed RAW NIL, evaluates as if no RAW argument was passed"

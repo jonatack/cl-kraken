@@ -74,8 +74,8 @@
         "The value of PAIR is :XBTEUR, which is not of type (AND STRING (NOT NULL))."))
   ;; Test RAW parameter.
   (testing "when passed RAW T, evaluates to the raw response string"
-    (let* ((response (cl-kraken:ticker "xbteur" :raw t))
-           (expected "{\"error\":[],\"result\":{\"XXBTZEUR\":{\"a\":["))
+    (let ((response (cl-kraken:ticker "xbteur" :raw t))
+          (expected "{\"error\":[],\"result\":{\"XXBTZEUR\":{\"a\":["))
       (ok (stringp response))
       (ok (string= response expected :start1 0 :end1 39))))
   (testing "when passed RAW NIL, evaluates as if no RAW argument was passed"

@@ -60,8 +60,8 @@
         "The value of PAIR is :XBTEUR, which is not of type SIMPLE-STRING."))
   ;; Test correct handling of COUNT keyword parameter to query params.
   (testing "when no COUNT is passed, it is absent from the query params"
-    (let* ((headers (with-output-to-string (*standard-output*)
-                      (cl-kraken:depth "xbteur" :verbose t))))
+    (let ((headers (with-output-to-string (*standard-output*)
+                     (cl-kraken:depth "xbteur" :verbose t))))
       (ok (string= headers "Depth?pair=xbteur " :start1 65 :end1 83))))
   (testing "when no COUNT is passed Kraken returns by default 100 asks and bids"
     (let ((pair (filter (cl-kraken:depth "etceth") "result" "XETCXETH")))

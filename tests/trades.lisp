@@ -61,8 +61,8 @@
         "The value of PAIR is :XBTEUR, which is not of type SIMPLE-STRING."))
   ;; Test correct handling of SINCE keyword parameter to query params.
   (testing "when no SINCE is passed, it is absent from the query params"
-    (let* ((headers (with-output-to-string (*standard-output*)
-                      (cl-kraken:trades "xbteur" :verbose t))))
+    (let ((headers (with-output-to-string (*standard-output*)
+                     (cl-kraken:trades "xbteur" :verbose t))))
       (ok (string= headers "Trades?pair=xbteur " :start1 65 :end1 84))))
   (testing "when passed an integer SINCE, it is present in the query params"
     (let* ((server-time (filter (server-time) "result" "unixtime"))
@@ -86,8 +86,8 @@
         "The value of SINCE is :|1|, which is not of type INTEGER."))
   ;; Test RAW parameter.
   (testing "when passed RAW T, evaluates to the raw response string"
-    (let* ((response (cl-kraken:trades "xbteur" :raw t))
-           (expected "{\"error\":[],\"result\":{\"XXBTZEUR\":[["))
+    (let ((response (cl-kraken:trades "xbteur" :raw t))
+          (expected "{\"error\":[],\"result\":{\"XXBTZEUR\":[["))
       (ok (stringp response))
       (ok (string= response expected :start1 0 :end1 35 ))))
   (testing "when passed RAW NIL, evaluates as if no RAW argument was passed"
