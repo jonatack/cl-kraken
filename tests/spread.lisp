@@ -47,8 +47,8 @@
           "The value of PAIR is :XBTEUR, which is not of type SIMPLE-STRING."))
     ;; Test correct handling of SINCE keyword parameter to query params.
     (testing "when no SINCE is passed, it is absent from the query params"
-      (let* ((headers (with-output-to-string (*standard-output*)
-                        (cl-kraken:spread "xbteur" :verbose t))))
+      (let ((headers (with-output-to-string (*standard-output*)
+                       (cl-kraken:spread "xbteur" :verbose t))))
         (ok (string= headers "Spread?pair=xbteur " :start1 65 :end1 84))))
     (testing "when passed a valid SINCE, it is present in the query params"
       (let* ((since   (princ-to-string unix-now))
