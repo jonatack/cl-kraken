@@ -41,7 +41,9 @@ cache:
     - $HOME/.config/common-lisp
 
 install:
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install libev; fi
   - curl -L https://raw.githubusercontent.com/roswell/roswell/$ROSWELL_BRANCH/scripts/install-for-ci.sh | sh
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then ros install sbcl; fi
   - git clone --depth=1 git://github.com/soemraws/parse-float.git ~/common-lisp/parse-float
   - ros install fukamachi/rove  # Use Rove master for latest updates
   - if [ "$COVERAGE" = "1" ]; then ros install fukamachi/cl-coveralls; fi
