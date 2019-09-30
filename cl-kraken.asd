@@ -30,5 +30,6 @@
                "cl-kraken/tests/spread"
                "cl-kraken/tests/ticker"
                "cl-kraken/tests/trades"
-               "cl-kraken/tests/balance")
+               "cl-kraken/tests/balance"
+               "cl-kraken/tests/trade-volume")
   :perform (test-op (op c) (symbol-call :rove '#:run c)))
