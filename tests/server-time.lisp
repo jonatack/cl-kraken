@@ -39,17 +39,17 @@
                ",\"rfc1123\":\"" (unix-to-rfc1123 time) "\"}}"))
 
 (deftest server-time
-  (let* ((now (timestamp-to-unix (now)))
-         (response  (cl-kraken:server-time))
-         (time (filter response "result" "unixtime")))
-    (testing "evaluates to the expected server time"
+  (testing "evaluates to the expected server time"
+    (let* ((now      (timestamp-to-unix (now)))
+           (response (cl-kraken:server-time))
+           (time     (filter response "result" "unixtime")))
       (ok (consp response))
       (ok (consp (cadr (cdaddr response))))
       (ok (consp (caddr (cdaddr response))))
-      (ok (equal response (expected-list time))))
-    (testing "evaluates to a Unix Time component expressed as an integer"
-      (ok (integerp time)))
-    (testing "evaluates to Unix Time ±20 seconds of current time, given skew"
+      (ok (equal response (expected-list time)))
+      ;; evaluates to a Unix Time component expressed as an integer"
+      (ok (integerp time))
+      ;; evaluates to Unix Time ±20 seconds of current time, given skew
       (ok (< (abs (- time now)) 20))))
   ;; Test with parameter RAW NIL
   (let* ((response  (cl-kraken:server-time :raw nil))
