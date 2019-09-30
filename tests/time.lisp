@@ -24,7 +24,6 @@
   (testing "is 16 characters in length"
     (ok (= 16 (length (cl-kraken/src/time:generate-kraken-nonce)))))
   (testing "is continually increasing"
-    (let ((old-nonce (parse-integer (cl-kraken/src/time:generate-kraken-nonce)))
-          (_ (sleep 0.001))
-          (new-nonce (parse-integer (cl-kraken/src/time:generate-kraken-nonce))))
-      (ok (> new-nonce old-nonce)))))
+    (let ((old-nonce (parse-integer (cl-kraken/src/time:generate-kraken-nonce))))
+      (sleep 0.001)
+      (ok (> (parse-integer (cl-kraken/src/time:generate-kraken-nonce)) old-nonce)))))
