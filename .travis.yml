@@ -4,7 +4,7 @@ sudo: false
 
 os:
   - linux
-  - osx
+  # - osx
 
 env:
   global:
@@ -15,25 +15,25 @@ env:
   matrix:
     - LISP=sbcl COVERAGE=1
     - LISP=ccl
-    - LISP=abcl
+    # - LISP=abcl
     # - LISP=clisp
     # - LISP=cmucl
-    - LISP=ecl
+    # - LISP=ecl
 
 matrix:
   fast_finish: true
   allow_failures:
     - env: LISP=clisp
     - env: LISP=abcl
-    # - env: LISP=alisp
-    # - env: LISP=cmucl
+    - env: LISP=alisp
+    - env: LISP=cmucl
     - env: LISP=ecl
 
 addons:
   apt:
     packages:
-      - libc6-i386     # needed for some implementations
-      - openjdk-8-jre  # needed for ABCL
+      # - libc6-i386     # needed for some implementations
+      # - openjdk-8-jre  # needed for ABCL
 
 cache:
   directories:
@@ -41,9 +41,7 @@ cache:
     - $HOME/.config/common-lisp
 
 install:
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install libev; fi
   - curl -L https://raw.githubusercontent.com/roswell/roswell/$ROSWELL_BRANCH/scripts/install-for-ci.sh | sh
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then ros install sbcl; fi
   - git clone --depth=1 git://github.com/soemraws/parse-float.git ~/common-lisp/parse-float
   - ros install fukamachi/rove  # Use Rove master for latest updates
   - if [ "$COVERAGE" = "1" ]; then ros install fukamachi/cl-coveralls; fi
