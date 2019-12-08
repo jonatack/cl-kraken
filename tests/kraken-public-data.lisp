@@ -405,6 +405,16 @@
                     (2500000 1/25) (5000000 1/50) (10000000 0))
       ("fee_volume_currency" . "ZUSD") ("margin_call" . 80) ("margin_stop" . 40))
 
+     ("ETHCHF" :OBJ ("altname" . "ETHCHF") ("wsname" . "ETH/CHF")
+      ("aclass_base" . "currency") ("base" . "XETH") ("aclass_quote" . "currency")
+      ("quote" . "CHF") ("lot" . "unit") ("pair_decimals" . 2) ("lot_decimals" . 8)
+      ("lot_multiplier" . 1) ("leverage_buy") ("leverage_sell")
+      ("fees" (0 13/50) (50000 6/25) (100000 11/50) (250000 1/5) (500000 9/50)
+              (1000000 4/25) (2500000 7/50) (5000000 3/25) (10000000 1/10))
+      ("fees_maker" (0 4/25) (50000 7/50) (100000 3/25) (250000 1/10) (500000 2/25)
+                    (1000000 3/50) (2500000 1/25) (5000000 1/50) (10000000 0))
+      ("fee_volume_currency" . "ZUSD") ("margin_call" . 80) ("margin_stop" . 40))
+
      ("ETHDAI" :OBJ ("altname" . "ETHDAI") ("wsname" . "ETH/DAI") ("aclass_base" . "currency")
       ("base" . "XETH") ("aclass_quote" . "currency") ("quote" . "DAI") ("lot" . "unit")
       ("pair_decimals" . 3) ("lot_decimals" . 8) ("lot_multiplier" . 1) ("leverage_buy")
@@ -831,6 +841,16 @@
               (2500000 7/50) (5000000 3/25) (10000000 1/10))
       ("fees_maker" (0 4/25) (50000 7/50) (100000 3/25) (250000 1/10) (500000 2/25) (1000000 3/50)
                     (2500000 1/25) (5000000 1/50) (10000000 0))
+      ("fee_volume_currency" . "ZUSD") ("margin_call" . 80) ("margin_stop" . 40))
+
+     ("XBTCHF" :OBJ ("altname" . "XBTCHF") ("wsname" . "XBT/CHF")
+      ("aclass_base" . "currency") ("base" . "XXBT") ("aclass_quote" . "currency")
+      ("quote" . "CHF") ("lot" . "unit") ("pair_decimals" . 1) ("lot_decimals" . 8)
+      ("lot_multiplier" . 1) ("leverage_buy") ("leverage_sell")
+      ("fees" (0 13/50) (50000 6/25) (100000 11/50) (250000 1/5) (500000 9/50)
+              (1000000 4/25) (2500000 7/50) (5000000 3/25) (10000000 1/10))
+      ("fees_maker" (0 4/25) (50000 7/50) (100000 3/25) (250000 1/10) (500000 2/25)
+                    (1000000 3/50) (2500000 1/25) (5000000 1/50) (10000000 0))
       ("fee_volume_currency" . "ZUSD") ("margin_call" . 80) ("margin_stop" . 40))
 
      ("XETCXETH" :OBJ ("altname" . "ETCETH") ("wsname" . "ETC/ETH") ("aclass_base" . "currency")
