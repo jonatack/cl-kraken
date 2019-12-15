@@ -63,6 +63,7 @@
      ("XMLN"  :OBJ ("aclass" . "currency") ("altname" .   "MLN") ("decimals" . 10) ("display_decimals" . 5))
      ("XREP"  :OBJ ("aclass" . "currency") ("altname" .   "REP") ("decimals" . 10) ("display_decimals" . 5))
      ("XTZ"   :OBJ ("aclass" . "currency") ("altname" .   "XTZ") ("decimals" .  8) ("display_decimals" . 6))
+     ("XTZ.S" :OBJ ("aclass" . "currency") ("altname" . "XTZ.S") ("decimals" .  8) ("display_decimals" . 6))
      ("XXBT"  :OBJ ("aclass" . "currency") ("altname" .   "XBT") ("decimals" . 10) ("display_decimals" . 5))
      ("XXDG"  :OBJ ("aclass" . "currency") ("altname" .   "XDG") ("decimals" .  8) ("display_decimals" . 2))
      ("XXLM"  :OBJ ("aclass" . "currency") ("altname" .   "XLM") ("decimals" .  8) ("display_decimals" . 5))
