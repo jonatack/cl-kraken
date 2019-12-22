@@ -4,7 +4,7 @@ sudo: false
 
 os:
   - linux
-  # - osx
+  - osx
 
 env:
   global:
@@ -13,8 +13,8 @@ env:
     - COVERAGE_EXCLUDE=tests # for Prove or Rove
     - ROSWELL_BRANCH=master  # use Roswell master for latest updates
   matrix:
-    - LISP=sbcl COVERAGE=1
-    - LISP=ccl
+    - LISP=sbcl
+    - LISP=ccl COVERAGE=1
     # - LISP=abcl
     # - LISP=clisp
     # - LISP=cmucl
@@ -23,6 +23,7 @@ env:
 matrix:
   fast_finish: true
   allow_failures:
+    - env: LISP=ccl COVERAGE=1
     - env: LISP=clisp
     - env: LISP=abcl
     - env: LISP=alisp
