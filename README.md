@@ -33,9 +33,6 @@ CFFI.
 
 ## Getting started
 
-To use, git clone the repo into your `~/quicklisp/local-projects` directory,
-then:
-
 ```lisp
 (ql:quickload :cl-kraken)
 (in-package :cl-kraken)
