@@ -182,4 +182,4 @@ To run the tests of one test file only, append the file name without the extensi
 
 ### Copyright
 
-Copyright (c) 2019 Jon Atack (jon@atack.com)
+Copyright (c) 2019-2020 Jon Atack (jon@atack.com)

@@ -4,7 +4,7 @@
 (defpackage #:cl-kraken
   (:documentation
    "CL-Kraken is Common Lisp client for the Kraken cryptocurrency exchange.
-    Copyright (c) 2019 Jon Atack <jon@atack.com>. See LICENSE for details.
+    Copyright (c) 2019-2020 Jon Atack <jon@atack.com>. See LICENSE for details.
     The Kraken API is documented here: https://www.kraken.com/help/api.")
   (:nicknames #:cl-kraken/src/main)
   (:use #:cl)
