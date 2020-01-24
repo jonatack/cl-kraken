@@ -1,7 +1,7 @@
 ;;;; cl-kraken/tests/assets.lisp
 
 (defpackage #:cl-kraken/tests/assets
-  (:use #:cl #:rove)
+  (:use #:cl #:cl-kraken #:rove)
   (:import-from #:cl-kraken/tests/kraken-public-data
                 #:*all-assets*
                 #:*bitcoin-asset*

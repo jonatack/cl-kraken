@@ -1,7 +1,7 @@
 ;;;; cl-kraken/tests/balance.lisp
 
 (defpackage #:cl-kraken/tests/balance
-  (:use #:cl #:rove))
+  (:use #:cl #:cl-kraken #:rove))
 (in-package #:cl-kraken/tests/balance)
 
 (deftest balance

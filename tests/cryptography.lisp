@@ -1,7 +1,7 @@
 ;;;; cl-kraken/tests/cryptography.lisp
 
 (defpackage #:cl-kraken/tests/cryptography
-  (:use #:cl #:rove))
+  (:use #:cl #:cl-kraken #:rove))
 (in-package #:cl-kraken/tests/cryptography)
 
 (deftest signature

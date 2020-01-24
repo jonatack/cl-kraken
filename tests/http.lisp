@@ -1,7 +1,7 @@
 ;;;; cl-kraken/tests/http.lisp
 
 (defpackage #:cl-kraken/tests/http
-  (:use #:cl #:rove))
+  (:use #:cl #:cl-kraken #:rove))
 (in-package #:cl-kraken/tests/http)
 
 (defparameter *expected-query* "GET /0/public/Time HTTP/1.1")

@@ -1,7 +1,7 @@
 ;;;; cl-kraken/tests/asset-pairs.lisp
 
 (defpackage #:cl-kraken/tests/asset-pairs
-  (:use #:cl #:rove)
+  (:use #:cl #:cl-kraken #:rove)
   (:import-from #:cl-kraken/tests/kraken-public-data
                 #:*all-pairs*
                 #:*xbteur-pair*

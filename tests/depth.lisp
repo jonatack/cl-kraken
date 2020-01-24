@@ -1,7 +1,7 @@
 ;;;; cl-kraken/tests/depth.lisp
 
 (defpackage #:cl-kraken/tests/depth
-  (:use #:cl #:rove)
+  (:use #:cl #:cl-kraken #:rove)
   (:import-from #:jsown
                 #:filter)
   (:import-from #:parse-float

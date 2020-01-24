@@ -1,7 +1,7 @@
 ;;;; cl-kraken/tests/server-time.lisp
 
 (defpackage #:cl-kraken/tests/server-time
-  (:use #:cl #:rove)
+  (:use #:cl #:cl-kraken #:rove)
   (:import-from #:local-time
                 #:now
                 #:timestamp-to-unix

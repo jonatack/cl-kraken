@@ -1,7 +1,7 @@
 ;;;; cl-kraken/tests/time.lisp
 
 (defpackage #:cl-kraken/tests/time
-  (:use #:cl #:rove))
+  (:use #:cl #:cl-kraken #:rove))
 (in-package #:cl-kraken/tests/time)
 
 (deftest +one-million+

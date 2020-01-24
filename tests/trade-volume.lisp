@@ -1,7 +1,7 @@
 ;;;; cl-kraken/tests/trade-volume.lisp
 
 (defpackage #:cl-kraken/tests/trade-volume
-  (:use #:cl #:rove))
+  (:use #:cl #:cl-kraken #:rove))
 (in-package #:cl-kraken/tests/trade-volume)
 
 (defparameter *default-response-object*

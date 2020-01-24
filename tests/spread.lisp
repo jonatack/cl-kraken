@@ -1,7 +1,7 @@
 ;;;; cl-kraken/tests/spread.lisp
 
 (defpackage #:cl-kraken/tests/spread
-  (:use #:cl #:rove)
+  (:use #:cl #:cl-kraken #:rove)
   (:import-from #:local-time
                 #:now
                 #:timestamp-to-unix)

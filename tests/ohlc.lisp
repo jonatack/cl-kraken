@@ -1,7 +1,7 @@
 ;;;; cl-kraken/tests/ohlc.lisp
 
 (defpackage #:cl-kraken/tests/ohlc
-  (:use #:cl #:rove)
+  (:use #:cl #:cl-kraken #:rove)
   (:import-from #:local-time
                 #:now
                 #:timestamp-to-unix)

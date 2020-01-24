@@ -1,7 +1,7 @@
 ;;;; cl-kraken/tests/ticker.lisp
 
 (defpackage #:cl-kraken/tests/ticker
-  (:use #:cl #:rove)
+  (:use #:cl #:cl-kraken #:rove)
   (:import-from #:jsown
                 #:filter))
 (in-package #:cl-kraken/tests/ticker)
