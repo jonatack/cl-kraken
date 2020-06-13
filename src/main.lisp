@@ -258,8 +258,8 @@
     `fees' and maker side in `fees_maker'.
   For asset pairs not on maker/taker, the rates will only be given in `fees'."
   (declare (type boolean fee-info raw verbose))
-  #+(or sbcl ccl abcl) (declare (type (or simple-string null) pair))
-  #+(or clisp ecl) (check-type pair (or simple-string null))
+  #+(or sbcl ccl) (declare (type (or simple-string null) pair))
+  #+(or abcl clisp ecl) (check-type pair (or simple-string null))
   (let ((params))
     (when (stringp pair) (push (cons "pair" pair) params))
     (when fee-info (push (list "fee-info") params))
