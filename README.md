@@ -21,7 +21,7 @@ Developed with SBCL (in general the latest version) and tested with:
 - Armed Bear Common Lisp (ABCL) 1.5.0, 1.6.0-dev
 - CLISP 2.49.92, 2.49.93
 - Clozure Common Lisp (CCL) 1.11.5, 1.12-dev.5
-- Embeddable Common Lisp (ECL) 16.1.3
+- Embeddable Common Lisp (ECL) 20.4.24
 
 Allowed failures on Travis are due to CI build issues and not portability ones.
 
