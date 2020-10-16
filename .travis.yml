@@ -3,8 +3,8 @@ language: common-lisp
 sudo: false
 
 os:
-  - linux
   - osx
+#  - linux
 
 env:
   global:
@@ -13,12 +13,12 @@ env:
     - COVERAGE_EXCLUDE=tests # for Prove or Rove
     - ROSWELL_BRANCH=master  # use Roswell master for latest updates
   matrix:
-    - LISP=sbcl
-    - LISP=ccl COVERAGE=1
+    - LISP=sbcl COVERAGE=1
+    # - LISP=ccl COVERAGE=1
     # - LISP=abcl
     # - LISP=clisp
     # - LISP=cmucl
-    - LISP=ecl
+    # - LISP=ecl
 
 matrix:
   fast_finish: true
