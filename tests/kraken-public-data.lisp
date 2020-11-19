@@ -43,7 +43,6 @@
      ("BAL"      :OBJ ("aclass" . "currency") ("altname" .      "BAL") ("decimals" . 10) ("display_decimals" . 5))
      ("BAT"      :OBJ ("aclass" . "currency") ("altname" .      "BAT") ("decimals" . 10) ("display_decimals" . 5))
      ("BCH"      :OBJ ("aclass" . "currency") ("altname" .      "BCH") ("decimals" . 10) ("display_decimals" . 5))
-     ("BSV"      :OBJ ("aclass" . "currency") ("altname" .      "BSV") ("decimals" . 10) ("display_decimals" . 5))
      ("CHF"      :OBJ ("aclass" . "currency") ("altname" .      "CHF") ("decimals" .  4) ("display_decimals" . 2))
      ("COMP"     :OBJ ("aclass" . "currency") ("altname" .     "COMP") ("decimals" . 10) ("display_decimals" . 5))
      ("CRV"      :OBJ ("aclass" . "currency") ("altname" .      "CRV") ("decimals" . 10) ("display_decimals" . 5))
