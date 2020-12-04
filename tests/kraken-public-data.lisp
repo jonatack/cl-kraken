@@ -52,6 +52,8 @@
      ("DOT"      :OBJ ("aclass" . "currency") ("altname" .      "DOT") ("decimals" . 10) ("display_decimals" . 8))
      ("DOT.S"    :OBJ ("aclass" . "currency") ("altname" .    "DOT.S") ("decimals" . 10) ("display_decimals" . 8))
      ("EOS"      :OBJ ("aclass" . "currency") ("altname" .      "EOS") ("decimals" . 10) ("display_decimals" . 5))
+     ("ETH2"     :OBJ ("aclass" . "currency") ("altname" .     "ETH2") ("decimals" . 10) ("display_decimals" . 5))
+     ("ETH2.S"   :OBJ ("aclass" . "currency") ("altname" .   "ETH2.S") ("decimals" . 10) ("display_decimals" . 5))
      ("EUR.HOLD" :OBJ ("aclass" . "currency") ("altname" . "EUR.HOLD") ("decimals" .  4) ("display_decimals" . 2))
      ("EUR.M"    :OBJ ("aclass" . "currency") ("altname" .    "EUR.M") ("decimals" .  4) ("display_decimals" . 4))
      ("FIL"      :OBJ ("aclass" . "currency") ("altname" .      "FIL") ("decimals" . 10) ("display_decimals" . 6))
