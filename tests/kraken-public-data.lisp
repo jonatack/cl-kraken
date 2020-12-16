@@ -36,6 +36,7 @@
 (defparameter *all-assets*
   '(:OBJ ("error")
     ("result" :OBJ
+     ("AAVE"     :OBJ ("aclass" . "currency") ("altname" .     "AAVE") ("decimals" . 10) ("display_decimals" . 5))
      ("ADA"      :OBJ ("aclass" . "currency") ("altname" .      "ADA") ("decimals" .  8) ("display_decimals" . 6))
      ("ALGO"     :OBJ ("aclass" . "currency") ("altname" .     "ALGO") ("decimals" .  8) ("display_decimals" . 5))
      ("ANT"      :OBJ ("aclass" . "currency") ("altname" .      "ANT") ("decimals" . 10) ("display_decimals" . 5))
@@ -64,6 +65,7 @@
      ("GNO"      :OBJ ("aclass" . "currency") ("altname" .      "GNO") ("decimals" . 10) ("display_decimals" . 5))
      ("ICX"      :OBJ ("aclass" . "currency") ("altname" .      "ICX") ("decimals" . 10) ("display_decimals" . 5))
      ("KAVA"     :OBJ ("aclass" . "currency") ("altname" .     "KAVA") ("decimals" .  8) ("display_decimals" . 6))
+     ("KAVA.S"   :OBJ ("aclass" . "currency") ("altname" .   "KAVA.S") ("decimals" .  8) ("display_decimals" . 6))
      ("KEEP"     :OBJ ("aclass" . "currency") ("altname" .     "KEEP") ("decimals" . 10) ("display_decimals" . 5))
      ("KFEE"     :OBJ ("aclass" . "currency") ("altname" .      "FEE") ("decimals" .  2) ("display_decimals" . 2))
      ("KNC"      :OBJ ("aclass" . "currency") ("altname" .      "KNC") ("decimals" . 10) ("display_decimals" . 5))
@@ -71,6 +73,7 @@
      ("KSM.S"    :OBJ ("aclass" . "currency") ("altname" .    "KSM.S") ("decimals" . 10) ("display_decimals" . 8))
      ("LINK"     :OBJ ("aclass" . "currency") ("altname" .     "LINK") ("decimals" . 10) ("display_decimals" . 5))
      ("LSK"      :OBJ ("aclass" . "currency") ("altname" .      "LSK") ("decimals" . 10) ("display_decimals" . 5))
+     ("MANA"     :OBJ ("aclass" . "currency") ("altname" .     "MANA") ("decimals" . 10) ("display_decimals" . 5))
      ("NANO"     :OBJ ("aclass" . "currency") ("altname" .     "NANO") ("decimals" . 10) ("display_decimals" . 5))
      ("OMG"      :OBJ ("aclass" . "currency") ("altname" .      "OMG") ("decimals" . 10) ("display_decimals" . 5))
      ("OXT"      :OBJ ("aclass" . "currency") ("altname" .      "OXT") ("decimals" . 10) ("display_decimals" . 5))
@@ -83,6 +86,7 @@
      ("TBTC"     :OBJ ("aclass" . "currency") ("altname" .     "TBTC") ("decimals" . 10) ("display_decimals" . 5))
      ("TRX"      :OBJ ("aclass" . "currency") ("altname" .      "TRX") ("decimals" .  8) ("display_decimals" . 6))
      ("UNI"      :OBJ ("aclass" . "currency") ("altname" .      "UNI") ("decimals" . 10) ("display_decimals" . 5))
+     ("USD.HOLD" :OBJ ("aclass" . "currency") ("altname" . "USD.HOLD") ("decimals" .  4) ("display_decimals" . 2))
      ("USD.M"    :OBJ ("aclass" . "currency") ("altname" .    "USD.M") ("decimals" .  4) ("display_decimals" . 4))
      ("USDC"     :OBJ ("aclass" . "currency") ("altname" .     "USDC") ("decimals" .  8) ("display_decimals" . 4))
      ("USDT"     :OBJ ("aclass" . "currency") ("altname" .     "USDT") ("decimals" .  8) ("display_decimals" . 4))
