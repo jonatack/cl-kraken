@@ -89,6 +89,7 @@
      ("UNI"      :OBJ ("aclass" . "currency") ("altname" .      "UNI") ("decimals" . 10) ("display_decimals" . 5))
      ("USD.HOLD" :OBJ ("aclass" . "currency") ("altname" . "USD.HOLD") ("decimals" .  4) ("display_decimals" . 2))
      ("USD.M"    :OBJ ("aclass" . "currency") ("altname" .    "USD.M") ("decimals" .  4) ("display_decimals" . 4))
+     ("USD.M7"   :OBJ ("aclass" . "currency") ("altname" .   "USD.M7") ("decimals" .  4) ("display_decimals" . 4))
      ("USDC"     :OBJ ("aclass" . "currency") ("altname" .     "USDC") ("decimals" .  8) ("display_decimals" . 4))
      ("USDT"     :OBJ ("aclass" . "currency") ("altname" .     "USDT") ("decimals" .  8) ("display_decimals" . 4))
      ("WAVES"    :OBJ ("aclass" . "currency") ("altname" .    "WAVES") ("decimals" . 10) ("display_decimals" . 5))
