@@ -38,6 +38,7 @@
     ("result" :OBJ
      ("AAVE"     :OBJ ("aclass" . "currency") ("altname" .     "AAVE") ("decimals" . 10) ("display_decimals" . 5))
      ("ADA"      :OBJ ("aclass" . "currency") ("altname" .      "ADA") ("decimals" .  8) ("display_decimals" . 6))
+     ("ADA.S"    :OBJ ("aclass" . "currency") ("altname" .    "ADA.S") ("decimals" .  8) ("display_decimals" . 6))
      ("ALGO"     :OBJ ("aclass" . "currency") ("altname" .     "ALGO") ("decimals" .  8) ("display_decimals" . 5))
      ("ANT"      :OBJ ("aclass" . "currency") ("altname" .      "ANT") ("decimals" . 10) ("display_decimals" . 5))
      ("ATOM"     :OBJ ("aclass" . "currency") ("altname" .     "ATOM") ("decimals" .  8) ("display_decimals" . 6))
