@@ -77,12 +77,14 @@
      ("LINK"     :OBJ ("aclass" . "currency") ("altname" .     "LINK") ("decimals" . 10) ("display_decimals" . 5))
      ("LSK"      :OBJ ("aclass" . "currency") ("altname" .      "LSK") ("decimals" . 10) ("display_decimals" . 5))
      ("MANA"     :OBJ ("aclass" . "currency") ("altname" .     "MANA") ("decimals" . 10) ("display_decimals" . 5))
+     ("MKR"      :OBJ ("aclass" . "currency") ("altname" .      "MKR") ("decimals" . 10) ("display_decimals" . 5))
      ("NANO"     :OBJ ("aclass" . "currency") ("altname" .     "NANO") ("decimals" . 10) ("display_decimals" . 5))
      ("OCEAN"    :OBJ ("aclass" . "currency") ("altname" .    "OCEAN") ("decimals" . 10) ("display_decimals" . 5))
      ("OMG"      :OBJ ("aclass" . "currency") ("altname" .      "OMG") ("decimals" . 10) ("display_decimals" . 5))
      ("OXT"      :OBJ ("aclass" . "currency") ("altname" .      "OXT") ("decimals" . 10) ("display_decimals" . 5))
      ("PAXG"     :OBJ ("aclass" . "currency") ("altname" .     "PAXG") ("decimals" . 10) ("display_decimals" . 5))
      ("QTUM"     :OBJ ("aclass" . "currency") ("altname" .     "QTUM") ("decimals" . 10) ("display_decimals" . 6))
+     ("REN"      :OBJ ("aclass" . "currency") ("altname" .      "REN") ("decimals" . 10) ("display_decimals" . 5))
      ("REPV2"    :OBJ ("aclass" . "currency") ("altname" .    "REPV2") ("decimals" . 10) ("display_decimals" . 5))
      ("SC"       :OBJ ("aclass" . "currency") ("altname" .       "SC") ("decimals" . 10) ("display_decimals" . 5))
      ("SNX"      :OBJ ("aclass" . "currency") ("altname" .      "SNX") ("decimals" . 10) ("display_decimals" . 5))
@@ -115,6 +117,7 @@
      ("ZEUR"     :OBJ ("aclass" . "currency") ("altname" .      "EUR") ("decimals" .  4) ("display_decimals" . 2))
      ("ZGBP"     :OBJ ("aclass" . "currency") ("altname" .      "GBP") ("decimals" .  4) ("display_decimals" . 2))
      ("ZJPY"     :OBJ ("aclass" . "currency") ("altname" .      "JPY") ("decimals" .  2) ("display_decimals" . 0))
+     ("ZRX"      :OBJ ("aclass" . "currency") ("altname" .      "ZRX") ("decimals" . 10) ("display_decimals" . 5))
      ("ZUSD"     :OBJ ("aclass" . "currency") ("altname" .      "USD") ("decimals" .  4) ("display_decimals" . 2)))))
 
 ;;; Kraken Asset Pairs
