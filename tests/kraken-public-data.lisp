@@ -50,6 +50,7 @@
      ("BNT"      :OBJ ("aclass" . "currency") ("altname" .      "BNT") ("decimals" . 10) ("display_decimals" . 5))
      ("CHF"      :OBJ ("aclass" . "currency") ("altname" .      "CHF") ("decimals" .  4) ("display_decimals" . 2))
      ("COMP"     :OBJ ("aclass" . "currency") ("altname" .     "COMP") ("decimals" . 10) ("display_decimals" . 5))
+     ("CQT"      :OBJ ("aclass" . "currency") ("altname" .      "CQT") ("decimals" . 10) ("display_decimals" . 5))
      ("CRV"      :OBJ ("aclass" . "currency") ("altname" .      "CRV") ("decimals" . 10) ("display_decimals" . 5))
      ("DAI"      :OBJ ("aclass" . "currency") ("altname" .      "DAI") ("decimals" . 10) ("display_decimals" . 5))
      ("DASH"     :OBJ ("aclass" . "currency") ("altname" .     "DASH") ("decimals" . 10) ("display_decimals" . 5))
