@@ -74,6 +74,7 @@
      ("GNO"      :OBJ ("aclass" . "currency") ("altname" .      "GNO") ("decimals" . 10) ("display_decimals" . 5))
      ("GRT"      :OBJ ("aclass" . "currency") ("altname" .      "GRT") ("decimals" . 10) ("display_decimals" . 5))
      ("ICX"      :OBJ ("aclass" . "currency") ("altname" .      "ICX") ("decimals" . 10) ("display_decimals" . 5))
+     ("KAR"      :OBJ ("aclass" . "currency") ("altname" .      "KAR") ("decimals" . 10) ("display_decimals" . 5))
      ("KAVA"     :OBJ ("aclass" . "currency") ("altname" .     "KAVA") ("decimals" .  8) ("display_decimals" . 6))
      ("KAVA.S"   :OBJ ("aclass" . "currency") ("altname" .   "KAVA.S") ("decimals" .  8) ("display_decimals" . 6))
      ("KEEP"     :OBJ ("aclass" . "currency") ("altname" .     "KEEP") ("decimals" . 10) ("display_decimals" . 5))
