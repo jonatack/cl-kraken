@@ -36,6 +36,7 @@
 (defparameter *all-assets*
   '(:OBJ ("error")
     ("result" :OBJ
+     ("1INCH"    :OBJ ("aclass" . "currency") ("altname" .    "1INCH") ("decimals" . 10) ("display_decimals" . 5))
      ("AAVE"     :OBJ ("aclass" . "currency") ("altname" .     "AAVE") ("decimals" . 10) ("display_decimals" . 5))
      ("ADA"      :OBJ ("aclass" . "currency") ("altname" .      "ADA") ("decimals" .  8) ("display_decimals" . 6))
      ("ADA.S"    :OBJ ("aclass" . "currency") ("altname" .    "ADA.S") ("decimals" .  8) ("display_decimals" . 6))
@@ -47,6 +48,7 @@
      ("AXS"      :OBJ ("aclass" . "currency") ("altname" .      "AXS") ("decimals" . 10) ("display_decimals" . 5))
      ("BADGER"   :OBJ ("aclass" . "currency") ("altname" .   "BADGER") ("decimals" . 10) ("display_decimals" . 5))
      ("BAL"      :OBJ ("aclass" . "currency") ("altname" .      "BAL") ("decimals" . 10) ("display_decimals" . 5))
+     ("BAND"     :OBJ ("aclass" . "currency") ("altname" .     "BAND") ("decimals" . 10) ("display_decimals" . 5))
      ("BAT"      :OBJ ("aclass" . "currency") ("altname" .      "BAT") ("decimals" . 10) ("display_decimals" . 5))
      ("BCH"      :OBJ ("aclass" . "currency") ("altname" .      "BCH") ("decimals" . 10) ("display_decimals" . 5))
      ("BNT"      :OBJ ("aclass" . "currency") ("altname" .      "BNT") ("decimals" . 10) ("display_decimals" . 5))
@@ -76,6 +78,7 @@
      ("GNO"      :OBJ ("aclass" . "currency") ("altname" .      "GNO") ("decimals" . 10) ("display_decimals" . 5))
      ("GRT"      :OBJ ("aclass" . "currency") ("altname" .      "GRT") ("decimals" . 10) ("display_decimals" . 5))
      ("ICX"      :OBJ ("aclass" . "currency") ("altname" .      "ICX") ("decimals" . 10) ("display_decimals" . 5))
+     ("INJ"      :OBJ ("aclass" . "currency") ("altname" .      "INJ") ("decimals" . 10) ("display_decimals" . 5))
      ("KAR"      :OBJ ("aclass" . "currency") ("altname" .      "KAR") ("decimals" . 10) ("display_decimals" . 5))
      ("KAVA"     :OBJ ("aclass" . "currency") ("altname" .     "KAVA") ("decimals" .  8) ("display_decimals" . 6))
      ("KAVA.S"   :OBJ ("aclass" . "currency") ("altname" .   "KAVA.S") ("decimals" .  8) ("display_decimals" . 6))
@@ -92,6 +95,7 @@
      ("MANA"     :OBJ ("aclass" . "currency") ("altname" .     "MANA") ("decimals" . 10) ("display_decimals" . 5))
      ("MATIC"    :OBJ ("aclass" . "currency") ("altname" .    "MATIC") ("decimals" . 10) ("display_decimals" . 5))
      ("MINA"     :OBJ ("aclass" . "currency") ("altname" .     "MINA") ("decimals" . 10) ("display_decimals" . 5))
+     ("MIR"      :OBJ ("aclass" . "currency") ("altname" .      "MIR") ("decimals" . 10) ("display_decimals" . 5))
      ("MKR"      :OBJ ("aclass" . "currency") ("altname" .      "MKR") ("decimals" . 10) ("display_decimals" . 5))
      ("NANO"     :OBJ ("aclass" . "currency") ("altname" .     "NANO") ("decimals" . 10) ("display_decimals" . 5))
      ("OCEAN"    :OBJ ("aclass" . "currency") ("altname" .    "OCEAN") ("decimals" . 10) ("display_decimals" . 5))
