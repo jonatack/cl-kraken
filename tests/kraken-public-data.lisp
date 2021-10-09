@@ -107,6 +107,7 @@
      ("OXY"      :OBJ ("aclass" . "currency") ("altname" .      "OXY") ("decimals" .  8) ("display_decimals" . 5))
      ("PAXG"     :OBJ ("aclass" . "currency") ("altname" .     "PAXG") ("decimals" . 10) ("display_decimals" . 5))
      ("PERP"     :OBJ ("aclass" . "currency") ("altname" .     "PERP") ("decimals" . 10) ("display_decimals" . 5))
+     ("PHA"      :OBJ ("aclass" . "currency") ("altname" .      "PHA") ("decimals" . 10) ("display_decimals" . 5))
      ("QTUM"     :OBJ ("aclass" . "currency") ("altname" .     "QTUM") ("decimals" . 10) ("display_decimals" . 6))
      ("RARI"     :OBJ ("aclass" . "currency") ("altname" .     "RARI") ("decimals" . 10) ("display_decimals" . 5))
      ("RAY"      :OBJ ("aclass" . "currency") ("altname" .      "RAY") ("decimals" .  8) ("display_decimals" . 5))
