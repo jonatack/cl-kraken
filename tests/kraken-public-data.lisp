@@ -51,6 +51,7 @@
      ("BAND"     :OBJ ("aclass" . "currency") ("altname" .     "BAND") ("decimals" . 10) ("display_decimals" . 5))
      ("BAT"      :OBJ ("aclass" . "currency") ("altname" .      "BAT") ("decimals" . 10) ("display_decimals" . 5))
      ("BCH"      :OBJ ("aclass" . "currency") ("altname" .      "BCH") ("decimals" . 10) ("display_decimals" . 5))
+     ("BNC"      :OBJ ("aclass" . "currency") ("altname" .      "BNC") ("decimals" . 10) ("display_decimals" . 5))
      ("BNT"      :OBJ ("aclass" . "currency") ("altname" .      "BNT") ("decimals" . 10) ("display_decimals" . 5))
      ("CHF"      :OBJ ("aclass" . "currency") ("altname" .      "CHF") ("decimals" .  4) ("display_decimals" . 2))
      ("CHZ"      :OBJ ("aclass" . "currency") ("altname" .      "CHZ") ("decimals" . 10) ("display_decimals" . 5))
